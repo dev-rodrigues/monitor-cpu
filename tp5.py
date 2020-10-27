@@ -42,9 +42,9 @@ superficie_grafico_memoria = pygame.surface.Surface((largura_tela, int(altura_te
 
 superficie_info_rede = pygame.surface.Surface((largura_tela, int(altura_tela/3)))
 
-superficie_info_ips = pygame.surface.Surface((largura_tela, int(altura_tela/3)))
-
 superficie_info_resumo = pygame.surface.Surface((largura_tela, int(altura_tela/3)))
+
+#superficie_info_ips = pygame.surface.Surface((largura_tela, int(altura_tela/3)))
 
 clock = pygame.time.Clock()
 
@@ -61,7 +61,11 @@ class Host:
 class Port:
     def __init__(self, port, state):
         self.port = port
-        self.state = state  
+        self.state = state
+
+meu_ip = ''
+hosts = []
+
 
 ####################################################################################################################
 def mostra_info_cpu():
@@ -114,9 +118,7 @@ def mostrar_uso_cpu(s):
 def envolucro_dados_cpu():
     mostra_info_cpu()
     mostrar_uso_cpu(superficie_grafico_cpu)
-    
 ####################################################################################################################
-    
 def mostrar_info_disco():
     superficie_info_disco.fill(branco)    
     mostrar_texto_disco(superficie_info_disco, "disco_usado", "Usado:", 10)
@@ -166,7 +168,6 @@ def mostra_uso_disco(eixo_x, eixo_y):
 def envolucro_dados_disco():
     mostrar_info_disco()
     mostra_uso_disco(410, 390)
-
 ####################################################################################################################
 def resumo():
     superficie_info_resumo.fill(branco)
@@ -287,7 +288,39 @@ def mostrar_texto_rede():
         texto = font.render(ip[0] + ': ' + ip[1] + ' - ' + ip[2], 1, branco)
         tela.blit(texto, (15, espacos))
         espacos += 25
-  
+    
+    titulo = font.render("** Rede **" ,1, azul)
+    tela.blit(titulo,(15, 20))
+
+    titulo2 = font.render("** Hosts da Rede **" ,1, azul)
+    tela.blit(titulo2,(15, 190))
+
+    for host in hosts:
+        host_name = ""
+
+        if host.name != "":
+            host_name = host.name
+        else:
+            host_name = "NÃO LOCALIZADO"
+
+        cor = ""
+        
+        if host_name != "NÃO LOCALIZADO":
+            cor = (255, 255, 255)
+        else:
+            cor = (255, 0, 0)        
+
+        texto = font.render(host.ip + ': Nome: ' + host_name, 1, cor)
+        tela.blit(texto, (15, espacos + 5))
+        espacos += 15
+
+        for porta in host.ports:
+            detalhe_porta = font.render("Porta: " + str(porta.port) + " - Estado: " + porta.state ,1, branco)
+            tela.blit(detalhe_porta, (15, espacos))
+            espacos += 15
+        
+        espacos += 10
+
 def mostra_texto(s1, nome, pos_y):
     text = font.render(nome, True, branco)
     superficie_info_rede.blit(text, (10, pos_y))
@@ -359,12 +392,9 @@ def detalhar_host(host_validos):
 
         hosts.append(host_)
 
-meu_ip = ''
-hosts = []
-ips = resumoGetNewIp()
-
 executando = False
 executou = False
+ips = resumoGetNewIp()
 
 def envolucro_detalhar_host():
     executando = True
