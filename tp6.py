@@ -417,8 +417,6 @@ def envolucro_detalhar_host():
 
     executou = True
     print('Processo finalizado', executou)
-
-
 ###################################################################################################################
 def info_processos():
     pid = subprocess.Popen('cmd.exe').pid
@@ -467,7 +465,7 @@ def info_processos():
     texto09 = font.render(texto9, 1, branco)
     tela.blit(texto09, (100,360))
 ####################################################################################################################
-def getEnvolucro(posicao):
+def get_envolucro(posicao):
     if posicao == 0:
         envolucro_dados_cpu()
 
@@ -520,7 +518,7 @@ while not terminou:
         elif posicao_atual > 6:
             posicao_atual = 0
             
-        getEnvolucro(posicao_atual)
+        get_envolucro(posicao_atual)
         
         count = 0    
         
