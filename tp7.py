@@ -123,8 +123,7 @@ def mostrar_info_disco():
     superficie_info_disco.fill(branco)    
     mostrar_texto_disco(superficie_info_disco, "disco_usado", "Usado:", 10)
     mostrar_texto_disco(superficie_info_disco, "total_disco", "Total:", 30)
-    mostrar_texto_disco(superficie_info_disco, "disco_livre", "Livre:", 50)
-    
+    mostrar_texto_disco(superficie_info_disco, "disco_livre", "Livre:", 50)    
     tela.blit(superficie_info_disco, (0, 0))    
 
 def mostrar_texto_disco(s1, chave, nome, pos_y):
@@ -506,7 +505,7 @@ while not terminou:
                 posicao_atual = posicao_atual - 1
             
             elif event.key == pygame.K_SPACE:
-                posicao_atual = 4
+                posicao_atual = 6
 
 #carrossel           
     if count == 60:
