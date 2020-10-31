@@ -395,14 +395,12 @@ def envolucro_detalhar_host():
     executando = True
 
     print('Iniciando coleta de dados da rede:', executando)
-
     
     meu_ip = ips[0][1]
 
     if meu_ip == '127.0.0.1':
         print('meu_ip = broadcast ->>> realizando troca')
         meu_ip = ips[1][1]
-    
 
     print('Ip que será utilizado como base', meu_ip)
     ip_string = meu_ip
