@@ -279,7 +279,6 @@ def apresenta_dados(arquivos):
         textoArqDir = font.render(tamanho_formatado + data_criacao + time_mod + nomeArquivo, 1, branco)
         tela.blit(textoArqDir, (15, espacos))
         espacos += 25
-
 ####################################################################################################################
 def mostrar_texto_rede():    
     espacos = 100
@@ -290,9 +289,6 @@ def mostrar_texto_rede():
     
     titulo = font.render("** Rede **" ,1, azul)
     tela.blit(titulo,(15, 20))
-
-    titulo2 = font.render("** Hosts da Rede **" ,1, azul)
-    tela.blit(titulo2,(15, 190))
 
     for host in hosts:
         host_name = ""
@@ -400,7 +396,14 @@ def envolucro_detalhar_host():
 
     print('Iniciando coleta de dados da rede:', executando)
 
+    
     meu_ip = ips[0][1]
+
+    if meu_ip == '127.0.0.1':
+        print('meu_ip = broadcast ->>> realizando troca')
+        meu_ip = ips[1][1]
+    
+
     print('Ip que será utilizado como base', meu_ip)
     ip_string = meu_ip
 
@@ -418,7 +421,12 @@ def envolucro_detalhar_host():
     print('Processo finalizado', executou)
 ###################################################################################################################
 def info_processos():
-    pid = subprocess.Popen('cmd.exe').pid
+    pid = ''
+    # tenta pegar o processo para windows
+    try:
+        pid = subprocess.Popen('cmd.exe').pid
+    except:        
+        pid = subprocess.Popen('bash').pid
 
     p = psutil.Process(pid)
     perc_mem = '{:.2f}'.format(p.memory_percent())

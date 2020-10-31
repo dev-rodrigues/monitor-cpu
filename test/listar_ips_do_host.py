@@ -16,4 +16,7 @@ def get_ip_addresses(family):
 
 ipv4s = list(get_ip_addresses(socket.AF_INET))
 
-ip_base = ipv4s[0][1]
+ip_base = ipv4s[1][1]
+print(ipv4s)
+print(ip_base)
+
