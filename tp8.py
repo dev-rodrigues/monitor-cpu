@@ -8,6 +8,8 @@ import time
 import socket
 import sched
 import nmap
+import threading
+import time
 
 info_cpu = cpuinfo.get_cpu_info()
 psutil.cpu_percent(interval=1, percpu=True)
@@ -44,13 +46,10 @@ superficie_info_rede = pygame.surface.Surface((largura_tela, int(altura_tela/3))
 
 superficie_info_resumo = pygame.surface.Surface((largura_tela, int(altura_tela/3)))
 
-#superficie_info_ips = pygame.surface.Surface((largura_tela, int(altura_tela/3)))
-
 clock = pygame.time.Clock()
 
 terminou = False
 count = 60
-
 
 class Host:
     def __init__(self, ip, name):
@@ -63,10 +62,34 @@ class Port:
         self.port = port
         self.state = state
 
+class ThreadRede(threading.Thread):
+
+   def __init__(self, threadID, name, counter):
+      threading.Thread.__init__(self)
+      self.threadID = threadID
+      self.name = name
+      self.counter = counter      
+
+   def run(self):
+      print ("Starting thread" + self.name)
+      envolucro_detalhar_host()
+      print ("Exiting thread" + self.name)
+
+class ThreadArquivos(threading.Thread):
+
+   def __init__(self, threadID, name, counter):
+      threading.Thread.__init__(self)
+      self.threadID = threadID
+      self.name = name
+      self.counter = counter      
+
+   def run(self):
+      print ("Starting thread" + self.name)
+      mostrar_dados_diretorio()
+      print ("Exiting thread" + self.name)
+
 meu_ip = ''
 hosts = []
-
-
 ####################################################################################################################
 def mostra_info_cpu():
     superficie_info_cpu.fill(branco)
@@ -242,19 +265,18 @@ def envolucro_dados_memoria():
     mostra_uso_memoria()
 
 ####################################################################################################################
+arquivos = {}
 def envolucro_arquivos():
-    arquivos = mostrar_dados_diretorio()
-    apresenta_dados(arquivos)
+    apresenta_dados()
 
 def mostrar_dados_diretorio():
     lista = os.listdir()
-    dados_organizados = {}
 
     for i in lista:
-        dados_organizados[i] = []
-        dados_organizados[i].append(os.stat(i).st_size)
-        dados_organizados[i].append(os.stat(i).st_ctime)
-        dados_organizados[i].append(os.stat(i).st_mtime)
+        arquivos[i] = []
+        arquivos[i].append(os.stat(i).st_size)
+        arquivos[i].append(os.stat(i).st_ctime)
+        arquivos[i].append(os.stat(i).st_mtime)
 
     tituloInfo = 'Arquivos do diretório:'
     titulo_tamanho = '{:>5}'.format('Tamanho')
@@ -266,9 +288,10 @@ def mostrar_dados_diretorio():
     tela.blit(textoTituloInfo, (20, 20))
     textoTitulo = font.render(titulo, 1, branco)
     tela.blit(textoTitulo, (20, 60))
-    return dados_organizados
 
-def apresenta_dados(arquivos):
+    #rquivos = dados_organizados
+
+def apresenta_dados():
     espacos = 100
     for i in arquivos:
         tamanho_arquivo = arquivos[i][0]/1024
@@ -379,7 +402,6 @@ def detalhar_host(host_validos):
             for port in lport:
                 port_ = Port(port, nm[host][proto][port]['state'])
                 host_.ports.append(port_)
-                #print ('Porta: %s\t Estado: %s' % (port, nm[host][proto][port]['state']))
 
         except:
             print(':rocket: Exception')
@@ -392,8 +414,6 @@ executou = False
 ips = resumoGetNewIp()
 
 def envolucro_detalhar_host():
-    executando = True
-
     print('Iniciando coleta de dados da rede:', executando)
     
     meu_ip = ips[0][1]
@@ -410,51 +430,53 @@ def envolucro_detalhar_host():
     print("O teste será feito na sub rede: ", base_ip)
 
     hosts_localizados = verifica_hosts_validos(base_ip)
+    
     print ("Os host válidos são: ", hosts_localizados)
 
     print('Verifica nome do host\r')
     detalhar_host(hosts_localizados)
 
-    executou = True
     print('Processo finalizado', executou)
 ###################################################################################################################
 def info_processos():
     pid = ''
-    # tenta pegar o processo para windows
-    try:
-        pid = subprocess.Popen('cmd.exe').pid
-    except:        
-        pid = subprocess.Popen('bash').pid
+    
+    sistema_operacional = platform.system()
 
-    p = psutil.Process(pid)
-    perc_mem = '{:.2f}'.format(p.memory_percent())
-    mem = '{:.2f}'.format(p.memory_info().rss/1024/1024)
+    if sistema_operacional == 'Linux':
+        pid = subprocess.Popen('bash').pid
+    else:
+        pid = subprocess.Popen('cmd.exe').pid           
+
+    processo = psutil.Process(pid)
+    perc_mem = '{:.2f}'.format(processo.memory_percent())
+    mem = '{:.2f}'.format(processo.memory_info().rss/1024/1024)
 
     tituloInfo = 'Informações sobre processos:'
     textoTituloInfo = font.render(tituloInfo, 1, branco)
     tela.blit(textoTituloInfo, (100, 160))
 
-    texto1 = 'Nome: ' + p.name()
+    texto1 = 'Nome: ' + processo.name()
     texto01 = font.render(texto1, 1, branco)
     tela.blit(texto01, (100,200))
 
-    texto2 = 'Executável: ' + p.exe()
+    texto2 = 'Executável: ' + processo.exe()
     texto02 = font.render(texto2, 1, branco)
     tela.blit(texto02, (100,220))
 
-    texto3 = 'Tempo de criação: ' + time.ctime(p.create_time())
+    texto3 = 'Tempo de criação: ' + time.ctime(processo.create_time())
     texto03 = font.render(texto3, 1, branco)
     tela.blit(texto03, (100,240))
 
-    texto4 = 'Tempo de usuário: ' + str(p.cpu_times().user) + 's'
+    texto4 = 'Tempo de usuário: ' + str(processo.cpu_times().user) + 's'
     texto04 = font.render(texto4, 1, branco)
     tela.blit(texto04, (100,260))
 
-    texto5 = 'Tempo de sistema: ' + str(p.cpu_times().system) + 's'
+    texto5 = 'Tempo de sistema: ' + str(processo.cpu_times().system) + 's'
     texto05 = font.render(texto5, 1, branco)
     tela.blit(texto05, (100,280))
 
-    texto6 = 'Percentual de uso de CPU: ' + str(p.cpu_percent(interval=1.0)) + '%'
+    texto6 = 'Percentual de uso de CPU: ' + str(processo.cpu_percent(interval=1.0)) + '%'
     texto06 = font.render(texto6, 1, branco)
     tela.blit(texto06, (100,300))
 
@@ -466,7 +488,7 @@ def info_processos():
     texto08 = font.render(texto8, 1, branco)
     tela.blit(texto08, (100,340))
 
-    texto9 = 'Número de threads: ' + str(p.num_threads())
+    texto9 = 'Número de threads: ' + str(processo.num_threads())
     texto09 = font.render(texto9, 1, branco)
     tela.blit(texto09, (100,360))
 ####################################################################################################################
@@ -474,9 +496,15 @@ def get_envolucro(posicao):
     if posicao == 0:
         envolucro_dados_cpu()
 
-        if len(hosts) == 0 and not executando and not executou:
-            envolucro_detalhar_host()
+        if len(arquivos) == 0:
+            thread2 = ThreadArquivos(1, "Thread-2", 1)
+            thread2.start()
 
+        if len(hosts) == 0 and not executou:            
+            thread1 = ThreadRede(1, "Thread-1", 1)
+            thread1.start()
+            
+            
     elif posicao == 1:
         envolucro_dados_memoria()
 
@@ -522,8 +550,10 @@ while not terminou:
             
         elif posicao_atual > 6:
             posicao_atual = 0
-            
+        
+        executando = True
         get_envolucro(posicao_atual)
+        executou = True
         
         count = 0    
         
