@@ -144,9 +144,14 @@ def envolucro_dados_cpu():
 ####################################################################################################################
 def mostrar_info_disco():
     superficie_info_disco.fill(branco)    
-    mostrar_texto_disco(superficie_info_disco, "disco_usado", "Usado:", 10)
-    mostrar_texto_disco(superficie_info_disco, "total_disco", "Total:", 30)
-    mostrar_texto_disco(superficie_info_disco, "disco_livre", "Livre:", 50)    
+
+    titulo = font.render("** Informações do Disco **" ,1, azul)
+
+    superficie_info_disco.blit(titulo,(15, 30))
+
+    mostrar_texto_disco(superficie_info_disco, "total_disco", "Total:", 60)
+    mostrar_texto_disco(superficie_info_disco, "disco_livre", "Livre:", 75)    
+    mostrar_texto_disco(superficie_info_disco, "disco_usado", "Usado:", 45)
     tela.blit(superficie_info_disco, (0, 0))    
 
 def mostrar_texto_disco(s1, chave, nome, pos_y):
@@ -154,7 +159,10 @@ def mostrar_texto_disco(s1, chave, nome, pos_y):
     texto = font.render(nome, True, preto)
     s1.blit(texto, (40, pos_y))
     
-    disco_usado= str(round(disco.percent, 2)) + " %"
+
+    usado = (disco.total - disco.free)  / 1024**3
+
+    disco_usado= str(round(usado, 2)) + " GB"
     total_disco = str(round(disco.total / (1024**3), 2)) + " GB"
     disco_livre = str(round(disco.free/(1024**3), 2)) + " GB"
     
@@ -215,13 +223,22 @@ def mostrar_texto_resumo(s1, chave, nome, pos_y):
     elif chave == "memoria_livre":
         s1.blit(font.render(memoria_livre, True, preto), (155, pos_y))
     
-    elif chave == "ip_rede":        
-        s1.blit(font.render(ip[0][1], True, preto), (155, pos_y))
+    elif chave == "ip_rede":
+        meu_ip = ips[0][1]
+
+        if meu_ip == '127.0.0.1':
+            meu_ip = ips[1][1]
+
+        s1.blit(font.render(meu_ip, True, preto), (155, pos_y))
 ####################################################################################################################
 def mostrar_info_memoria():
     superficie_info_memoria.fill(branco)    
-    mostrar_texto_memoria(superficie_info_memoria, "capacidade", "Capacidade:", 10)
-    mostrar_texto_memoria(superficie_info_memoria, "disponivel", "Disponivel:", 30)        
+
+    titulo = font.render("** Informações de Memória **" ,1, azul)
+    superficie_info_memoria.blit(titulo,(15, 30))
+
+    mostrar_texto_memoria(superficie_info_memoria, "capacidade", "Capacidade:", 45)
+    mostrar_texto_memoria(superficie_info_memoria, "disponivel", "Disponivel:", 60)        
     tela.blit(superficie_info_memoria, (0, 0))    
 
 def mostrar_texto_memoria(s1, chave, nome, pos_y):    
@@ -256,7 +273,7 @@ def mostra_uso_memoria():
     total = round(memoria.total / (1024 * 1024 * 1024), 2)
     
     percentagem = memoria.percent
-    texto_da_barra = ('Uso de Memória: {}% (Total: {} GB)'.format(percentagem, total))
+    texto_da_barra = ('Percentual usado: {}% (Total: {} GB)'.format(percentagem, total))
     text = font.render(texto_da_barra, 1, branco)
     tela.blit(text, (20, 240))
     
@@ -267,7 +284,7 @@ def envolucro_dados_memoria():
 ####################################################################################################################
 arquivos = {}
 def envolucro_arquivos():
-    apresenta_dados()
+    apresenta_dados_arquivos()
 
 def mostrar_dados_diretorio():
     lista = os.listdir()
@@ -291,27 +308,43 @@ def mostrar_dados_diretorio():
 
     #rquivos = dados_organizados
 
-def apresenta_dados():
+def apresenta_dados_arquivos():
     espacos = 100
     for i in arquivos:
         tamanho_arquivo = arquivos[i][0]/1024
+        
         tamanho_formatado = '{:>10}'.format(str('{:.2f}'.format(tamanho_arquivo) + 'KB'))
         data_criacao = '{:>30}'.format(time.ctime(arquivos[i][0]))
         time_mod = '{:>30}'.format(time.ctime(arquivos[i][1]))
         nomeArquivo = '{:>30}'.format(i)
+
         textoArqDir = font.render(tamanho_formatado + data_criacao + time_mod + nomeArquivo, 1, branco)
         tela.blit(textoArqDir, (15, espacos))
         espacos += 25
 ####################################################################################################################
-def mostrar_texto_rede():    
-    espacos = 100
-    for ip in ips:        
-        texto = font.render(ip[0] + ': ' + ip[1] + ' - ' + ip[2], 1, branco)
-        tela.blit(texto, (15, espacos))
-        espacos += 25
+def mostrar_texto_rede():   
+    superficie_info_memoria.fill(branco)
     
-    titulo = font.render("** Rede **" ,1, azul)
-    tela.blit(titulo,(15, 20))
+    titulo = font.render("** Informações de Rede **" , 1, azul)
+    superficie_info_memoria.blit(titulo,(15, 30))
+
+    espacos = 100
+
+    for ip in ips:
+        nome_interface_formatada = '{:>10}'.format(str(ip[0]))
+        ip_formatada = '{:>10}'.format(str(ip[1]))
+        gateway_formatada = '{:>10}'.format(str(ip[2]))
+        
+        texto = font.render('Interface:' + nome_interface_formatada + '{:>15}'.format('- Ip: ') + ip_formatada + '{:>15}'.format('- Mascara: ') + gateway_formatada, 1, preto)
+
+        superficie_info_memoria.blit(texto, (0, espacos))
+        espacos += 25
+
+    # lançar mensagem de informação
+    if len(hosts) == 0:
+        texto_atencao = font.render('Lendo dados da rede. Aguarde...', 10, vermelho)
+        superficie_info_memoria.blit(texto_atencao, (260, 185))
+
 
     for host in hosts:
         host_name = ""
@@ -328,16 +361,18 @@ def mostrar_texto_rede():
         else:
             cor = (255, 0, 0)        
 
-        texto = font.render(host.ip + ': Nome: ' + host_name, 1, cor)
+        texto = font.render(host.ip + ': Nome: ' + host_name, 1, azul)
         tela.blit(texto, (15, espacos + 5))
         espacos += 15
 
         for porta in host.ports:
-            detalhe_porta = font.render("Porta: " + str(porta.port) + " - Estado: " + porta.state ,1, branco)
+            detalhe_porta = font.render("Porta: " + str(porta.port) + " - Estado: " + porta.state ,1, azul)
             tela.blit(detalhe_porta, (15, espacos))
             espacos += 15
         
         espacos += 10
+
+    tela.blit(superficie_info_memoria, (0, 0))
 
 def mostra_texto(s1, nome, pos_y):
     text = font.render(nome, True, branco)
@@ -414,8 +449,7 @@ executou = False
 ips = resumoGetNewIp()
 
 def envolucro_detalhar_host():
-    print('Iniciando coleta de dados da rede:', executando)
-    
+        
     meu_ip = ips[0][1]
 
     if meu_ip == '127.0.0.1':
@@ -431,12 +465,8 @@ def envolucro_detalhar_host():
 
     hosts_localizados = verifica_hosts_validos(base_ip)
     
-    print ("Os host válidos são: ", hosts_localizados)
-
-    print('Verifica nome do host\r')
+    print('Verificar nomes dos hosts', hosts_localizados, '\r')
     detalhar_host(hosts_localizados)
-
-    print('Processo finalizado', executou)
 ###################################################################################################################
 def info_processos():
     pid = ''
@@ -503,8 +533,7 @@ def get_envolucro(posicao):
         if len(hosts) == 0 and not executou:            
             thread1 = ThreadRede(1, "Thread-1", 1)
             thread1.start()
-            
-            
+
     elif posicao == 1:
         envolucro_dados_memoria()
 
