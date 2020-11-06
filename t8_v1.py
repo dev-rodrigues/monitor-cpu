@@ -27,6 +27,7 @@ altura_tela = 600
 ## controle aplicacao
 variaveis = {
     'cpu': '',
+    'memoria': '',
     'arquivos': {},
     'hosts': [],
     'hosts_detalhado': [],
@@ -34,14 +35,15 @@ variaveis = {
     'executando': False,
     'ips': [],
     'vermelho': (255, 0, 0),
-    'azul': (0, 0, 255)
+    'azul': (0, 0, 255),
+    'preto': (0, 0, 0)
 }
 
 terminou = False
 count = 60
 meu_ip = ''
 lista_de_processos = []
-posicao_atual = 0
+posicao_atual = 1
 
 tela = pygame.display.set_mode((largura_tela, altura_tela))
 pygame.display.set_caption("Projeto de bloco - Carlos Henrique")
@@ -100,6 +102,12 @@ class CPU():
         self.l_cpu_percent = l_cpu_percent
         self.capacidade = capacidade
         self.num_cpu = num_cpu
+
+class Memoria():
+    def __init__(self, memoria, capacidade, disponivel):
+        self.memoria = memoria
+        self.capacidade = capacidade
+        self.disponivel = disponivel
 
 class ThreadRede(threading.Thread):
    def __init__(self, threadID, name, counter):
@@ -241,10 +249,16 @@ def get_hosts():
     detalhar_host(hosts_localizados)
 
 def get_info_memoria():
-    memoria = psutil.virtual_memory()
 
-    capacidade = round(memoria.total/(1024**3), 2)
-    disponivel = round(memoria.available, 2)
+    if len(variaveis['memoria']) == 0:
+        variaveis['memoria'] = []
+        memoria = psutil.virtual_memory()
+        capacidade = round(memoria.total/(1024**3), 2)
+        disponivel = round(memoria.available/(1024**3), 2)
+
+        memoria_aux = Memoria(memoria, capacidade, disponivel)
+        variaveis['memoria'].append(memoria_aux)
+
 
 
 #
@@ -270,6 +284,9 @@ def get_envolucro_rede():
     set_info_rede()
     set_info_hosts_rede()
 
+def get_envolucro_memoria():
+    set_info_memoria()
+
 def get_envolucro(posicao):
 
     if posicao == 0:
@@ -286,8 +303,8 @@ def get_envolucro(posicao):
             thread2.start()
 
     elif posicao == 1:
-        print()
-        #envolucro_dados_memoria()
+        get_info_memoria()
+        get_envolucro_memoria()
 
     elif posicao == 2:
         print()
@@ -450,8 +467,28 @@ def set_info_hosts_rede():
     instrucao = font.render('Tecle ← ou → para navegar', True, preto)
     tela.blit(instrucao, (300, 570))
 
-# fim exibir informações em tela
+def set_info_memoria():
+    tela.fill(grafite)
 
+    titulo = font.render("** Informações de Memória **" , 1, variaveis['azul'])
+    tela.blit(titulo, (15, 30))
+
+    # titulo
+    texto = font.render('Capacidade', True, variaveis['preto'])
+    tela.blit(texto, (15, 60))
+
+    # valor
+    tela.blit(font.render(str(variaveis['memoria'][0].capacidade) + 'GB', True, preto), (155, 60))
+
+    #titulo
+    texto = font.render('Disponível', True, variaveis['preto'])
+    tela.blit(texto, (15, 80))
+
+    # valor
+    tela.blit(font.render(str(variaveis['memoria'][0].disponivel), True, preto), (155, 80))
+
+
+#fim exibir informações em tela
 while not terminou:
         
     for event in pygame.event.get():
