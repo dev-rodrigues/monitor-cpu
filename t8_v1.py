@@ -14,7 +14,6 @@ import time
 # variaveis globais
 ## cores
 preto = (0, 0, 0)
-branco = (255, 255, 255)
 cinza = (100, 100, 100)
 grafite = (105,105,105)
 
@@ -36,7 +35,9 @@ variaveis = {
     'ips': [],
     'vermelho': (255, 0, 0),
     'azul': (0, 0, 255),
-    'preto': (0, 0, 0)
+    'preto': (0, 0, 0),
+    'branco': (255, 255, 255),
+    'posicionamento-instrucao': (300, 560)
 }
 
 terminou = False
@@ -286,6 +287,7 @@ def get_envolucro_rede():
 
 def get_envolucro_memoria():
     set_info_memoria()
+    set_grafico_memoria()
 
 def get_envolucro(posicao):
 
@@ -385,10 +387,10 @@ def set_grafico_cpu(s):
     
     for i in l_cpu_percent:
         pygame.draw.rect(s, variaveis['azul'], (d, y + 20, larg, alt))
-        pygame.draw.rect(s, branco, (d, y + 20, larg, (1 - i / 100) * alt))
+        pygame.draw.rect(s, variaveis['branco'], (d, y + 20, larg, (1 - i / 100) * alt))
         d = d + larg + desl
 
-    text = font.render("Uso de CPU por núcleo total: " + str(capacidade) + "%", 1, branco)
+    text = font.render("Uso de CPU por núcleo total: " + str(capacidade) + "%", 1, variaveis['branco'])
     s.blit(text, (20, 5))
 
     # instrucao navegacao
@@ -486,6 +488,27 @@ def set_info_memoria():
 
     # valor
     tela.blit(font.render(str(variaveis['memoria'][0].disponivel), True, preto), (155, 80))
+
+def set_grafico_memoria():
+    memoria = variaveis['memoria'][0].memoria
+
+    largura = largura_tela - 2 * 20
+    pygame.draw.rect(tela, variaveis['branco'], (15, 270, largura, 5))
+    
+    largura = largura * memoria.percent / 100
+    pygame.draw.rect(tela, variaveis['azul'], (15, 270, largura, 5))
+    
+    total = round(memoria.total / (1024 * 1024 * 1024), 2)
+    
+    percentagem = memoria.percent
+    texto_da_barra = ('Percentual usado: {}% (Total: {} GB)'.format(percentagem, total))
+    text = font.render(texto_da_barra, 1, variaveis['branco'])
+
+    tela.blit(text, (20, 240))
+
+    # instrucao navegacao
+    instrucao = font.render('Tecle ← ou → para navegar', True, preto)
+    tela.blit(instrucao, variaveis['posicionamento-instrucao'])
 
 
 #fim exibir informações em tela
