@@ -110,6 +110,13 @@ class Memoria():
         self.capacidade = capacidade
         self.disponivel = disponivel
 
+class Disco():
+    def __init__(self, disco, usado, total, livre):
+        self.disco = disco
+        self.usado = usado
+        self.total = total
+        self.livre = livre
+
 class ThreadRede(threading.Thread):
    def __init__(self, threadID, name, counter):
       threading.Thread.__init__(self)
@@ -260,7 +267,15 @@ def get_info_memoria():
         memoria_aux = Memoria(memoria, capacidade, disponivel)
         variaveis['memoria'].append(memoria_aux)
 
+def get_info_disco():
+    disco = psutil.disk_usage('.')
 
+    usado = round((disco.total - disco.free)  / 1024**3, 2)
+    total = round(disco.total / (1024**3), 2)
+    livre = round(disco.free/(1024**3),2)
+
+    disco = Disco(disco, usado, total, livre)
+    
 
 #
 # fim obtencao de dados
@@ -309,7 +324,7 @@ def get_envolucro(posicao):
         get_envolucro_memoria()
 
     elif posicao == 2:
-        print()
+        get_info_disco()
         #envolucro_dados_disco()
 
     elif posicao == 3:
