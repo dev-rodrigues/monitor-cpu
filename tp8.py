@@ -98,10 +98,13 @@ class ThreadArquivos(threading.Thread):
       mostrar_dados_diretorio()
       print ("Exiting thread" + self.name)
 
+####################################################################################################################
+# variaveis globais
 meu_ip = ''
 hosts = []
 lista_de_processos = []
-
+posicao_atual = 0
+arquivos = {}
 ####################################################################################################################
 def mostra_info_cpu():
     superficie_info_cpu.fill(branco)
@@ -292,7 +295,6 @@ def envolucro_dados_memoria():
     mostrar_info_memoria()
     mostra_uso_memoria()
 ####################################################################################################################
-arquivos = {}
 def envolucro_arquivos():
     apresenta_dados_arquivos()
 
@@ -372,6 +374,7 @@ def mostrar_texto_rede():
             cor = (255, 0, 0)        
 
         texto = font.render(host.ip + ': Nome: ' + host_name, 1, azul)
+        tela.fill(preto)
         tela.blit(texto, (15, espacos + 5))
         espacos += 15
 
@@ -479,7 +482,10 @@ def envolucro_detalhar_host():
     detalhar_host(hosts_localizados)
 ###################################################################################################################
 def envolucro_processo():
-    get_dados_processo()
+    # só obtem listagem de processos uma vez
+    if len(lista_de_processos) == 0:
+        get_dados_processo()
+
     info_processos()
 
 def get_dados_processo():
@@ -511,13 +517,15 @@ def get_dados_processo():
         total_de_processos += 1
 
 def info_processos():
+    tela.fill(branco)
+
     titulo1 = 'Lista dos 20 primeiros processos em execução'
-    text1 = font.render(titulo1, 1, branco)
+    text1 = font.render(titulo1, 1, preto)
     tela.blit(text1, (15, 30))
 
-    titulo2 = 'PID       Nome         Percent. Uso (%)       Mem. Usada (MB)       Threads        Tempo Exec.         Criação'
+    titulo2 = 'PID       Nome         Percent. Uso (%)       Mem. Usada (MB)       Threads        Tempo Exec.             Criação'
     
-    text2 = font.render(titulo2, 1, branco)
+    text2 = font.render(titulo2, 1, preto)
     tela.blit(text2, (15, 60))
 
     espacos = 90
@@ -534,7 +542,7 @@ def info_processos():
 
         text_formatado = text_pid + text_nome + text_percentual_uso + text_memoria_usada + text_threads_processo + text_tempo_usuario + text_data_criacao
 
-        text3 = font.render(text_formatado, 1, branco)
+        text3 = font.render(text_formatado, 1, preto)
         tela.blit(text3, (15, espacos))
         espacos += 20
 
@@ -569,7 +577,6 @@ def get_envolucro(posicao):
     elif posicao == 6:
         resumo()
 ####################################################################################################################
-posicao_atual = 5
 
 while not terminou:
     
