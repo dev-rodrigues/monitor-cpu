@@ -62,6 +62,16 @@ class Port:
         self.port = port
         self.state = state
 
+class Processo:
+    def __init__(self, pid, nome, percentual_uso, memoria_usada, threads_processo, tempo_usuario, data_criacao):
+        self.pid = pid
+        self.nome = nome
+        self.percentual_uso = percentual_uso
+        self.memoria_usada = memoria_usada
+        self.threads_processo = threads_processo
+        self.tempo_usuario = tempo_usuario
+        self.data_criacao = data_criacao
+
 class ThreadRede(threading.Thread):
 
    def __init__(self, threadID, name, counter):
@@ -90,6 +100,8 @@ class ThreadArquivos(threading.Thread):
 
 meu_ip = ''
 hosts = []
+lista_de_processos = []
+
 ####################################################################################################################
 def mostra_info_cpu():
     superficie_info_cpu.fill(branco)
@@ -116,7 +128,6 @@ def mostra_texto_cpu(s1, nome, chave, pos_y):
         s = str(info_cpu[chave])
         text = font.render(s, True, cinza)
         superficie_info_cpu.blit(text, (155, pos_y))
-
 # Desenha grafico  
 def mostrar_uso_cpu(s):
     l_cpu_percent = psutil.cpu_percent(percpu=True)
@@ -280,7 +291,6 @@ def mostra_uso_memoria():
 def envolucro_dados_memoria():
     mostrar_info_memoria()
     mostra_uso_memoria()
-
 ####################################################################################################################
 arquivos = {}
 def envolucro_arquivos():
@@ -468,59 +478,66 @@ def envolucro_detalhar_host():
     print('Verificar nomes dos hosts', hosts_localizados, '\r')
     detalhar_host(hosts_localizados)
 ###################################################################################################################
+def envolucro_processo():
+    get_dados_processo()
+    info_processos()
+
+def get_dados_processo():
+    pids = psutil.pids()
+    total_de_processos = 0
+
+    for pid in pids:
+        try:            
+            nome = psutil.Process(pid).name()
+            tamanho_nome = len(nome)
+
+            if tamanho_nome <= 15 and pid != 1:
+                percent_uso = psutil.Process(pid).memory_percent()
+                memoria_usada = psutil.Process(pid).memory_info().rss / 1024/1024
+                threads_usadas = psutil.Process(pid).num_threads()
+                tempo_usuario = str(psutil.Process(pid).cpu_times().user) + ' s'
+                data_criacao = time.ctime(psutil.Process(pid).create_time())
+
+                aux_processo = Processo(pid, nome, percent_uso
+                    , memoria_usada, threads_usadas, tempo_usuario, data_criacao)
+
+                lista_de_processos.append(aux_processo)
+            
+        except:
+            print(':error: erro ao obter dados do processo')
+
+        if total_de_processos == 20:
+            break
+        total_de_processos += 1
+
 def info_processos():
-    pid = ''
+    titulo1 = 'Lista dos 20 primeiros processos em execução'
+    text1 = font.render(titulo1, 1, branco)
+    tela.blit(text1, (15, 30))
+
+    titulo2 = 'PID       Nome         Percent. Uso (%)       Mem. Usada (MB)       Threads        Tempo Exec.         Criação'
     
-    sistema_operacional = platform.system()
+    text2 = font.render(titulo2, 1, branco)
+    tela.blit(text2, (15, 60))
 
-    if sistema_operacional == 'Linux':
-        pid = subprocess.Popen('bash').pid
-    else:
-        pid = subprocess.Popen('cmd.exe').pid           
+    espacos = 90
 
-    processo = psutil.Process(pid)
-    perc_mem = '{:.2f}'.format(processo.memory_percent())
-    mem = '{:.2f}'.format(processo.memory_info().rss/1024/1024)
+    for processo in lista_de_processos:
 
-    tituloInfo = 'Informações sobre processos:'
-    textoTituloInfo = font.render(tituloInfo, 1, branco)
-    tela.blit(textoTituloInfo, (100, 160))
+        text_pid = str(processo.pid) + ' - '
+        text_nome = '{:>15}'.format(processo.nome)
+        text_percentual_uso = '{:>20}'.format(processo.percentual_uso)
+        text_memoria_usada = '{:>25}'.format(processo.memoria_usada)
+        text_threads_processo = '{:>30}'.format(processo.threads_processo)
+        text_tempo_usuario = '{:>25}'.format(processo.tempo_usuario)
+        text_data_criacao = '{:>35}'.format(processo.data_criacao)
 
-    texto1 = 'Nome: ' + processo.name()
-    texto01 = font.render(texto1, 1, branco)
-    tela.blit(texto01, (100,200))
+        text_formatado = text_pid + text_nome + text_percentual_uso + text_memoria_usada + text_threads_processo + text_tempo_usuario + text_data_criacao
 
-    texto2 = 'Executável: ' + processo.exe()
-    texto02 = font.render(texto2, 1, branco)
-    tela.blit(texto02, (100,220))
+        text3 = font.render(text_formatado, 1, branco)
+        tela.blit(text3, (15, espacos))
+        espacos += 20
 
-    texto3 = 'Tempo de criação: ' + time.ctime(processo.create_time())
-    texto03 = font.render(texto3, 1, branco)
-    tela.blit(texto03, (100,240))
-
-    texto4 = 'Tempo de usuário: ' + str(processo.cpu_times().user) + 's'
-    texto04 = font.render(texto4, 1, branco)
-    tela.blit(texto04, (100,260))
-
-    texto5 = 'Tempo de sistema: ' + str(processo.cpu_times().system) + 's'
-    texto05 = font.render(texto5, 1, branco)
-    tela.blit(texto05, (100,280))
-
-    texto6 = 'Percentual de uso de CPU: ' + str(processo.cpu_percent(interval=1.0)) + '%'
-    texto06 = font.render(texto6, 1, branco)
-    tela.blit(texto06, (100,300))
-
-    texto7 = 'Percentual de uso de memória: ' + perc_mem + '%'
-    texto07 = font.render(texto7, 1, branco)
-    tela.blit(texto07, (100,320))
-
-    texto8 = 'Uso de memória: ' + mem + 'MB'
-    texto08 = font.render(texto8, 1, branco)
-    tela.blit(texto08, (100,340))
-
-    texto9 = 'Número de threads: ' + str(processo.num_threads())
-    texto09 = font.render(texto9, 1, branco)
-    tela.blit(texto09, (100,360))
 ####################################################################################################################
 def get_envolucro(posicao):
     if posicao == 0:
@@ -546,14 +563,14 @@ def get_envolucro(posicao):
     elif posicao == 4:
         envolucro_arquivos()
 
-    elif posicao == 5:        
-        info_processos()
+    elif posicao == 5:    
+        envolucro_processo()
 
     elif posicao == 6:
         resumo()
 ####################################################################################################################
-posicao_atual = 0
-######################################################################################################################
+posicao_atual = 5
+
 while not terminou:
     
     for event in pygame.event.get():
