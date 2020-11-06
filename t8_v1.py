@@ -17,8 +17,8 @@ preto = (0, 0, 0)
 branco = (255, 255, 255)
 cinza = (100, 100, 100)
 grafite = (105,105,105)
-azul = (0, 0, 255)
-vermelho = (255, 0, 0)
+
+
 
 ## dimensoes
 largura_tela = 800
@@ -33,6 +33,8 @@ variaveis = {
     'executou': False,
     'executando': False,
     'ips': [],
+    'vermelho': (255, 0, 0),
+    'azul': (0, 0, 255)
 }
 
 terminou = False
@@ -40,7 +42,6 @@ count = 60
 meu_ip = ''
 lista_de_processos = []
 posicao_atual = 0
-#ips = resumoGetNewIp()
 
 tela = pygame.display.set_mode((largura_tela, altura_tela))
 pygame.display.set_caption("Projeto de bloco - Carlos Henrique")
@@ -193,19 +194,24 @@ def get_hosts_rede(ip_base):
 
 def detalhar_host(host_validos):
     """Obtendo nome do host"""
-    nm = nmap.PortScanner()
+    #nm = nmap.PortScanner()
     for host in host_validos:
         try:            
-            nm.scan(host)
-            host_ = Host(host, nm[host].hostname())            
+            #nm.scan(host)
 
-            for proto in nm[host].all_protocols():
-                print('----------')
-                print('Protocolo : %s' % proto)
+            #host_ = Host(host, nm[host].hostname())            
+            host_ = Host(host, 'carlos-MS-7a38')            
 
-            lport = nm[host][proto].keys()
-            for port in lport:
-                port_ = Port(port, nm[host][proto][port]['state'])
+            #for proto in nm[host].all_protocols():
+            #    print('----------')
+            #    print('Protocolo : %s' % proto)
+
+            #lport = nm[host][proto].keys()
+            #for port in lport:
+            #    port_ = Port(port, nm[host][proto][port]['state'])
+            #    host_.ports.append(port_)
+            for i in range(0, 5):
+                port_ = Port(i, 'open')
                 host_.ports.append(port_)
 
         except:
@@ -215,12 +221,12 @@ def detalhar_host(host_validos):
 
 def get_hosts():
     meus_ips = variaveis['hosts']
-    meu_ip_principal = meus_ips[0][1][1]
+    meu_ip_principal = meus_ips[0][1]
  
 
     # trata ip broadcast
     if meu_ip_principal == '127.0.0.1':
-        meu_ip_principal = meus_ips[1][1][1]
+        meu_ip_principal = meus_ips[1][1]
 
     print('Ip que será utilizado como base', meu_ip_principal)
     ip_string = meu_ip_principal
@@ -229,7 +235,7 @@ def get_hosts():
     base_ip = ".".join(ip_lista[0:3]) + '.'
     print("A busca será realizada na sub rede: ", base_ip)
 
-    hosts_localizados = get_hosts_rede(base_ip)
+    hosts_localizados = ['192.168.0.12', '192.168.0.13', '192.168.0.14']#get_hosts_rede(base_ip)
     
     print('Verificar nomes dos hosts', hosts_localizados, '\r')
     detalhar_host(hosts_localizados)
@@ -253,6 +259,10 @@ def get_envolucro_cpu(cpu):
     set_info_cpu(variaveis['cpu'])
     set_grafico_cpu(superficie_info_cpu)
 
+def get_envolucro_rede():
+    set_info_rede()
+    set_info_hosts_rede()
+
 def get_envolucro(posicao):
 
     if posicao == 0:
@@ -263,7 +273,7 @@ def get_envolucro(posicao):
             thread1.start()
 
         if len(variaveis['hosts']) == 0 and not variaveis['executou']:
-            variaveis['hosts'].append(get_meus_ips())
+            variaveis['hosts'] = get_meus_ips()
 
             thread2 = ThreadRede(1, "Thread-2", 1)
             thread2.start()
@@ -277,8 +287,7 @@ def get_envolucro(posicao):
         #envolucro_dados_disco()
 
     elif posicao == 3:
-        print()
-        #mostrar_texto_rede()
+        get_envolucro_rede()
 
     elif posicao == 4:
         print()
@@ -350,7 +359,7 @@ def set_grafico_cpu(s):
     d = x + desl
     
     for i in l_cpu_percent:
-        pygame.draw.rect(s, azul, (d, y + 20, larg, alt))
+        pygame.draw.rect(s, variaveis['azul'], (d, y + 20, larg, alt))
         pygame.draw.rect(s, branco, (d, y + 20, larg, (1 - i / 100) * alt))
         d = d + larg + desl
 
@@ -361,9 +370,77 @@ def set_grafico_cpu(s):
     instrucao = font.render('Tecle ← ou → para navegar', True, preto)
     tela.blit(instrucao, (300, 580))
 
-
-
     tela.blit(s, (0, 300))
+
+def set_info_rede():
+    tela.fill(grafite)
+
+    titulo = font.render("** Informações de Rede **" , 1, variaveis['azul'])
+    tela.blit(titulo, (15, 30))
+
+    espacos = 55
+
+    hosts_aux = variaveis['hosts']
+
+    for host in hosts_aux:
+        ip_formatada = str(host[1])
+
+        if len(host[2]) == 9:
+            gateway_formatada = '{:>33}'.format(str(host[2]))
+        else:
+            gateway_formatada = '{:>30}'.format(str(host[2]))
+
+        if len(host[0]) < 5:
+            nome_interface_formatada = '{:>23}'.format(str(host[0]))
+        else:    
+            nome_interface_formatada = '{:>20}'.format(str(host[0]))
+
+        texto = font.render(ip_formatada +  gateway_formatada + nome_interface_formatada, 1, preto)
+        
+        tela.blit(texto, (15, espacos))
+        espacos += 25
+
+    # exibir msg de informacao: escaneando rede
+    if len(variaveis['hosts_detalhado']) == 0:
+        texto_atencao = font.render('Lendo dados da rede. Aguarde...', 10, variaveis['vermelho'])
+        tela.blit(texto_atencao, (260, 185))
+
+def set_info_hosts_rede():
+
+    espacos = 200
+
+    for host in variaveis['hosts_detalhado']:
+        host_name = ""
+
+        if host.name != "":
+            host_name = host.name
+
+        else:
+            host_name = "NÃO LOCALIZADO"
+
+        cor = ""
+
+        if host_name != "NÃO LOCALIZADO":
+            cor = variaveis['vermelho']
+
+        else:
+            cor = variaveis['azul']
+
+        texto = font.render(host.ip + ': Nome: ' + host_name, 1, variaveis['azul'])
+        
+        tela.blit(texto, (15, espacos + 5))
+        espacos += 15
+
+        for porta in host.ports:
+            detalhe_porta = font.render("Porta: " + str(porta.port) + " - Estado: " + porta.state ,1, variaveis['azul'])
+            tela.blit(detalhe_porta, (15, espacos + 10))
+            espacos += 15
+
+        espacos += 10
+
+    # instrucao navegacao
+    instrucao = font.render('Tecle ← ou → para navegar', True, preto)
+    tela.blit(instrucao, (300, 570))
 
 
 # fim exibir informações em tela
