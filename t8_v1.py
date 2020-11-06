@@ -240,6 +240,13 @@ def get_hosts():
     print('Verificar nomes dos hosts', hosts_localizados, '\r')
     detalhar_host(hosts_localizados)
 
+def get_info_memoria():
+    memoria = psutil.virtual_memory()
+
+    capacidade = round(memoria.total/(1024**3), 2)
+    disponivel = round(memoria.available, 2)
+
+
 #
 # fim obtencao de dados
 
@@ -301,6 +308,7 @@ def get_envolucro(posicao):
         print()
         #resumo()
 
+# 
 def set_info_cpu(cpu):
     """ RESPONSAVEL POR EXIBIR EM TELA AS INFORMACOES DA CPU E """
     superficie_info_cpu.fill(grafite)
@@ -441,7 +449,6 @@ def set_info_hosts_rede():
     # instrucao navegacao
     instrucao = font.render('Tecle ← ou → para navegar', True, preto)
     tela.blit(instrucao, (300, 570))
-
 
 # fim exibir informações em tela
 
