@@ -1,27 +1,10 @@
-import pygame
-import psutil
-import cpuinfo
-import platform
-import subprocess
-import os
-import time
-import socket
-import sched
-import nmap
-import threading
-import time
+import pygame, psutil, cpuinfo, platform, subprocess, os, time, socket, sched, nmap, threading, time
 
 # variaveis globais
 ## cores
 preto = (0, 0, 0)
 cinza = (100, 100, 100)
 grafite = (105,105,105)
-
-
-
-## dimensoes
-largura_tela = 800
-altura_tela = 600
 
 ## controle aplicacao
 variaveis = {
@@ -41,11 +24,16 @@ variaveis = {
     'posicionamento-instrucao': (300, 560)
 }
 
+# inicio configuracoes pygame
+#
+largura_tela = 800
+altura_tela = 600
+
 terminou = False
 count = 60
 meu_ip = ''
 lista_de_processos = []
-posicao_atual = 2
+posicao_atual = 0
 
 tela = pygame.display.set_mode((largura_tela, altura_tela))
 pygame.display.set_caption("Projeto de bloco - Carlos Henrique")
@@ -54,25 +42,21 @@ pygame.display.init()
 pygame.font.init()
 clock = pygame.time.Clock()
 font = pygame.font.SysFont("arial", 20)
+#
+# fim configuracoes pygame
 
-# superficies
+# inicio superficies
+#
 superficie_info_cpu = pygame.surface.Surface((largura_tela, int(altura_tela/3)))
-
-superficie_info_disco = pygame.surface.Surface((largura_tela, int(altura_tela/3)))
-superficie_grafico_disco = pygame.surface.Surface((largura_tela, int(altura_tela/3)))
-
-superficie_info_memoria = pygame.surface.Surface((largura_tela, int(altura_tela/3)))
-superficie_grafico_memoria = pygame.surface.Surface((largura_tela, int(altura_tela/3)))
-
-superficie_info_rede = pygame.surface.Surface((largura_tela, int(altura_tela/3)))
-
-superficie_info_resumo = pygame.surface.Surface((largura_tela, int(altura_tela/3)))
+#
+# fim classes
 
 # configuracao processador
 info_cpu = cpuinfo.get_cpu_info()
 psutil.cpu_percent(interval=1, percpu=True)
 
-# classes
+# inicio classes
+#
 class Host:
     def __init__(self, ip, name):
         self.ip = ip
@@ -117,7 +101,11 @@ class Disco():
         self.usado = usado
         self.total = total
         self.livre = livre
+#
+# fim classes
 
+# inicio threads
+#
 class ThreadRede(threading.Thread):
    def __init__(self, threadID, name, counter):
       threading.Thread.__init__(self)
@@ -142,6 +130,8 @@ class ThreadArquivos(threading.Thread):
       print ("Starting thread" + self.name)
       get_arquivos()
       print ("Exiting thread" + self.name)
+# 
+# fim threads
 
 # inicio obtenção de dados
 #
@@ -211,25 +201,26 @@ def get_hosts_rede(ip_base):
 
 def detalhar_host(host_validos):
     """Obtendo nome do host"""
-    #nm = nmap.PortScanner()
+    nm = nmap.PortScanner()
     for host in host_validos:
         try:            
-            #nm.scan(host)
+            nm.scan(host)
 
-            #host_ = Host(host, nm[host].hostname())            
-            host_ = Host(host, 'carlos-MS-7a38')            
+            host_ = Host(host, nm[host].hostname())            
+            ## host_ = Host(host, 'carlos-MS-7a38')            
 
-            #for proto in nm[host].all_protocols():
-            #    print('----------')
-            #    print('Protocolo : %s' % proto)
+            for proto in nm[host].all_protocols():
+                print('----------')
+                print('Protocolo : %s' % proto)
 
-            #lport = nm[host][proto].keys()
-            #for port in lport:
-            #    port_ = Port(port, nm[host][proto][port]['state'])
-            #    host_.ports.append(port_)
-            for i in range(0, 5):
-                port_ = Port(i, 'open')
+            lport = nm[host][proto].keys()
+            for port in lport:
+                port_ = Port(port, nm[host][proto][port]['state'])
                 host_.ports.append(port_)
+
+            #for i in range(0, 5):
+            #    port_ = Port(i, 'open')
+            #    host_.ports.append(port_)
 
         except:
             pass
@@ -252,7 +243,7 @@ def get_hosts():
     base_ip = ".".join(ip_lista[0:3]) + '.'
     print("A busca será realizada na sub rede: ", base_ip)
 
-    hosts_localizados = ['192.168.0.12', '192.168.0.13', '192.168.0.14']#get_hosts_rede(base_ip)
+    hosts_localizados = get_hosts_rede(base_ip) #['192.168.0.12', '192.168.0.13', '192.168.0.14']
     
     print('Verificar nomes dos hosts', hosts_localizados, '\r')
     detalhar_host(hosts_localizados)
@@ -284,6 +275,7 @@ def get_info_disco():
 # fim obtencao de dados
 
 # inicio exibir informações em tela
+#
 def get_envolucro_cpu(cpu):
     """ RESPONSAVEL POR OBTER AS INFORMACOES DA CPU E EXIBIR EM TELA """
     superficie_info_cpu.fill(grafite)
@@ -577,8 +569,9 @@ def set_grafico_disco():
     # instrucao navegacao
     instrucao = font.render('Tecle ← ou → para navegar', True, preto)
     tela.blit(instrucao, variaveis['posicionamento-instrucao'])    
-
+#
 #fim exibir informações em tela
+
 while not terminou:
         
     for event in pygame.event.get():
