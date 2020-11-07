@@ -12,6 +12,7 @@ variaveis = {
     'memoria': '',
     'disco': '',
     'arquivos': {},
+    'processos': [],
     'hosts': [],
     'hosts_detalhado': [],
     'executou': False,
@@ -271,6 +272,34 @@ def get_info_disco():
 
         disco_aux = Disco(disco, usado, total, livre)
         variaveis['disco'].append(disco_aux)
+
+def get_processos():
+    pids = psutil.pids()
+    total_de_processos_obtidos = 0
+
+    for pid in pids:
+        try:
+            nome = psutil.Process(pid).name()
+            tamanho_do_nome = len(nome)
+
+            if tamanho_do_nome <= 15 and pid != 1:
+
+                percent_uso = psutil.Process(pid).memory_percent()
+                memoria_usada = psutil.Process(pid).memory_info().rss / 1024/1024
+                threads_usadas = psutil.Process(pid).num_threads()
+                tempo_usuario = str(psutil.Process(pid).cpu_times().user) + ' s'
+                data_criacao = time.ctime(psutil.Process(pid).create_time())
+
+                processo_aux = Processo(pid, nome, percent_uso, memoria_usada, threads_usadas, tempo_usuario, data_criacao)
+
+                variaveis['processos'].append(processo_aux)
+                total_de_processos_obtidos += 1
+        except:
+            print('Erro ao obter informações do processo: ', pid)
+        
+        if total_de_processos_obtidos == 10:
+            break
+
 #
 # fim obtencao de dados
 
@@ -306,6 +335,9 @@ def get_envolucro_disco():
 def get_envolucro_arquivo():
     set_info_arquivo()
 
+def get_envolucro_processos():
+    set_info_processo()
+
 def get_envolucro(posicao):
 
     if posicao == 0:
@@ -336,8 +368,9 @@ def get_envolucro(posicao):
         get_envolucro_arquivo()
 
     elif posicao == 5:    
-        print()
-        #envolucro_processo()
+        if len(variaveis['processos']) == 0:
+            get_processos()
+        get_envolucro_processos()
 
     elif posicao == 6:
         print()
@@ -613,6 +646,48 @@ def set_info_arquivo():
     # instrucao navegacao
     instrucao = font.render('Tecle ← ou → para navegar', True, preto)
     tela.blit(instrucao, variaveis['posicionamento-instrucao'])
+
+def set_info_processo():
+    tela.fill(grafite)
+
+    titulo = font.render("** Lista dos 10 primeiros processos em execução **" , 1, variaveis['azul'])
+    tela.blit(titulo, (15, 30))
+
+    titulo2 = 'PID   (%) Usado    Mem. Usada    Threads    Tempo Exec.                Nome'
+    
+    text2 = font.render(titulo2, 1, preto)
+    tela.blit(text2, (15, 60))
+
+    espacos = 100
+
+    processos = variaveis['processos']
+
+    for processo in processos:
+
+        text_pid = '{:>0}'.format(str(processo.pid))
+
+        if len(str(processo.pid)) == 1:
+            text_percentual_uso = '{:>17}'.format(str(format(processo.percentual_uso, '.2f')))
+        else:
+            text_percentual_uso = '{:>15}'.format(str(format(processo.percentual_uso, '.2f')))
+
+
+        text_memoria_usada = '{:>20}'.format(str(format(processo.memoria_usada, '.2f') ))
+        text_threads_processo = '{:>20}'.format(str(format(processo.threads_processo, '.2f')))
+        text_tempo_usuario = '{:>20}'.format(processo.tempo_usuario)
+        text_data_criacao = '{:>10}'.format(processo.data_criacao)
+        text_nome = '{:>30}'.format(processo.nome)
+
+        texto_formatado = text_pid + text_percentual_uso + text_memoria_usada + text_threads_processo + text_tempo_usuario + text_nome
+
+        texto = font.render(texto_formatado, 1, variaveis['preto'])
+        tela.blit(texto, (15, espacos))
+
+        espacos += 25
+    
+    # instrucao navegacao
+    instrucao = font.render('Tecle ← ou → para navegar', True, preto)
+    tela.blit(instrucao, variaveis['posicionamento-instrucao'])    
 
 #
 #fim exibir informações em tela
