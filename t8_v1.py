@@ -303,6 +303,9 @@ def get_envolucro_disco():
     set_info_disco()
     set_grafico_disco()
 
+def get_envolucro_arquivo():
+    set_info_arquivo()
+
 def get_envolucro(posicao):
 
     if posicao == 0:
@@ -330,8 +333,7 @@ def get_envolucro(posicao):
         get_envolucro_rede()
 
     elif posicao == 4:
-        print()
-        #envolucro_arquivos()
+        get_envolucro_arquivo()
 
     elif posicao == 5:    
         print()
@@ -409,7 +411,7 @@ def set_grafico_cpu(s):
 
     # instrucao navegacao
     instrucao = font.render('Tecle ← ou → para navegar', True, preto)
-    tela.blit(instrucao, (300, 580))
+    tela.blit(instrucao, variaveis['posicionamento-instrucao'])
 
     tela.blit(s, (0, 300))
 
@@ -481,7 +483,7 @@ def set_info_hosts_rede():
 
     # instrucao navegacao
     instrucao = font.render('Tecle ← ou → para navegar', True, preto)
-    tela.blit(instrucao, (300, 570))
+    tela.blit(instrucao, variaveis['posicionamento-instrucao'])
 
 def set_info_memoria():
     tela.fill(grafite)
@@ -569,6 +571,49 @@ def set_grafico_disco():
     # instrucao navegacao
     instrucao = font.render('Tecle ← ou → para navegar', True, preto)
     tela.blit(instrucao, variaveis['posicionamento-instrucao'])    
+
+def set_info_arquivo():
+
+    tela.fill(grafite)
+
+    titulo = font.render("** Arquivos do diretório **" , 1, variaveis['azul'])
+    tela.blit(titulo, (15, 30))
+
+    arquivos = variaveis['arquivos']
+
+
+    titulo = font.render("         Data Criacao                          Data Modificacao                Tamanho        Nome" , 1, variaveis['preto'])
+    tela.blit(titulo, (15, 55))
+
+    espacos = 100
+
+    for arquivo in arquivos:        
+        tamanho_aux = len(arquivo)
+
+        tamanho_arquivo = str(format(arquivos[arquivo][0] / 1024, '.2f')) + 'Kb'
+        data_criacao = time.ctime(arquivos[arquivo][0])
+        data_modificacao = time.ctime(arquivos[arquivo][1])
+        
+        nome_arquivo = arquivo
+
+        data_criacao__formatado = '{:>10}'.format(data_criacao)
+
+        if tamanho_aux == 6 or tamanho_aux == 8:
+            data_modificacao_formatado = '{:>33}'.format(data_modificacao)
+        else:
+            data_modificacao_formatado = '{:>30}'.format(data_modificacao)
+
+        tamanho_arquivo_formatado = '{:>15}'.format(tamanho_arquivo)
+        nome_arquivo_formatado = '{:>15}'.format(nome_arquivo)
+
+        texto_formatado = font.render(data_criacao__formatado + data_modificacao_formatado + tamanho_arquivo_formatado + nome_arquivo_formatado, 1, variaveis['preto'])
+        tela.blit(texto_formatado, (15, espacos))
+        espacos += 25
+    
+    # instrucao navegacao
+    instrucao = font.render('Tecle ← ou → para navegar', True, preto)
+    tela.blit(instrucao, variaveis['posicionamento-instrucao'])
+
 #
 #fim exibir informações em tela
 
