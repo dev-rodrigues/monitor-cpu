@@ -458,7 +458,10 @@ def set_info_rede():
     titulo = font.render("** Informações de Rede **" , 1, variaveis['azul'])
     tela.blit(titulo, (15, 30))
 
-    espacos = 55
+    titulo = font.render("         IP                              Mascara                  Interface" , 1, variaveis['preto'])
+    tela.blit(titulo, (15, 55))
+
+    espacos = 100
 
     hosts_aux = variaveis['hosts']
 
@@ -617,7 +620,6 @@ def set_info_arquivo():
     tela.blit(titulo, (15, 30))
 
     arquivos = variaveis['arquivos']
-
 
     titulo = font.render("         Data Criacao                          Data Modificacao                Tamanho        Nome" , 1, variaveis['preto'])
     tela.blit(titulo, (15, 55))
