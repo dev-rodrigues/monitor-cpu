@@ -309,6 +309,7 @@ def get_envolucro_memoria():
 
 def get_envolucro_disco():
     set_info_disco()
+    set_grafico_disco()
 
 def get_envolucro(posicao):
 
@@ -521,10 +522,10 @@ def set_grafico_memoria():
     
     total = round(memoria.total / (1024 * 1024 * 1024), 2)
     
-    percentagem = memoria.percent
-    texto_da_barra = ('Percentual usado: {}% (Total: {} GB)'.format(percentagem, total))
-    text = font.render(texto_da_barra, 1, variaveis['branco'])
+    porcentagem = memoria.percent
 
+    texto_da_barra = ('Percentual usado: {}% (Total: {} GB)'.format(porcentagem, total))
+    text = font.render(texto_da_barra, 1, variaveis['branco'])
     tela.blit(text, (20, 240))
 
     # instrucao navegacao
@@ -558,7 +559,24 @@ def set_info_disco():
     # valor
     tela.blit(font.render(str(variaveis['disco'][0].usado) + 'GB', True, preto), (155, 100))
 
+def set_grafico_disco():
+    disco_aux = variaveis['disco'][0]
+
+    total = disco_aux.total
+    largura = largura_tela - 2 * 20
+
+    pygame.draw.rect(tela, variaveis['branco'], (15, 270, largura, 5))
     
+    consumo = largura * disco_aux.disco.percent / 100
+    pygame.draw.rect(tela, variaveis['azul'], (15, 270, consumo, 5))
+
+    texto_da_barra = ('Uso de Disco: {}% (Total: {} GB)'.format(consumo, total))
+    texto = font.render(texto_da_barra, 1, variaveis['branco'])
+    tela.blit(texto, (20, 240))
+
+    # instrucao navegacao
+    instrucao = font.render('Tecle ← ou → para navegar', True, preto)
+    tela.blit(instrucao, variaveis['posicionamento-instrucao'])    
 
 #fim exibir informações em tela
 while not terminou:
