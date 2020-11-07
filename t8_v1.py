@@ -27,6 +27,7 @@ altura_tela = 600
 variaveis = {
     'cpu': '',
     'memoria': '',
+    'disco': '',
     'arquivos': {},
     'hosts': [],
     'hosts_detalhado': [],
@@ -44,7 +45,7 @@ terminou = False
 count = 60
 meu_ip = ''
 lista_de_processos = []
-posicao_atual = 1
+posicao_atual = 2
 
 tela = pygame.display.set_mode((largura_tela, altura_tela))
 pygame.display.set_caption("Projeto de bloco - Carlos Henrique")
@@ -268,15 +269,17 @@ def get_info_memoria():
         variaveis['memoria'].append(memoria_aux)
 
 def get_info_disco():
-    disco = psutil.disk_usage('.')
 
-    usado = round((disco.total - disco.free)  / 1024**3, 2)
-    total = round(disco.total / (1024**3), 2)
-    livre = round(disco.free/(1024**3),2)
+    if len(variaveis['disco']) == 0:
+        variaveis['disco'] = []
 
-    disco = Disco(disco, usado, total, livre)
-    
+        disco = psutil.disk_usage('.')
+        usado = round((disco.total - disco.free)  / 1024**3, 2)
+        total = round(disco.total / (1024**3), 2)
+        livre = round(disco.free/(1024**3),2)
 
+        disco_aux = Disco(disco, usado, total, livre)
+        variaveis['disco'].append(disco_aux)
 #
 # fim obtencao de dados
 
@@ -304,6 +307,9 @@ def get_envolucro_memoria():
     set_info_memoria()
     set_grafico_memoria()
 
+def get_envolucro_disco():
+    set_info_disco()
+
 def get_envolucro(posicao):
 
     if posicao == 0:
@@ -325,7 +331,7 @@ def get_envolucro(posicao):
 
     elif posicao == 2:
         get_info_disco()
-        #envolucro_dados_disco()
+        get_envolucro_disco()
 
     elif posicao == 3:
         get_envolucro_rede()
@@ -525,6 +531,34 @@ def set_grafico_memoria():
     instrucao = font.render('Tecle ← ou → para navegar', True, preto)
     tela.blit(instrucao, variaveis['posicionamento-instrucao'])
 
+def set_info_disco():
+    tela.fill(grafite)
+
+    titulo = font.render("** Informações do Disco **" , 1, variaveis['azul'])
+    tela.blit(titulo, (15, 30))
+
+    # titulo
+    texto = font.render('Capacidade', True, variaveis['preto'])
+    tela.blit(texto, (15, 60))
+
+    # valor
+    tela.blit(font.render(str(variaveis['disco'][0].total) + 'GB', True, preto), (155, 60))
+
+    #titulo
+    texto = font.render('Disponível', True, variaveis['preto'])
+    tela.blit(texto, (15, 80))
+
+    # valor
+    tela.blit(font.render(str(variaveis['disco'][0].livre) + 'GB', True, preto), (155, 80))
+
+    #titulo
+    texto = font.render('Usado', True, variaveis['preto'])
+    tela.blit(texto, (15, 100))
+
+    # valor
+    tela.blit(font.render(str(variaveis['disco'][0].usado) + 'GB', True, preto), (155, 100))
+
+    
 
 #fim exibir informações em tela
 while not terminou:
