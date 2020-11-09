@@ -1,4 +1,4 @@
-import pygame, psutil, cpuinfo, platform, subprocess, os, time, socket, sched, nmap, threading, time
+import pygame, psutil, cpuinfo, platform, subprocess, os, time, socket, sched, nmap3, threading, time
 
 # variaveis globais
 ## cores
