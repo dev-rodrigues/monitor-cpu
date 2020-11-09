@@ -452,31 +452,31 @@ def set_info_cpu(cpu):
     superficie_info_cpu.fill(grafite)
 
     # label
-    text_arquitetura = font.render('Arquitetura:', True, 30)
+    text_arquitetura = font.render('Arquitetura:', True, (30, 0, 0))
     superficie_info_cpu.blit(text_arquitetura, (40, 30))
     # valor
-    valor_arquitetura = font.render(cpu.arquitetura, True, 30)
+    valor_arquitetura = font.render(cpu.arquitetura, True, (30, 0, 0))
     superficie_info_cpu.blit(valor_arquitetura, (180, 30))
 
     # label
-    text_bits = font.render('Total Bits:', True, 30)
+    text_bits = font.render('Total Bits:', True, (30, 0, 0))
     superficie_info_cpu.blit(text_bits, (40, 50))
     # valor
-    valor_bits = font.render(cpu.bits, True, 30)
+    valor_bits = font.render(cpu.bits, True, (30, 0, 0))
     superficie_info_cpu.blit(valor_bits, (180, 50))
 
     # label
-    text_frequencia = font.render('Frequência:', True, 30)
+    text_frequencia = font.render('Frequência:', True, (30, 0, 0))
     superficie_info_cpu.blit(text_frequencia, (40, 70))
     # valor
-    valor_frquencia = font.render(cpu.frequencia, True, 30)
+    valor_frquencia = font.render(cpu.frequencia, True, (30, 0, 0))
     superficie_info_cpu.blit(valor_frquencia, (180, 70))
 
     # label
-    text_nucleo = font.render('Núcleos (físico):', True, 30)
+    text_nucleo = font.render('Núcleos (físico):', True, (30, 0, 0))
     superficie_info_cpu.blit(text_nucleo, (40, 90))
     # valor
-    valor_nucleo = font.render(cpu.nucleos, True, 30)
+    valor_nucleo = font.render(cpu.nucleos, True, (30, 0, 0))
     superficie_info_cpu.blit(valor_nucleo, (180, 90))
 
     # label
