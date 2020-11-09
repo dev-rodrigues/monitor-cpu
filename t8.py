@@ -12,6 +12,7 @@ variaveis = {
     'memoria': '',
     'disco': '',
     'processos': [],
+    'trafego': [],
     'arquivos': {},
     'hosts': [],
     'hosts_detalhado': [],
@@ -102,6 +103,16 @@ class Disco():
         self.usado = usado
         self.total = total
         self.livre = livre
+
+class Trafego():
+    def __init__(self, interface, enviados, recebidos, pacotes_enviados, pacotes_recebidos):
+        self.interface = interface
+        self.enviados = enviados
+        self.recebidos = recebidos
+        self.pacotes_enviados = pacotes_enviados
+        self.pacotes_recebidos = pacotes_recebidos
+
+
 #
 # fim classes
 
@@ -249,6 +260,37 @@ def get_hosts():
     print('Verificar nomes dos hosts', hosts_localizados, '\r')
     detalhar_host(hosts_localizados)
 
+def get_trafego_host():
+    io_status = psutil.net_io_counters(pernic=True)
+    hosts = variaveis['hosts']
+
+    trafego_interface = []
+
+    for host in hosts:
+        trafego = io_status[host[0]]
+        enviado = trafego[0]
+        recebido = trafego[1]
+        pct_enviado = trafego[2]
+        pct_recebido = trafego[3]
+
+        trafego_aux = Trafego(host[0], enviado, recebido, pct_enviado, pct_recebido)
+        trafego_interface.append(trafego_aux)
+        
+
+    variaveis['trafego'].append(trafego_interface)
+
+def get_trafego_da_interface(interface):
+    trafego_coletado = variaveis['trafego']
+    trafego_exibir = trafego_coletado[len(trafego_coletado) - 1]
+    retorno = ''
+
+    for trafego in trafego_exibir:
+        if trafego.interface == interface:
+            retorno = trafego
+            break
+
+    return retorno
+
 def get_info_memoria():
 
     if len(variaveis['memoria']) == 0:
@@ -275,6 +317,9 @@ def get_info_disco():
 
 def get_processos():
     pids = psutil.pids()
+
+    pids.reverse()
+
     total_de_processos_obtidos = 0
 
     for pid in pids:
@@ -299,6 +344,20 @@ def get_processos():
         
         if total_de_processos_obtidos == 10:
             break
+
+def get_trafego_processo():
+    processos = variaveis['processos']
+
+    # conexao = ''
+
+    # for processo in processos:
+    #     try:
+    #         process = psutil.Process(processo.pid)
+    #         conexao = process.connections()
+    #     except:
+    #         pass
+
+    #     print(conexao)
 
 #
 # fim obtencao de dados
@@ -338,6 +397,9 @@ def get_envolucro_arquivo():
 def get_envolucro_processos():
     set_info_processo()
 
+def get_envolucro_trafego_processo():
+    get_trafego_processo()
+
 def get_envolucro_resumo():
     set_info_resumo()
 
@@ -346,7 +408,9 @@ def get_envolucro(posicao):
     # prioridades de execucao
     get_info_disco()
     get_info_memoria()
+
     variaveis['hosts'] = get_meus_ips()
+    get_trafego_host()
 
     if posicao == 0:
         get_envolucro_cpu(variaveis['cpu'])
@@ -355,8 +419,7 @@ def get_envolucro(posicao):
             thread1 = ThreadArquivos(1, "Thread-1 - Arquivos", 1)
             thread1.start()
 
-        if len(variaveis['hosts']) == 0 and not variaveis['executou']:
-
+        if len(variaveis['hosts_detalhado']) == 0 and not variaveis['executou']:
             thread2 = ThreadRede(1, "Thread-2", 1)
             thread2.start()
 
@@ -378,6 +441,9 @@ def get_envolucro(posicao):
         get_envolucro_processos()
 
     elif posicao == 6:
+        get_envolucro_trafego_processo()
+
+    elif posicao == 7:
         get_envolucro_resumo()
 
 # 
@@ -458,7 +524,7 @@ def set_info_rede():
     titulo = font.render("** Informações de Rede **" , 1, variaveis['azul'])
     tela.blit(titulo, (15, 30))
 
-    titulo = font.render("         IP                              Mascara                  Interface" , 1, variaveis['preto'])
+    titulo = font.render("         IP                       Mascara              Pct. Enviado        Pct. Recebido        Interface" , 1, variaveis['preto'])
     tela.blit(titulo, (15, 55))
 
     espacos = 100
@@ -466,19 +532,30 @@ def set_info_rede():
     hosts_aux = variaveis['hosts']
 
     for host in hosts_aux:
+
+
+        interface = host[0]
+        trafego_da_interface = get_trafego_da_interface(interface)
+
+
         ip_formatada = str(host[1])
 
+        pct_recebido = round(trafego_da_interface.pacotes_recebidos / (1024 ** 2), 2)
+        pct_enviado = round(trafego_da_interface.pacotes_enviados / (1024 ** 2), 2)
+
         if len(host[2]) == 9:
-            gateway_formatada = '{:>33}'.format(str(host[2]))
+            gateway_formatada = '{:>29}'.format(str(host[2]))
+            pct_enviado_formatado = '{:>25}'.format(str(pct_enviado)) + 'MB'
+            pct_recebido_formatado = '{:>20}'.format(str(pct_recebido)) + 'MB'
+
         else:
-            gateway_formatada = '{:>30}'.format(str(host[2]))
+            gateway_formatada = '{:>26}'.format(str(host[2]))
+            pct_enviado_formatado = '{:>16}'.format(str(pct_enviado)) + 'MB'
+            pct_recebido_formatado = '{:>21}'.format(str(pct_recebido)) + 'MB'
 
-        if len(host[0]) < 5:
-            nome_interface_formatada = '{:>23}'.format(str(host[0]))
-        else:    
-            nome_interface_formatada = '{:>20}'.format(str(host[0]))
+        nome_interface_formatada = '{:>20}'.format(str(host[0]))
 
-        texto = font.render(ip_formatada +  gateway_formatada + nome_interface_formatada, 1, preto)
+        texto = font.render(ip_formatada +  gateway_formatada + pct_enviado_formatado + pct_recebido_formatado + nome_interface_formatada, 1, preto)
         
         tela.blit(texto, (15, espacos))
         espacos += 25
@@ -659,7 +736,7 @@ def set_info_processo():
     titulo = font.render("** Lista dos 10 primeiros processos em execução **" , 1, variaveis['azul'])
     tela.blit(titulo, (15, 30))
 
-    titulo2 = 'PID   (%) Usado    Mem. Usada    Threads    Tempo Exec.                Nome'
+    titulo2 = 'PID              (%) Usado    Mem. Usada    Threads    Tempo Exec.                Nome'
     
     text2 = font.render(titulo2, 1, preto)
     tela.blit(text2, (15, 60))
@@ -816,7 +893,7 @@ while not terminou:
                 posicao_atual = posicao_atual - 1
             
             elif event.key == pygame.K_SPACE:
-                posicao_atual = 6
+                posicao_atual = 7
 
 
 #carrossel           
@@ -824,9 +901,9 @@ while not terminou:
         tela.fill(grafite)
 
         if posicao_atual < 0:
-            posicao_atual = 6
+            posicao_atual = 7
             
-        elif posicao_atual > 6:
+        elif posicao_atual > 7:
             posicao_atual = 0
         
         variaveis['executando'] = True
