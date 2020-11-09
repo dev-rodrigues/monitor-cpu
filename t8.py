@@ -21,7 +21,8 @@ variaveis = {
     'branco': (255, 255, 255),
     'cinza': (100, 100, 100),
     'grafite': (105,105,105),
-    'posicionamento-instrucao': (250, 560)
+    'posicionamento-instrucao': (250, 560),
+    'tamanho-minimo-palavra': 13
 }
 
 # inicio configuracoes pygame
@@ -144,6 +145,25 @@ class ThreadArquivos(threading.Thread):
 
 # inicio obtenção de dados
 #
+
+def get_nova_string(palavra):
+    ''' Responsavel por padronizar o tamanho das string a serem exibidas em tela '''
+    palavra_aux = palavra
+
+    tamanho_minimo = variaveis['tamanho-minimo-palavra']
+    tamanho_palavra = len(palavra_aux)
+
+    if tamanho_palavra > tamanho_minimo:
+        # recorta a string
+        palavra_aux = '{:.10}'.format(palavra)
+    else:
+        # adiciona espacos
+        while tamanho_palavra != tamanho_minimo:
+            palavra_aux = palavra_aux + " "
+            tamanho_palavra = len(palavra_aux)
+
+    return palavra_aux
+
 def get_info_cpu():
     """ RESPONSAVEL POR OBTER AS INFORMACOES DA CPU """
     
@@ -522,7 +542,7 @@ def set_info_rede():
     titulo = font.render("** Informações de Rede **" , 1, variaveis['azul'])
     tela.blit(titulo, (15, 30))
 
-    titulo = font.render("         IP                       Mascara              Pct. Enviado        Pct. Recebido        Interface" , 1, variaveis['preto'])
+    titulo = font.render("Interface                    IP                    Mascara                    Pct. Enviado                    Pct. Recebido" , 1, variaveis['preto'])
     tela.blit(titulo, (15, 55))
 
     espacos = 100
@@ -535,28 +555,28 @@ def set_info_rede():
         interface = host[0]
         trafego_da_interface = get_trafego_da_interface(interface)
 
+        ip = str(host[1])
 
-        ip_formatada = str(host[1])
+        if ip !='127.0.0.1':            
 
-        pct_recebido = round(trafego_da_interface.pacotes_recebidos / (1024 ** 2), 2)
-        pct_enviado = round(trafego_da_interface.pacotes_enviados / (1024 ** 2), 2)
+            pct_recebido = round(trafego_da_interface.pacotes_recebidos / (1024 ** 2), 2)
+            pct_enviado = round(trafego_da_interface.pacotes_enviados / (1024 ** 2), 2)
 
-        if len(host[2]) == 9:
-            gateway_formatada = '{:>29}'.format(str(host[2]))
             pct_enviado_formatado = '{:>25}'.format(str(pct_enviado)) + 'MB'
-            pct_recebido_formatado = '{:>20}'.format(str(pct_recebido)) + 'MB'
+            pct_recebido_formatado = '{:>30}'.format(str(pct_recebido)) + 'MB'
 
-        else:
-            gateway_formatada = '{:>26}'.format(str(host[2]))
-            pct_enviado_formatado = '{:>16}'.format(str(pct_enviado)) + 'MB'
-            pct_recebido_formatado = '{:>21}'.format(str(pct_recebido)) + 'MB'
+            nome_interface_formatada = get_nova_string(str(host[0]))
+            
+            ip_formatada = get_nova_string(str(host[1]))
+            ip_formatada_ = '{:>20}'.format(ip_formatada)
 
-        nome_interface_formatada = '{:>20}'.format(str(host[0]))
+            mascara = get_nova_string(str(host[2]))
+            mascara_formatada = '{:>20}'.format(mascara)
 
-        texto = font.render(ip_formatada +  gateway_formatada + pct_enviado_formatado + pct_recebido_formatado + nome_interface_formatada, 1, variaveis['preto'])
-        
-        tela.blit(texto, (15, espacos))
-        espacos += 25
+            texto = font.render(nome_interface_formatada + ip_formatada_ +  mascara_formatada + pct_enviado_formatado + pct_recebido_formatado, 1, variaveis['preto'])
+            
+            tela.blit(texto, (15, espacos))
+            espacos += 25
 
     # exibir msg de informacao: escaneando rede
     if len(variaveis['hosts_detalhado']) == 0:
@@ -590,8 +610,18 @@ def set_info_hosts_rede():
         espacos += 15
 
         for porta in host.ports:
-            detalhe_porta = font.render("Porta: " + str(porta.port) + " - Estado: " + porta.state ,1, variaveis['azul'])
-            tela.blit(detalhe_porta, (15, espacos + 10))
+            porta_label = font.render("Porta: ", 1, variaveis['branco'])            
+            tela.blit(porta_label, (15, espacos + 10))
+
+            porta = font.render(str(porta.port), 1, variaveis['branco'])
+            tela.blit(porta_label, (20, espacos + 10))
+
+            estado_label = font.render("Estado: ", 1, variaveis['branco'])            
+            tela.blit(estado_label, (35, espacos + 10))
+
+            estado = font.render(porta.state, 1, variaveis['branco'])
+            tela.blit(estado, (40, espacos + 10))
+
             espacos += 15
 
         espacos += 10
@@ -642,7 +672,7 @@ def set_grafico_memoria():
     tela.blit(instrucao, variaveis['posicionamento-instrucao'])
 
 def set_info_disco():
-    tela.fill(variaveis['preto'])
+    tela.fill(variaveis['grafite'])
 
     titulo = font.render("** Informações do Disco **" , 1, variaveis['azul'])
     tela.blit(titulo, (15, 30))
@@ -696,7 +726,8 @@ def set_info_arquivo():
 
     arquivos = variaveis['arquivos']
 
-    titulo = font.render("         Data Criacao                          Data Modificacao                Tamanho        Nome" , 1, variaveis['preto'])
+    
+    titulo = font.render("         Nome                Data Criacao                    Data Modificacao                    Tamanho" , 1, variaveis['preto'])
     tela.blit(titulo, (15, 55))
 
     espacos = 100
@@ -710,17 +741,19 @@ def set_info_arquivo():
         
         nome_arquivo = arquivo
 
-        data_criacao__formatado = '{:>10}'.format(data_criacao)
+        data_criacao__formatado = '{:>30}'.format(data_criacao)
 
         if tamanho_aux == 6 or tamanho_aux == 8:
             data_modificacao_formatado = '{:>33}'.format(data_modificacao)
         else:
             data_modificacao_formatado = '{:>30}'.format(data_modificacao)
 
-        tamanho_arquivo_formatado = '{:>15}'.format(tamanho_arquivo)
-        nome_arquivo_formatado = '{:>15}'.format(nome_arquivo)
+        tamanho_arquivo_formatado = '{:>18}'.format(tamanho_arquivo)
 
-        texto_formatado = font.render(data_criacao__formatado + data_modificacao_formatado + tamanho_arquivo_formatado + nome_arquivo_formatado, 1, variaveis['preto'])
+        nome_arquivo_formatado = '{:.6}'.format(nome_arquivo)
+        nome_arquivo_formatado_ = '{:>15}'.format(nome_arquivo_formatado)
+
+        texto_formatado = font.render(nome_arquivo_formatado_ + data_criacao__formatado + data_modificacao_formatado + tamanho_arquivo_formatado, 1, variaveis['preto'])
         tela.blit(texto_formatado, (15, espacos))
         espacos += 25
     
