@@ -399,6 +399,7 @@ def get_envolucro_processos():
 
 def get_envolucro_trafego_processo():
     get_trafego_processo()
+    set_trafego_dados_processo()
 
 def get_envolucro_resumo():
     set_info_resumo()
@@ -729,6 +730,12 @@ def set_info_arquivo():
     # instrucao navegacao
     instrucao = font.render('Tecle ← ou → para navegar', True, preto)
     tela.blit(instrucao, variaveis['posicionamento-instrucao'])
+
+def set_trafego_dados_processo():
+    tela.fill(grafite)
+
+    titulo = font.render("** Lista dos 10 primeiros processos em execução **" , 1, variaveis['azul'])
+    tela.blit(titulo, (15, 30))
 
 def set_info_processo():
     tela.fill(grafite)
