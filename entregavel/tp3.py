@@ -2,8 +2,6 @@ import pygame
 import psutil
 import cpuinfo
 import platform
-import os
-import time
 
 info_cpu = cpuinfo.get_cpu_info()
 psutil.cpu_percent(interval=1, percpu=True)

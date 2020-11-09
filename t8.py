@@ -1,10 +1,6 @@
-import pygame, psutil, cpuinfo, platform, subprocess, os, time, socket, sched, nmap3, threading, time
+import pygame, psutil, cpuinfo, platform, subprocess, os, time, socket, sched, nmap, threading, time
 
 # variaveis globais
-## cores
-preto = (0, 0, 0)
-cinza = (100, 100, 100)
-grafite = (105,105,105)
 
 ## controle aplicacao
 variaveis = {
@@ -23,6 +19,8 @@ variaveis = {
     'azul': (0, 0, 255),
     'preto': (0, 0, 0),
     'branco': (255, 255, 255),
+    'cinza': (100, 100, 100),
+    'grafite': (105,105,105),
     'posicionamento-instrucao': (250, 560)
 }
 
@@ -111,7 +109,6 @@ class Trafego():
         self.recebidos = recebidos
         self.pacotes_enviados = pacotes_enviados
         self.pacotes_recebidos = pacotes_recebidos
-
 
 #
 # fim classes
@@ -366,7 +363,7 @@ def get_trafego_processo():
 #
 def get_envolucro_cpu(cpu):
     """ RESPONSAVEL POR OBTER AS INFORMACOES DA CPU E EXIBIR EM TELA """
-    superficie_info_cpu.fill(grafite)
+    superficie_info_cpu.fill(variaveis['grafite'])
 
     # obtem dados da cpu
     try:
@@ -450,7 +447,7 @@ def get_envolucro(posicao):
 # 
 def set_info_cpu(cpu):
     """ RESPONSAVEL POR EXIBIR EM TELA AS INFORMACOES DA CPU E """
-    superficie_info_cpu.fill(grafite)
+    superficie_info_cpu.fill(variaveis['grafite'])
 
     # label
     text_arquitetura = font.render('Arquitetura:', True, (30, 0, 0))
@@ -481,10 +478,10 @@ def set_info_cpu(cpu):
     superficie_info_cpu.blit(valor_nucleo, (180, 90))
 
     # label
-    texto_nome = font.render('Nome:', True, preto)
+    texto_nome = font.render('Nome:', True, variaveis['preto'])
     superficie_info_cpu.blit(texto_nome, (40, 110))
     # valor
-    valor_nome = font.render(cpu.nome, True, preto)
+    valor_nome = font.render(cpu.nome, True, variaveis['preto'])
     superficie_info_cpu.blit(valor_nome, (180, 110))
 
     tela.blit(superficie_info_cpu, (0,0))
@@ -493,7 +490,7 @@ def set_grafico_cpu(s):
     # construcao do grafico
     l_cpu_percent = psutil.cpu_percent(percpu=True)
 
-    s.fill(grafite)
+    s.fill(variaveis['grafite'])
 
     capacidade = psutil.cpu_percent(interval=1)
     num_cpu = len(l_cpu_percent)
@@ -514,13 +511,13 @@ def set_grafico_cpu(s):
     s.blit(text, (20, 5))
 
     # instrucao navegacao
-    instrucao = font.render('Tecle ← ou → para navegar', True, preto)
+    instrucao = font.render('Tecle ← ou → para navegar', True, variaveis['preto'])
     tela.blit(instrucao, variaveis['posicionamento-instrucao'])
 
     tela.blit(s, (0, 300))
 
 def set_info_rede():
-    tela.fill(grafite)
+    tela.fill(variaveis['grafite'])
 
     titulo = font.render("** Informações de Rede **" , 1, variaveis['azul'])
     tela.blit(titulo, (15, 30))
@@ -556,7 +553,7 @@ def set_info_rede():
 
         nome_interface_formatada = '{:>20}'.format(str(host[0]))
 
-        texto = font.render(ip_formatada +  gateway_formatada + pct_enviado_formatado + pct_recebido_formatado + nome_interface_formatada, 1, preto)
+        texto = font.render(ip_formatada +  gateway_formatada + pct_enviado_formatado + pct_recebido_formatado + nome_interface_formatada, 1, variaveis['preto'])
         
         tela.blit(texto, (15, espacos))
         espacos += 25
@@ -600,11 +597,11 @@ def set_info_hosts_rede():
         espacos += 10
 
     # instrucao navegacao
-    instrucao = font.render('Tecle ← ou → para navegar', True, preto)
+    instrucao = font.render('Tecle ← ou → para navegar', True, variaveis['preto'])
     tela.blit(instrucao, variaveis['posicionamento-instrucao'])
 
 def set_info_memoria():
-    tela.fill(grafite)
+    tela.fill(variaveis['grafite'])
 
     titulo = font.render("** Informações de Memória **" , 1, variaveis['azul'])
     tela.blit(titulo, (15, 30))
@@ -614,14 +611,14 @@ def set_info_memoria():
     tela.blit(texto, (15, 60))
 
     # valor
-    tela.blit(font.render(str(variaveis['memoria'][0].capacidade) + 'GB', True, preto), (155, 60))
+    tela.blit(font.render(str(variaveis['memoria'][0].capacidade) + 'GB', True, variaveis['preto']), (155, 60))
 
     #titulo
     texto = font.render('Disponível', True, variaveis['preto'])
     tela.blit(texto, (15, 80))
 
     # valor
-    tela.blit(font.render(str(variaveis['memoria'][0].disponivel), True, preto), (155, 80))
+    tela.blit(font.render(str(variaveis['memoria'][0].disponivel), True, variaveis['preto']), (155, 80))
 
 def set_grafico_memoria():
     memoria = variaveis['memoria'][0].memoria
@@ -641,11 +638,11 @@ def set_grafico_memoria():
     tela.blit(text, (20, 240))
 
     # instrucao navegacao
-    instrucao = font.render('Tecle ← ou → para navegar', True, preto)
+    instrucao = font.render('Tecle ← ou → para navegar', True, variaveis['preto'])
     tela.blit(instrucao, variaveis['posicionamento-instrucao'])
 
 def set_info_disco():
-    tela.fill(grafite)
+    tela.fill(variaveis['preto'])
 
     titulo = font.render("** Informações do Disco **" , 1, variaveis['azul'])
     tela.blit(titulo, (15, 30))
@@ -655,21 +652,21 @@ def set_info_disco():
     tela.blit(texto, (15, 60))
 
     # valor
-    tela.blit(font.render(str(variaveis['disco'][0].total) + 'GB', True, preto), (155, 60))
+    tela.blit(font.render(str(variaveis['disco'][0].total) + 'GB', True, variaveis['preto']), (155, 60))
 
     #titulo
     texto = font.render('Disponível', True, variaveis['preto'])
     tela.blit(texto, (15, 80))
 
     # valor
-    tela.blit(font.render(str(variaveis['disco'][0].livre) + 'GB', True, preto), (155, 80))
+    tela.blit(font.render(str(variaveis['disco'][0].livre) + 'GB', True, variaveis['preto']), (155, 80))
 
     #titulo
     texto = font.render('Usado', True, variaveis['preto'])
     tela.blit(texto, (15, 100))
 
     # valor
-    tela.blit(font.render(str(variaveis['disco'][0].usado) + 'GB', True, preto), (155, 100))
+    tela.blit(font.render(str(variaveis['disco'][0].usado) + 'GB', True, variaveis['preto']), (155, 100))
 
 def set_grafico_disco():
     disco_aux = variaveis['disco'][0]
@@ -687,12 +684,12 @@ def set_grafico_disco():
     tela.blit(texto, (20, 240))
 
     # instrucao navegacao
-    instrucao = font.render('Tecle ← ou → para navegar', True, preto)
+    instrucao = font.render('Tecle ← ou → para navegar', True, variaveis['preto'])
     tela.blit(instrucao, variaveis['posicionamento-instrucao'])    
 
 def set_info_arquivo():
 
-    tela.fill(grafite)
+    tela.fill(variaveis['grafite'])
 
     titulo = font.render("** Arquivos do diretório **" , 1, variaveis['azul'])
     tela.blit(titulo, (15, 30))
@@ -728,24 +725,24 @@ def set_info_arquivo():
         espacos += 25
     
     # instrucao navegacao
-    instrucao = font.render('Tecle ← ou → para navegar', True, preto)
+    instrucao = font.render('Tecle ← ou → para navegar', True, variaveis['preto'])
     tela.blit(instrucao, variaveis['posicionamento-instrucao'])
 
 def set_trafego_dados_processo():
-    tela.fill(grafite)
+    tela.fill(variaveis['grafite'])
 
-    titulo = font.render("** Lista dos 10 primeiros processos em execução **" , 1, variaveis['azul'])
+    titulo = font.render("** Trafego de dados dos 10 últimos processos **" , 1, variaveis['azul'])
     tela.blit(titulo, (15, 30))
 
 def set_info_processo():
-    tela.fill(grafite)
+    tela.fill(variaveis['grafite'])
 
-    titulo = font.render("** Lista dos 10 primeiros processos em execução **" , 1, variaveis['azul'])
+    titulo = font.render("** Lista dos 10 últimos processos em execução **" , 1, variaveis['azul'])
     tela.blit(titulo, (15, 30))
 
     titulo2 = 'PID              (%) Usado    Mem. Usada    Threads    Tempo Exec.                Nome'
     
-    text2 = font.render(titulo2, 1, preto)
+    text2 = font.render(titulo2, 1, variaveis['grafite'])
     tela.blit(text2, (15, 60))
 
     espacos = 100
@@ -776,11 +773,11 @@ def set_info_processo():
         espacos += 25
     
     # instrucao navegacao
-    instrucao = font.render('Tecle ← ou → para navegar', True, preto)
+    instrucao = font.render('Tecle ← ou → para navegar', True, variaveis['preto'])
     tela.blit(instrucao, variaveis['posicionamento-instrucao'])
 
 def set_info_resumo():
-    tela.fill(grafite)
+    tela.fill(variaveis['grafite'])
 
     titulo = font.render("** Resumo dos dados coletados **" , 1, variaveis['azul'])
     tela.blit(titulo, (15, 30))
@@ -877,7 +874,7 @@ def set_info_resumo():
 
 
     # instrucao navegacao
-    instrucao = font.render('Tecle ← ou → para navegar', True, preto)
+    instrucao = font.render('Tecle ← ou → para navegar', True, variaveis['preto'])
     tela.blit(instrucao, variaveis['posicionamento-instrucao'])
 
 #
@@ -905,7 +902,7 @@ while not terminou:
 
 #carrossel           
     if count == 60:
-        tela.fill(grafite)
+        tela.fill(variaveis['grafite'])
 
         if posicao_atual < 0:
             posicao_atual = 7

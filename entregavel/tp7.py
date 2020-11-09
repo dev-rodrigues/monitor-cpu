@@ -6,7 +6,6 @@ import subprocess
 import os
 import time
 import socket
-import sched
 import nmap
 
 info_cpu = cpuinfo.get_cpu_info()
