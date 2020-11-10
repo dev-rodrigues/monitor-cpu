@@ -542,7 +542,7 @@ def set_info_rede():
     titulo = font.render("** Informações de Rede **" , 1, variaveis['azul'])
     tela.blit(titulo, (15, 30))
 
-    titulo = font.render("Interface                    IP                    Mascara                    Pct. Enviado                    Pct. Recebido" , 1, variaveis['preto'])
+    titulo = font.render("Interface                    IP                    Mascara                    Pct. Enviado              Pct. Recebido" , 1, variaveis['preto'])
     tela.blit(titulo, (15, 55))
 
     espacos = 100
@@ -563,7 +563,7 @@ def set_info_rede():
             pct_enviado = round(trafego_da_interface.pacotes_enviados / (1024 ** 2), 2)
 
             pct_enviado_formatado = '{:>25}'.format(str(pct_enviado)) + 'MB'
-            pct_recebido_formatado = '{:>30}'.format(str(pct_recebido)) + 'MB'
+            pct_recebido_formatado = '{:>20}'.format(str(pct_recebido)) + 'MB'
 
             nome_interface_formatada = get_nova_string(str(host[0]))
             
@@ -585,7 +585,7 @@ def set_info_rede():
 
 def set_info_hosts_rede():
 
-    espacos = 200
+    espacos = 300
 
     for host in variaveis['hosts_detalhado']:
         host_name = ""
@@ -613,18 +613,18 @@ def set_info_hosts_rede():
             porta_label = font.render("Porta: ", 1, variaveis['branco'])            
             tela.blit(porta_label, (15, espacos + 10))
 
-            porta = font.render(str(porta.port), 1, variaveis['branco'])
-            tela.blit(porta_label, (20, espacos + 10))
+            porta_text = font.render(str(porta.port), 1, variaveis['branco'])
+            tela.blit(porta_text, (70, espacos + 10))
 
             estado_label = font.render("Estado: ", 1, variaveis['branco'])            
-            tela.blit(estado_label, (35, espacos + 10))
-
-            estado = font.render(porta.state, 1, variaveis['branco'])
-            tela.blit(estado, (40, espacos + 10))
+            tela.blit(estado_label, (140, espacos + 10))
+            
+            estado = font.render(porta.state, 1, variaveis['branco'])            
+            tela.blit(estado, (210, espacos + 10))
 
             espacos += 15
 
-        espacos += 10
+        espacos += 20
 
     # instrucao navegacao
     instrucao = font.render('Tecle ← ou → para navegar', True, variaveis['preto'])
