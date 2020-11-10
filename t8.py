@@ -727,35 +727,39 @@ def set_info_arquivo():
     arquivos = variaveis['arquivos']
 
     
-    titulo = font.render("         Nome                Data Criacao                    Data Modificacao                    Tamanho" , 1, variaveis['preto'])
+    titulo = font.render("Nome                       Data Criacao                        Data Modificacao                    Tamanho" , 1, variaveis['preto'])
     tela.blit(titulo, (15, 55))
 
     espacos = 100
+    total_a_exibir = 0
 
     for arquivo in arquivos:        
-        tamanho_aux = len(arquivo)
 
-        tamanho_arquivo = str(format(arquivos[arquivo][0] / 1024, '.2f')) + 'Kb'
-        data_criacao = time.ctime(arquivos[arquivo][0])
-        data_modificacao = time.ctime(arquivos[arquivo][1])
-        
-        nome_arquivo = arquivo
+        if total_a_exibir <= 10:
 
-        data_criacao__formatado = '{:>30}'.format(data_criacao)
+            tamanho_aux = len(arquivo)
 
-        if tamanho_aux == 6 or tamanho_aux == 8:
-            data_modificacao_formatado = '{:>33}'.format(data_modificacao)
-        else:
-            data_modificacao_formatado = '{:>30}'.format(data_modificacao)
+            tamanho_arquivo = str(format(arquivos[arquivo][0] / 1024, '.2f')) + 'Kb'
+                    
+            nome_arquivo = get_nova_string(arquivo)
+            texto_formatado = font.render(nome_arquivo , 1, variaveis['preto'])
+            tela.blit(texto_formatado, (15, espacos))
 
-        tamanho_arquivo_formatado = '{:>18}'.format(tamanho_arquivo)
+            data_criacao = time.ctime(arquivos[arquivo][0])
+            texto_formatado = font.render(data_criacao , 1, variaveis['preto'])
+            tela.blit(texto_formatado, (140, espacos))
 
-        nome_arquivo_formatado = '{:.6}'.format(nome_arquivo)
-        nome_arquivo_formatado_ = '{:>15}'.format(nome_arquivo_formatado)
+            
+            data_modificacao = time.ctime(arquivos[arquivo][1])
+            data_modificacao_formatado = font.render(data_modificacao , 1, variaveis['preto'])
+            tela.blit(texto_formatado, (400, espacos))
+            
 
-        texto_formatado = font.render(nome_arquivo_formatado_ + data_criacao__formatado + data_modificacao_formatado + tamanho_arquivo_formatado, 1, variaveis['preto'])
-        tela.blit(texto_formatado, (15, espacos))
-        espacos += 25
+            tamanho_arquivo_formatado = font.render(tamanho_arquivo, 1, variaveis['preto'])
+            tela.blit(tamanho_arquivo_formatado, (700, espacos))
+            
+            espacos += 25
+            total_a_exibir += 1
     
     # instrucao navegacao
     instrucao = font.render('Tecle ← ou → para navegar', True, variaveis['preto'])
