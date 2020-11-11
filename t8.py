@@ -10,6 +10,7 @@ variaveis = {
     'processos': [],
     'trafego': [],
     'arquivos': {},
+    'execucao_leitura_arquivos': '',
     'hosts': [],
     'hosts_detalhado': [],
     'executou': False,
@@ -22,7 +23,7 @@ variaveis = {
     'cinza': (100, 100, 100),
     'grafite': (105,105,105),
     'posicionamento-instrucao': (250, 560),
-    'tamanho-minimo-palavra': 13
+    'tamanho-minimo-palavra': 15
 }
 
 # inicio configuracoes pygame
@@ -138,7 +139,8 @@ class ThreadArquivos(threading.Thread):
 
    def run(self):
       print ("Starting thread" + self.name)
-      get_arquivos()
+      variaveis['execucao_leitura_arquivos'] = get_sched_scheduler_arquivos()
+      print(variaveis['execucao_leitura_arquivos'])
       print ("Exiting thread" + self.name)
 # 
 # fim threads
@@ -180,6 +182,7 @@ def get_info_cpu():
     cpu = CPU(nome_cpu, arquitetura_cpu, bits_cpu, frq_cpu, nucleos, l_cpu_percent, capacidade, num_cpu)
     return cpu
 
+
 def get_arquivos():
     arquivos_aux = os.listdir()
 
@@ -188,6 +191,24 @@ def get_arquivos():
         variaveis['arquivos'][arquivo].append(os.stat(arquivo).st_size)
         variaveis['arquivos'][arquivo].append(os.stat(arquivo).st_ctime)
         variaveis['arquivos'][arquivo].append(os.stat(arquivo).st_mtime)
+
+
+def get_sched_scheduler_arquivos():
+    inicio = time.time()
+    inicioClock = time.process_time()
+
+    sched_ = sched.scheduler(time.time, time.sleep)
+
+    sched_.enter(3, 1, get_arquivos())
+
+    tempoFinal = 'TEMPO FINAL: %s | CLOCK FINAL: %0.2f' % (time.ctime(), time.process_time())
+
+    final = time.time() - inicio
+    finalClock = time.process_time() - inicioClock
+
+    tempoUsado = 'TEMPO USADO NESSA CHAMADA: %0.3f segundos | CLOCK USADO NESSA CHAMADA: %0.2f' % (final, finalClock)
+
+    return tempoFinal, tempoUsado
 
 def getNewIp(sistema):
     for interface, snics in psutil.net_if_addrs().items():
@@ -309,7 +330,6 @@ def get_trafego_da_interface(interface):
     return retorno
 
 def get_info_memoria():
-
     if len(variaveis['memoria']) == 0:
         variaveis['memoria'] = []
         memoria = psutil.virtual_memory()
@@ -320,7 +340,6 @@ def get_info_memoria():
         variaveis['memoria'].append(memoria_aux)
 
 def get_info_disco():
-
     if len(variaveis['disco']) == 0:
         variaveis['disco'] = []
 
@@ -727,7 +746,7 @@ def set_info_arquivo():
     arquivos = variaveis['arquivos']
 
     
-    titulo = font.render("Nome                       Data Criacao                        Data Modificacao                    Tamanho" , 1, variaveis['preto'])
+    titulo = font.render("Nome                       Data Criacao                        Data Modificacao                                 Tamanho" , 1, variaveis['preto'])
     tela.blit(titulo, (15, 55))
 
     espacos = 100
@@ -760,6 +779,21 @@ def set_info_arquivo():
             
             espacos += 25
             total_a_exibir += 1
+
+    time_leitura = variaveis['execucao_leitura_arquivos']
+
+    tempoFinal = time_leitura[0]
+    tempoUsado = time_leitura[1]
+
+    informacao = font.render(tempoFinal, True, variaveis['branco'])
+    tela.blit(informacao, (15, 480))
+
+    informacao = font.render(tempoUsado, True, variaveis['branco'])
+    tela.blit(informacao, (15, 500))
+
+    
+
+
     
     # instrucao navegacao
     instrucao = font.render('Tecle ← ou → para navegar', True, variaveis['preto'])
@@ -777,10 +811,8 @@ def set_info_processo():
     titulo = font.render("** Lista dos 10 últimos processos em execução **" , 1, variaveis['azul'])
     tela.blit(titulo, (15, 30))
 
-    titulo2 = 'PID              (%) Usado    Mem. Usada    Threads    Tempo Exec.                Nome'
-    
-    text2 = font.render(titulo2, 1, variaveis['grafite'])
-    tela.blit(text2, (15, 60))
+    titulo = font.render("PID            % Uso        Mem. Usada     Threads Usada           Tempo                        Nome" , 1, variaveis['preto'])
+    tela.blit(titulo, (15, 55))
 
     espacos = 100
 
@@ -795,17 +827,21 @@ def set_info_processo():
         else:
             text_percentual_uso = '{:>15}'.format(str(format(processo.percentual_uso, '.2f')))
 
-
         text_memoria_usada = '{:>20}'.format(str(format(processo.memoria_usada, '.2f') ))
         text_threads_processo = '{:>20}'.format(str(format(processo.threads_processo, '.2f')))
         text_tempo_usuario = '{:>20}'.format(processo.tempo_usuario)
-        text_data_criacao = '{:>10}'.format(processo.data_criacao)
         text_nome = '{:>30}'.format(processo.nome)
 
-        texto_formatado = text_pid + text_percentual_uso + text_memoria_usada + text_threads_processo + text_tempo_usuario + text_nome
+        texto_formatado = text_pid + text_percentual_uso + text_memoria_usada + text_threads_processo #+ text_tempo_usuario + text_nome
+
+        texto = font.render(text_tempo_usuario, 1, variaveis['preto'])
+        tela.blit(texto, (410, espacos))
 
         texto = font.render(texto_formatado, 1, variaveis['preto'])
         tela.blit(texto, (15, espacos))
+
+        texto = font.render(text_nome, 1, variaveis['preto'])
+        tela.blit(texto, (530, espacos))
 
         espacos += 25
     
