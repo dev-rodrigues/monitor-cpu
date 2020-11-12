@@ -192,7 +192,6 @@ def get_arquivos():
         variaveis['arquivos'][arquivo].append(os.stat(arquivo).st_ctime)
         variaveis['arquivos'][arquivo].append(os.stat(arquivo).st_mtime)
 
-
 def get_sched_scheduler_arquivos():
     inicio = time.time()
     inicioClock = time.process_time()
@@ -202,12 +201,13 @@ def get_sched_scheduler_arquivos():
     sched_.enter(3, 1, get_arquivos())
 
     tempoFinal = 'TEMPO FINAL: %s | CLOCK FINAL: %0.2f' % (time.ctime(), time.process_time())
+    print(tempoFinal)
 
     final = time.time() - inicio
     finalClock = time.process_time() - inicioClock
 
     tempoUsado = 'TEMPO USADO NESSA CHAMADA: %0.3f segundos | CLOCK USADO NESSA CHAMADA: %0.2f' % (final, finalClock)
-
+    print(tempoUsado)
     return tempoFinal, tempoUsado
 
 def getNewIp(sistema):
