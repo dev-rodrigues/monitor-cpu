@@ -65,7 +65,7 @@ class Host:
         self.name = name
         self.ports = []   
 
-class Port:
+class Porta:
     def __init__(self, port, state):
         self.port = port
         self.state = state
@@ -182,7 +182,6 @@ def get_info_cpu():
     cpu = CPU(nome_cpu, arquitetura_cpu, bits_cpu, frq_cpu, nucleos, l_cpu_percent, capacidade, num_cpu)
     return cpu
 
-
 def get_arquivos():
     arquivos_aux = os.listdir()
 
@@ -265,11 +264,11 @@ def detalhar_host(host_validos):
 
             lport = nm[host][proto].keys()
             for port in lport:
-                port_ = Port(port, nm[host][proto][port]['state'])
+                port_ = Porta(port, nm[host][proto][port]['state'])
                 host_.ports.append(port_)
 
             #for i in range(0, 5):
-            #    port_ = Port(i, 'open')
+            #    port_ = Porta(i, 'open')
             #    host_.ports.append(port_)
 
         except:
@@ -281,7 +280,6 @@ def get_hosts():
     meus_ips = variaveis['hosts']
     meu_ip_principal = meus_ips[0][1]
  
-
     # trata ip broadcast
     if meu_ip_principal == '127.0.0.1':
         meu_ip_principal = meus_ips[1][1]
@@ -478,9 +476,6 @@ def get_envolucro(posicao):
         get_envolucro_processos()
 
     elif posicao == 6:
-        get_envolucro_trafego_processo()
-
-    elif posicao == 7:
         get_envolucro_resumo()
 
 # 
@@ -799,12 +794,6 @@ def set_info_arquivo():
     instrucao = font.render('Tecle ← ou → para navegar', True, variaveis['preto'])
     tela.blit(instrucao, variaveis['posicionamento-instrucao'])
 
-def set_trafego_dados_processo():
-    tela.fill(variaveis['grafite'])
-
-    titulo = font.render("** Trafego de dados dos 10 últimos processos **" , 1, variaveis['azul'])
-    tela.blit(titulo, (15, 30))
-
 def set_info_processo():
     tela.fill(variaveis['grafite'])
 
@@ -970,7 +959,7 @@ while not terminou:
                 posicao_atual = posicao_atual - 1
             
             elif event.key == pygame.K_SPACE:
-                posicao_atual = 7
+                posicao_atual = 6
 
 
 #carrossel           
@@ -978,9 +967,9 @@ while not terminou:
         tela.fill(variaveis['grafite'])
 
         if posicao_atual < 0:
-            posicao_atual = 7
+            posicao_atual = 6
             
-        elif posicao_atual > 7:
+        elif posicao_atual > 6:
             posicao_atual = 0
         
         variaveis['executando'] = True
