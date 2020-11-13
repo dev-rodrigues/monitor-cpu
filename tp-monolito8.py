@@ -17,11 +17,11 @@ variaveis = {
     'executando': False,
     'ips': [],
     'vermelho': (255, 0, 0),
-    'azul': (0, 0, 255),
+    'azul': (29, 51, 74),
     'preto': (0, 0, 0),
     'branco': (255, 255, 255),
-    'cinza': (100, 100, 100),
-    'grafite': (105,105,105),
+    'cinza': (128, 128, 128),
+    'grafite': (128, 128, 128),
     'posicionamento-instrucao': (250, 560),
     'tamanho-minimo-palavra': 15
 }
@@ -608,11 +608,11 @@ def set_info_hosts_rede():
             host_name = host.name
 
         else:
-            host_name = "NÃO LOCALIZADO"
+            host_name = "NÃO IDENTIFICADO"
 
         cor = ""
 
-        if host_name != "NÃO LOCALIZADO":
+        if host_name != "NÃO IDENTIFICADO":
             cor = variaveis['vermelho']
 
         else:
@@ -753,7 +753,7 @@ def set_info_arquivo():
 
             tamanho_aux = len(arquivo)
 
-            tamanho_arquivo = str(format(arquivos[arquivo][0] / 1024, '.2f')) + 'Kb'
+            tamanho_arquivo = str(format(arquivos[arquivo][0] / 1024, '.2f')) + 'KB'
                     
             nome_arquivo = get_nova_string(arquivo)
             texto_formatado = font.render(nome_arquivo , 1, variaveis['preto'])
