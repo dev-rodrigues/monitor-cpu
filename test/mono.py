@@ -1,5 +1,4 @@
-import pygame, psutil, cpuinfo, platform, subprocess, os, time, socket, sched, nmap, threading, time
-
+import pygame, psutil, cpuinfo, platform, subprocess, os, time, socket, sched, nmap, threading, time, math, datetime
 # variaveis globais
 
 ## controle aplicacao
@@ -23,7 +22,8 @@ variaveis = {
     'cinza': (128, 128, 128),
     'grafite': (128, 128, 128),
     'posicionamento-instrucao': (250, 560),
-    'tamanho-minimo-palavra': 15
+    'tamanho-minimo-palavra': 15,
+    'TIME1970': 2208988800
 }
 
 # inicio configuracoes pygame
@@ -751,18 +751,18 @@ def set_info_arquivo():
 
             tamanho_aux = len(arquivo)
 
-            tamanho_arquivo = str(format(arquivos[arquivo][0] / 1024, '.2f')) + 'KB'
+            tamanho_arquivo = str(math.ceil(arquivos[arquivo][0] / 1024)) + 'KB'
                     
             nome_arquivo = get_nova_string(arquivo)
             texto_formatado = font.render(nome_arquivo , 1, variaveis['preto'])
             tela.blit(texto_formatado, (15, espacos))
 
-            data_criacao = time.ctime(arquivos[arquivo][0])
+            data_criacao = datetime.datetime.fromtimestamp(arquivos[arquivo][1]).strftime("%d-%m-%Y %H:%M:%S") #time.ctime(arquivos[arquivo][1])
             texto_formatado = font.render(data_criacao , 1, variaveis['preto'])
             tela.blit(texto_formatado, (140, espacos))
 
             
-            data_modificacao = time.ctime(arquivos[arquivo][1])
+            data_modificacao = datetime.datetime.fromtimestamp(arquivos[arquivo][2]).strftime("%d-%m-%Y %H:%M:%S") #time.ctime(arquivos[arquivo][2])
             data_modificacao_formatado = font.render(data_modificacao , 1, variaveis['preto'])
             tela.blit(texto_formatado, (400, espacos))
             
