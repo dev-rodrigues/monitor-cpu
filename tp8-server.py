@@ -258,7 +258,8 @@ def get_arquivos():
         
         arquivo_aux = Arquivo(arquivo, tamanho, criacao, modificacao)
         arquivo_response.append(arquivo_aux.to_map())
-    
+        
+    variaveis['arquivos'].clear()
     variaveis['arquivos'].append(arquivo_response)
 
 def get_shed_sheduler_arquivos():
@@ -424,15 +425,12 @@ def get_processo():
     return processos_coletados
 
 def get_processos_pagina(pagina, processos):
-
-    paginado = []
-
     total_de_processo = len(processos)
 
     total_paginas = math.ceil(total_de_processo / variaveis['total_elementos_por_pagina'])
 
     limite = int(pagina) * variaveis['total_elementos_por_pagina']
-    inicio = limite - 5
+    inicio = limite - variaveis['total_elementos_por_pagina']
     paginado = processos[inicio:limite]
 
     return { 
@@ -442,6 +440,25 @@ def get_processos_pagina(pagina, processos):
         'total_elementos_por_pg': variaveis['total_elementos_por_pagina'],
         'total_processos': total_de_processo,
     }
+
+def get_arquivos_paginado(pagina, arquivos):
+    
+    total_de_arquivos = len(arquivos)
+
+    total_paginas = math.ceil(total_de_arquivos / variaveis['total_elementos_por_pagina'])
+
+    limite = int(pagina) * variaveis['total_elementos_por_pagina']
+    inicio = limite - variaveis['total_elementos_por_pagina']
+    paginado = arquivos[inicio : limite]
+
+    return {
+        'elementos': paginado,
+        'pagina_atual': pagina,
+        'total_paginas': total_paginas,
+        'total_elementos_por_pg': variaveis['total_elementos_por_pagina'],
+        'total_arquivos': total_de_arquivos,
+    }
+
 # fim funcoes
 
 # inicia thread
@@ -450,9 +467,6 @@ thread_disco.start()
 
 thread_cpu = ThreadCpu(1, 'Thread-CPU', 1)
 thread_cpu.start()
-
-# thread_arquivo = ThreadSched(1, 'Thread-arquivo', 1)
-# thread_arquivo.start()
 
 thread_sched = ThreadSched(1, 'Thread-sched', 1)
 thread_sched.start()
@@ -471,7 +485,6 @@ thread_memoria.start()
 
 thread_processo = ThreadProcesso(1, 'Thread-processo', 1)
 thread_processo.start()
-# fim thread
 
 
 # inicio infra servidor
@@ -519,8 +532,10 @@ while True:
         response = []
         sched_aux = variaveis['sched'][len(variaveis['sched']) - 1]
         arquivos_aux = variaveis['arquivos'][len(variaveis['arquivos']) - 1]
+        result = get_arquivos_paginado(pagina, arquivos_aux)
+
         response.append(sched_aux)
-        response.append(arquivos_aux)
+        response.append(result)
     
     elif decode == 'ips':
         response = variaveis['ips']
@@ -539,12 +554,8 @@ while True:
 
     elif decode == 'processo':        
         processos = variaveis['processo']
+        response = get_processos_pagina(pagina, processos)
         
-        
-        paginado = get_processos_pagina(pagina, processos)
-
-        print(paginado)
-
     bytes_resp = pickle.dumps(response)
     
     socket_cliente.send(bytes_resp)

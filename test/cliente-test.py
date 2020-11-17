@@ -10,7 +10,7 @@ s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 try:
     # Tenta se conectar ao servidor
     s.connect((socket.gethostname(), 9999))
-    msg = 'processo-2'
+    msg = 'arquivos-2'
     print('{:>8}'.format('%CPU')+'{:>8}'.format('%MEM'))
     for i in range(10):
         # Envia mensagem vazia apenas para indicar a requisição
