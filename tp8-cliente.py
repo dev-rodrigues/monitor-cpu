@@ -73,9 +73,21 @@ def get_envolucro_disco():
     set_info_disco(response_disco)
     set_grafico_disco(response_disco)
 
-# def get_envolucro_rede():
-#     set_info_rede()
-#     set_info_hosts_rede()
+def get_envolucro_rede():
+    print('REQUEST: > ', datetime.datetime.now(), ' > ' , ' ips')
+    response_ips = request('ips')
+    print('RESPONSE: > ', datetime.datetime.now(), ' > ', response_ips)
+
+    print('REQUEST: > ', datetime.datetime.now(), ' > ' , ' trafego')
+    response_trafego = request('trafego')
+    print('RESPONSE: > ', datetime.datetime.now(), ' > ', response_trafego)
+
+    print('REQUEST: > ', datetime.datetime.now(), ' > ' , ' rede')
+    response_host = request('rede')
+    print('RESPONSE: > ', datetime.datetime.now(), ' > ', response_host)
+
+    set_info_rede(response_ips, response_trafego, response_host)
+    set_info_hosts_rede(response_host)
 
 # def get_envolucro_arquivo():
 #     set_info_arquivo()
@@ -100,8 +112,10 @@ def get_envolucro(posicao):
     
     elif posicao == 2:        
         get_envolucro_disco()
-    # elif posicao == 3:
-    #     get_envolucro_rede()
+
+    elif posicao == 3:
+        get_envolucro_rede()
+
     # elif posicao == 4:
     #     get_envolucro_arquivo()
     # elif posicao == 5:    
@@ -260,101 +274,134 @@ def set_grafico_disco(memoria):
     instrucao = font.render('Tecle ← ou → para navegar', True, variaveis['preto'])
     tela.blit(instrucao, variaveis['posicionamento-instrucao'])  
 
-# def set_info_rede():
-#     tela.fill(variaveis['grafite'])
+def set_info_rede(ips, trafegos, hosts):
+    tela.fill(variaveis['grafite'])
 
-#     titulo = font.render("** Informações de Rede **" , 1, variaveis['azul'])
-#     tela.blit(titulo, (15, 30))
+    titulo = font.render("** Informações de Rede **" , 1, variaveis['azul'])
+    tela.blit(titulo, (15, 30))
 
-#     titulo = font.render("Interface                    IP                    Mascara                    Pct. Enviado              Pct. Recebido" , 1, variaveis['preto'])
-#     tela.blit(titulo, (15, 55))
+    titulo = font.render("Interface                    IP                    Mascara                    Pct. Enviado              Pct. Recebido" , 1, variaveis['preto'])
+    tela.blit(titulo, (15, 55))
 
-#     espacos = 100
+    espacos = 100
 
-#     hosts_aux = variaveis['hosts']
+    for host in ips:
 
-#     for host in hosts_aux:
+        interface = host[0]
+        trafego_da_interface = get_trafego_da_interface(interface, trafegos)
 
+        ip = str(host[1])
 
-#         interface = host[0]
-#         trafego_da_interface = get_trafego_da_interface(interface)
+        if ip !='127.0.0.1':            
 
-#         ip = str(host[1])
+            pct_recebido = size_format(trafego_da_interface['pacotes_recebidos']) # round(trafego_da_interface['pacotes_recebidos'] / (1024), 2)
+            pct_enviado = size_format(trafego_da_interface['pacotes_enviados']) #round(trafego_da_interface['pacotes_enviados'] / (1024), 2)
 
-#         if ip !='127.0.0.1':            
+            pct_enviado_formatado = '{:>25}'.format(str(pct_enviado))
+            pct_recebido_formatado = '{:>25}'.format(str(pct_recebido))
 
-#             pct_recebido = round(trafego_da_interface.pacotes_recebidos / (1024 ** 2), 2)
-#             pct_enviado = round(trafego_da_interface.pacotes_enviados / (1024 ** 2), 2)
-
-#             pct_enviado_formatado = '{:>25}'.format(str(pct_enviado)) + 'MB'
-#             pct_recebido_formatado = '{:>20}'.format(str(pct_recebido)) + 'MB'
-
-#             nome_interface_formatada = get_nova_string(str(host[0]))
+            nome_interface_formatada = get_nova_string(str(host[0]))
             
-#             ip_formatada = get_nova_string(str(host[1]))
-#             ip_formatada_ = '{:>20}'.format(ip_formatada)
+            ip_formatada = get_nova_string(str(host[1]))
+            ip_formatada_ = '{:>20}'.format(ip_formatada)
 
-#             mascara = get_nova_string(str(host[2]))
-#             mascara_formatada = '{:>20}'.format(mascara)
+            mascara = get_nova_string(str(host[2]))
+            mascara_formatada = '{:>20}'.format(mascara)
 
-#             texto = font.render(nome_interface_formatada + ip_formatada_ +  mascara_formatada + pct_enviado_formatado + pct_recebido_formatado, 1, variaveis['preto'])
+            texto = font.render(nome_interface_formatada + ip_formatada_ +  mascara_formatada + pct_enviado_formatado + pct_recebido_formatado, 1, variaveis['preto'])
             
-#             tela.blit(texto, (15, espacos))
-#             espacos += 25
+            tela.blit(texto, (15, espacos))
+            espacos += 25
 
-#     # exibir msg de informacao: escaneando rede
-#     if len(variaveis['hosts_detalhado']) == 0:
-#         texto_atencao = font.render('Lendo dados da rede. Aguarde...', 10, variaveis['vermelho'])
-#         tela.blit(texto_atencao, (260, 185))
+    # exibir msg de informacao: escaneando rede
+    if hosts == 'NoNe':
+        texto_atencao = font.render('Lendo dados da rede. Aguarde...', 10, variaveis['vermelho'])
+        tela.blit(texto_atencao, (260, 185))
 
-# def set_info_hosts_rede():
+def set_info_hosts_rede(hosts):
 
-#     espacos = 300
+    espacos = 300
 
-#     for host in variaveis['hosts_detalhado']:
-#         host_name = ""
+    if hosts != 'NoNe':
+        for host in hosts:
+            host_name = ""
 
-#         if host.name != "":
-#             host_name = host.name
+            if host['nome'] != "":
+                host_name = host['nome']
 
-#         else:
-#             host_name = "NÃO IDENTIFICADO"
+            else:
+                host_name = "NÃO IDENTIFICADO"
 
-#         cor = ""
+            cor = ""
 
-#         if host_name != "NÃO IDENTIFICADO":
-#             cor = variaveis['vermelho']
+            if host_name == "NÃO IDENTIFICADO":
+                cor = variaveis['vermelho']
+            else:
+                cor = variaveis['azul']
 
-#         else:
-#             cor = variaveis['azul']
-
-#         texto = font.render(host.ip + ': Nome: ' + host_name, 1, variaveis['azul'])
-        
-#         tela.blit(texto, (15, espacos + 5))
-#         espacos += 15
-
-#         for porta in host.ports:
-#             porta_label = font.render("Porta: ", 1, variaveis['branco'])            
-#             tela.blit(porta_label, (15, espacos + 10))
-
-#             porta_text = font.render(str(porta.port), 1, variaveis['branco'])
-#             tela.blit(porta_text, (70, espacos + 10))
-
-#             estado_label = font.render("Estado: ", 1, variaveis['branco'])            
-#             tela.blit(estado_label, (140, espacos + 10))
+            texto = font.render(host['ip'] + ': Nome: ' + host_name, 1, variaveis['azul'])
             
-#             estado = font.render(porta.state, 1, variaveis['branco'])            
-#             tela.blit(estado, (210, espacos + 10))
+            tela.blit(texto, (15, espacos + 5))
+            espacos += 15
 
-#             espacos += 15
+            for porta in host['portas']:
+                porta_label = font.render("Porta: ", 1, variaveis['branco'])            
+                tela.blit(porta_label, (15, espacos + 10))
 
-#         espacos += 20
+                porta_text = font.render(str(porta['porta']), 1, variaveis['branco'])
+                tela.blit(porta_text, (70, espacos + 10))
 
-#     # instrucao navegacao
-#     instrucao = font.render('Tecle ← ou → para navegar', True, variaveis['preto'])
-#     tela.blit(instrucao, variaveis['posicionamento-instrucao'])
+                estado_label = font.render("Estado: ", 1, variaveis['branco'])            
+                tela.blit(estado_label, (140, espacos + 10))
+                
+                estado = font.render(porta['estado'], 1, variaveis['branco'])            
+                tela.blit(estado, (210, espacos + 10))
 
-  
+                espacos += 15
+
+            espacos += 20
+
+    # instrucao navegacao
+    instrucao = font.render('Tecle ← ou → para navegar', True, variaveis['preto'])
+    tela.blit(instrucao, variaveis['posicionamento-instrucao'])
+
+
+def get_trafego_da_interface(interface, trafegos):
+    response = ''
+    for trafego in trafegos:
+        if trafego['interface'] == interface:
+            response = trafego
+            break
+    return response
+
+def get_nova_string(palavra):
+    palavra_aux = palavra
+
+    tamanho_minimo = variaveis['tamanho-minimo-palavra']
+    tamanho_palavra = len(palavra_aux)
+
+    if tamanho_palavra > tamanho_minimo:
+        # recorta a string
+        palavra_aux = '{:.10}'.format(palavra)
+    else:
+        # adiciona espacos
+        while tamanho_palavra != tamanho_minimo:
+            palavra_aux = palavra_aux + " "
+            tamanho_palavra = len(palavra_aux)
+
+    return palavra_aux
+
+def size_format(b):
+    if b < 1000:
+              return '%i' % b + 'B'
+    elif 1000 <= b < 1000000:
+        return '%.1f' % float(b/1000) + 'KB'
+    elif 1000000 <= b < 1000000000:
+        return '%.1f' % float(b/1000000) + 'MB'
+    elif 1000000000 <= b < 1000000000000:
+        return '%.1f' % float(b/1000000000) + 'GB'
+    elif 1000000000000 <= b:
+        return '%.1f' % float(b/1000000000000) + 'TB'
 
 # def set_info_arquivo():
 

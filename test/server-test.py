@@ -186,7 +186,7 @@ class ThreadTrafegoRede(threading.Thread):
             print ("Starting thread" + self.name)
             get_trafego_host()
             print ("Sleeping..." + self.name)
-            time.sleep(10)
+            time.sleep(5)
 
 class ThreadMemoria(threading.Thread):
     def __init__(self, threadID, name, counter):
@@ -549,7 +549,7 @@ while True:
     
     elif decode == 'trafego':
         if len(variaveis['trafego']) > 0:
-            response = variaveis['trafego']
+            response = variaveis['trafego'][len(variaveis['trafego']) - 1]
 
     elif decode == 'processo':        
         processos = variaveis['processo']
