@@ -9,8 +9,8 @@ variaveis = {
     'branco': (255, 255, 255),
     'cinza': (128, 128, 128),
     'grafite': (128, 128, 128),
-    'posicionamento-instrucao': (250, 560),
-    'tamanho-minimo-palavra': 15,
+    'posicionamento-instrucao': (290, 560),
+    'tamanho-minimo-palavra': 30,
     'porta': 9999,
     'posicao_atual': 0,
     'pagina': 1
@@ -23,8 +23,7 @@ altura_tela = 600
 
 terminou = False
 count = 60
-meu_ip = ''
-lista_de_processos = []
+
 
 
 tela = pygame.display.set_mode((largura_tela, altura_tela))
@@ -45,7 +44,7 @@ socket_.connect((socket.gethostname(), 9999))
 
 def request(message):
     socket_.send(message.encode('ascii'))
-    received = socket_.recv(1024)
+    received = socket_.recv(2048)
     response = pickle.loads(received)
     return response
 
@@ -90,19 +89,33 @@ def get_envolucro_rede():
     set_info_rede(response_ips, response_trafego, response_host)
     set_info_hosts_rede(response_host)
 
+response_cache_arquivo = ''
 def get_envolucro_arquivo():
+    global response_cache_arquivo
+
+    if response_cache_arquivo != '' and int(variaveis['pagina']) > int(response_cache_arquivo[1]['total_paginas']):
+        variaveis['pagina'] = int(response_cache_arquivo[1]['total_paginas'])
+
     print('REQUEST: > ', datetime.datetime.now(), ' > ' , ' arquivos/' + str(variaveis['pagina']))
     response_arquivos = request('arquivos/' + str(variaveis['pagina']))
+    response_cache_arquivo = response_arquivos
+
     print('RESPONSE: > ', datetime.datetime.now(), ' > ', response_arquivos)
-    
     set_info_arquivo(response_arquivos)
 
-# def get_envolucro_processos():
-#     set_info_processo()
+response_cache_processo = ''
+def get_envolucro_processos():
+    global response_cache_processo
 
-# def get_envolucro_trafego_processo():
-#     get_trafego_processo()
-#     set_trafego_dados_processo()
+    if response_cache_processo != '' and int(variaveis['pagina']) > int(response_cache_processo['total_paginas']):
+        variaveis['pagina'] = int(response_cache_processo['total_paginas'])
+
+    print('REQUEST: > ', datetime.datetime.now(), ' > ' , ' processo/' + str(variaveis['pagina']))
+    response_processos = request('processo/' + str(variaveis['pagina']))
+    response_cache_processo = response_processos
+
+    print('RESPONSE: > ', datetime.datetime.now(), ' > ', response_processos)
+    set_info_processo(response_processos)
 
 # def get_envolucro_resumo():
 #     set_info_resumo()
@@ -123,8 +136,10 @@ def get_envolucro(posicao):
 
     elif posicao == 4:
         get_envolucro_arquivo()
-    # elif posicao == 5:    
-    #     get_envolucro_processos()
+
+    elif posicao == 5:    
+        get_envolucro_processos()
+
     # elif posicao == 6:
     #     get_envolucro_resumo()
 
@@ -285,7 +300,7 @@ def set_info_rede(ips, trafegos, hosts):
     titulo = font.render("** Informações de Rede **" , 1, variaveis['azul'])
     tela.blit(titulo, (15, 30))
 
-    titulo = font.render("Interface                    IP                    Mascara                    Pct. Enviado              Pct. Recebido" , 1, variaveis['preto'])
+    titulo = font.render("Interface                              IP                            Mascara                    Pct. Enviado           Pct. Recebido" , 1, variaveis['preto'])
     tela.blit(titulo, (15, 55))
 
     espacos = 100
@@ -299,19 +314,19 @@ def set_info_rede(ips, trafegos, hosts):
 
         if ip !='127.0.0.1':            
 
-            pct_recebido = size_format(trafego_da_interface['pacotes_recebidos']) # round(trafego_da_interface['pacotes_recebidos'] / (1024), 2)
-            pct_enviado = size_format(trafego_da_interface['pacotes_enviados']) #round(trafego_da_interface['pacotes_enviados'] / (1024), 2)
+            pct_recebido = size_format(trafego_da_interface['pacotes_recebidos']) 
+            pct_enviado = size_format(trafego_da_interface['pacotes_enviados'])
 
-            pct_enviado_formatado = '{:>25}'.format(str(pct_enviado))
-            pct_recebido_formatado = '{:>25}'.format(str(pct_recebido))
+            pct_enviado_formatado = '{:<25}'.format(str(pct_enviado))
+            pct_recebido_formatado = '{:<25}'.format(str(pct_recebido))
 
             nome_interface_formatada = get_nova_string(str(host[0]))
             
             ip_formatada = get_nova_string(str(host[1]))
-            ip_formatada_ = '{:>20}'.format(ip_formatada)
+            ip_formatada_ = '{:^20}'.format(ip_formatada)
 
             mascara = get_nova_string(str(host[2]))
-            mascara_formatada = '{:>20}'.format(mascara)
+            mascara_formatada = '{:^20}'.format(mascara)
 
             texto = font.render(nome_interface_formatada + ip_formatada_ +  mascara_formatada + pct_enviado_formatado + pct_recebido_formatado, 1, variaveis['preto'])
             
@@ -377,7 +392,7 @@ def set_info_arquivo(response):
     titulo = font.render("** Arquivos do diretório **" , 1, variaveis['azul'])
     tela.blit(titulo, (15, 30))
 
-    titulo = font.render("Nome                       Data Criacao                        Data Modificacao                                 Tamanho" , 1, variaveis['preto'])
+    titulo = font.render("Nome                                                     Data Criação                Data Modificação             Tamanho" , 1, variaveis['preto'])
     tela.blit(titulo, (15, 55))
 
     espacos = 100
@@ -398,12 +413,12 @@ def set_info_arquivo(response):
 
         data_criacao = datetime.datetime.fromtimestamp(arquivo['data_criacao']).strftime("%d-%m-%Y %H:%M:%S")
         texto_formatado = font.render(data_criacao , 1, variaveis['preto'])
-        tela.blit(texto_formatado, (140, espacos))
+        tela.blit(texto_formatado, (300, espacos))
 
         
         data_modificacao = datetime.datetime.fromtimestamp(arquivo['data_modificacao']).strftime("%d-%m-%Y %H:%M:%S")
         data_modificacao_formatado = font.render(data_modificacao , 1, variaveis['preto'])
-        tela.blit(data_modificacao_formatado, (400, espacos))
+        tela.blit(data_modificacao_formatado, (500, espacos))
         
         tamanho_arquivo_formatado = font.render(tamanho_arquivo, 1, variaveis['preto'])
         tela.blit(tamanho_arquivo_formatado, (700, espacos))
@@ -418,6 +433,57 @@ def set_info_arquivo(response):
     informacao = font.render(tempo_execucao[1], True, variaveis['branco'])
     tela.blit(informacao, (15, 500))
 
+    # instrucao navegacao
+    instrucao = font.render('Tecle ← ou → para navegar', True, variaveis['preto'])
+    tela.blit(instrucao, variaveis['posicionamento-instrucao'])
+
+def set_info_processo(response):
+    total_de_paginas = response['total_paginas']
+    pagina_atual = response['pagina_atual']
+
+
+    tela.fill(variaveis['grafite'])
+
+    titulo = font.render("** Lista dos processos em execução **" , 1, variaveis['azul'])
+    tela.blit(titulo, (15, 30))
+
+    titulo = font.render("PID       % Uso        Mem. Usada     Threads Usada              Tempo                        Nome" , 1, variaveis['preto'])
+    tela.blit(titulo, (15, 55))
+
+    espacos = 100
+
+    processos = response['elementos']
+
+
+    for processo in processos:
+
+        text_pid = '{:>0}'.format(str(processo['pid']))
+
+        if len(str(processo['pid'])) == 1:
+            text_percentual_uso = '{:>17}'.format(str(format(processo['percentual_uso'], '.2f')))
+        else:
+            text_percentual_uso = '{:>15}'.format(str(format(processo['percentual_uso'], '.2f')))
+
+        text_memoria_usada = '{:>20}'.format(str(format(processo['memoria_usada'], '.2f') ))
+        text_threads_processo = '{:>20}'.format(str(format(processo['threads_processo'], '.2f')))
+        text_tempo_usuario = '{:>20}'.format(processo['tempo_usuario'])
+        text_nome = '{:>30}'.format(processo['nome'])
+
+        texto_formatado = text_pid + text_percentual_uso + text_memoria_usada + text_threads_processo #+ text_tempo_usuario + text_nome
+
+        texto = font.render(text_tempo_usuario, 1, variaveis['preto'])
+        tela.blit(texto, (410, espacos))
+
+        texto = font.render(texto_formatado, 1, variaveis['preto'])
+        tela.blit(texto, (15, espacos))
+
+        texto = font.render(text_nome, 1, variaveis['preto'])
+        tela.blit(texto, (530, espacos))
+
+        espacos += 25
+    
+    get_paginar(total_de_paginas, pagina_atual)
+    
     # instrucao navegacao
     instrucao = font.render('Tecle ← ou → para navegar', True, variaveis['preto'])
     tela.blit(instrucao, variaveis['posicionamento-instrucao'])
@@ -440,7 +506,7 @@ def get_nova_string(palavra):
 
     if tamanho_palavra > tamanho_minimo:
         # recorta a string
-        palavra_aux = '{:.10}'.format(palavra)
+        palavra_aux = '{:.30}'.format(palavra)
     else:
         # adiciona espacos
         while tamanho_palavra != tamanho_minimo:
@@ -462,64 +528,30 @@ def size_format(b):
         return '%.1f' % float(b/1000000000000) + 'TB'
 
 def get_paginar(total_paginas, pagina_atual):
-    cor = (255, 255, 0) # cor amarela
+    
+    count = 1
 
     for n in range(1, total_paginas + 1):
-        area = (30 * n, 300, 20, 20)
+
         cor = variaveis['branco']
+
         if n == int(pagina_atual):
             cor = variaveis['azul']
 
-        pygame.draw.rect(tela, cor, area) 
+        if n <= 20:
+            area = (30 * n, 300, 25, 25)
+            pygame.draw.rect(tela, cor, area) 
 
-        instrucao = font.render(str(n), True, variaveis['preto'])
-        tela.blit(instrucao, ((30 * n) + 5, 300))
+            instrucao = font.render(str(n), True, variaveis['preto'])
+            tela.blit(instrucao, ((30 * n) + 5, 300))
+        else:
+            area = (30 * count, 330, 25, 25)
+            pygame.draw.rect(tela, cor, area) 
 
+            instrucao = font.render(str(n), True, variaveis['preto'])
+            tela.blit(instrucao, ((30 * count) + 5, 330))
+            count = count + 1
 
-
-# def set_info_processo():
-#     tela.fill(variaveis['grafite'])
-
-#     titulo = font.render("** Lista dos 10 últimos processos em execução **" , 1, variaveis['azul'])
-#     tela.blit(titulo, (15, 30))
-
-#     titulo = font.render("PID            % Uso        Mem. Usada     Threads Usada           Tempo                        Nome" , 1, variaveis['preto'])
-#     tela.blit(titulo, (15, 55))
-
-#     espacos = 100
-
-#     processos = variaveis['processos']
-
-#     for processo in processos:
-
-#         text_pid = '{:>0}'.format(str(processo.pid))
-
-#         if len(str(processo.pid)) == 1:
-#             text_percentual_uso = '{:>17}'.format(str(format(processo.percentual_uso, '.2f')))
-#         else:
-#             text_percentual_uso = '{:>15}'.format(str(format(processo.percentual_uso, '.2f')))
-
-#         text_memoria_usada = '{:>20}'.format(str(format(processo.memoria_usada, '.2f') ))
-#         text_threads_processo = '{:>20}'.format(str(format(processo.threads_processo, '.2f')))
-#         text_tempo_usuario = '{:>20}'.format(processo.tempo_usuario)
-#         text_nome = '{:>30}'.format(processo.nome)
-
-#         texto_formatado = text_pid + text_percentual_uso + text_memoria_usada + text_threads_processo #+ text_tempo_usuario + text_nome
-
-#         texto = font.render(text_tempo_usuario, 1, variaveis['preto'])
-#         tela.blit(texto, (410, espacos))
-
-#         texto = font.render(texto_formatado, 1, variaveis['preto'])
-#         tela.blit(texto, (15, espacos))
-
-#         texto = font.render(text_nome, 1, variaveis['preto'])
-#         tela.blit(texto, (530, espacos))
-
-#         espacos += 25
-    
-#     # instrucao navegacao
-#     instrucao = font.render('Tecle ← ou → para navegar', True, variaveis['preto'])
-#     tela.blit(instrucao, variaveis['posicionamento-instrucao'])
 
 # def set_info_resumo():
 #     tela.fill(variaveis['grafite'])
