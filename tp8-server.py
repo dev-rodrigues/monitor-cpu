@@ -509,7 +509,7 @@ while True:
 
     try:
         decode_aux = msg.decode('ascii')
-        decode_aux = decode_aux.split('-')
+        decode_aux = decode_aux.split('/')
 
         decode = decode_aux[0]
         pagina = decode_aux[1]

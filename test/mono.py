@@ -265,10 +265,6 @@ def detalhar_host(host_validos):
                 port_ = Porta(port, nm[host][proto][port]['state'])
                 host_.ports.append(port_)
 
-            #for i in range(0, 5):
-            #    port_ = Porta(i, 'open')
-            #    host_.ports.append(port_)
-
         except:
             pass
         
@@ -784,10 +780,6 @@ def set_info_arquivo():
     informacao = font.render(tempoUsado, True, variaveis['branco'])
     tela.blit(informacao, (15, 500))
 
-    
-
-
-    
     # instrucao navegacao
     instrucao = font.render('Tecle ← ou → para navegar', True, variaveis['preto'])
     tela.blit(instrucao, variaveis['posicionamento-instrucao'])

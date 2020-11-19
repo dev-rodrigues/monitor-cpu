@@ -12,7 +12,8 @@ variaveis = {
     'posicionamento-instrucao': (250, 560),
     'tamanho-minimo-palavra': 15,
     'porta': 9999,
-    'posicao_atual': 0
+    'posicao_atual': 0,
+    'pagina': 1
 }
 
 # inicio configuracoes pygame
@@ -89,8 +90,12 @@ def get_envolucro_rede():
     set_info_rede(response_ips, response_trafego, response_host)
     set_info_hosts_rede(response_host)
 
-# def get_envolucro_arquivo():
-#     set_info_arquivo()
+def get_envolucro_arquivo():
+    print('REQUEST: > ', datetime.datetime.now(), ' > ' , ' arquivos/' + str(variaveis['pagina']))
+    response_arquivos = request('arquivos/' + str(variaveis['pagina']))
+    print('RESPONSE: > ', datetime.datetime.now(), ' > ', response_arquivos)
+    
+    set_info_arquivo(response_arquivos)
 
 # def get_envolucro_processos():
 #     set_info_processo()
@@ -116,8 +121,8 @@ def get_envolucro(posicao):
     elif posicao == 3:
         get_envolucro_rede()
 
-    # elif posicao == 4:
-    #     get_envolucro_arquivo()
+    elif posicao == 4:
+        get_envolucro_arquivo()
     # elif posicao == 5:    
     #     get_envolucro_processos()
     # elif posicao == 6:
@@ -365,10 +370,63 @@ def set_info_hosts_rede(hosts):
     instrucao = font.render('Tecle ← ou → para navegar', True, variaveis['preto'])
     tela.blit(instrucao, variaveis['posicionamento-instrucao'])
 
+def set_info_arquivo(response):
+
+    tela.fill(variaveis['grafite'])
+
+    titulo = font.render("** Arquivos do diretório **" , 1, variaveis['azul'])
+    tela.blit(titulo, (15, 30))
+
+    titulo = font.render("Nome                       Data Criacao                        Data Modificacao                                 Tamanho" , 1, variaveis['preto'])
+    tela.blit(titulo, (15, 55))
+
+    espacos = 100
+    
+    tempo_execucao = response[0]
+
+    arquivos = response[1]
+    total_paginas = arquivos['total_paginas']
+    pagina_atual = arquivos['pagina_atual']
+
+    for arquivo in arquivos['elementos']:
+
+        tamanho_arquivo = size_format(arquivo['tamanho'])
+                
+        nome_arquivo = get_nova_string(arquivo['nome'])
+        texto_formatado = font.render(nome_arquivo , 1, variaveis['preto'])
+        tela.blit(texto_formatado, (15, espacos))
+
+        data_criacao = datetime.datetime.fromtimestamp(arquivo['data_criacao']).strftime("%d-%m-%Y %H:%M:%S")
+        texto_formatado = font.render(data_criacao , 1, variaveis['preto'])
+        tela.blit(texto_formatado, (140, espacos))
+
+        
+        data_modificacao = datetime.datetime.fromtimestamp(arquivo['data_modificacao']).strftime("%d-%m-%Y %H:%M:%S")
+        data_modificacao_formatado = font.render(data_modificacao , 1, variaveis['preto'])
+        tela.blit(data_modificacao_formatado, (400, espacos))
+        
+        tamanho_arquivo_formatado = font.render(tamanho_arquivo, 1, variaveis['preto'])
+        tela.blit(tamanho_arquivo_formatado, (700, espacos))
+        
+        espacos += 25
+    
+    get_paginar(total_paginas, pagina_atual)
+
+    informacao = font.render(tempo_execucao[0], True, variaveis['branco'])
+    tela.blit(informacao, (15, 480))
+
+    informacao = font.render(tempo_execucao[1], True, variaveis['branco'])
+    tela.blit(informacao, (15, 500))
+
+    # instrucao navegacao
+    instrucao = font.render('Tecle ← ou → para navegar', True, variaveis['preto'])
+    tela.blit(instrucao, variaveis['posicionamento-instrucao'])
 
 def get_trafego_da_interface(interface, trafegos):
     response = ''
-    for trafego in trafegos:
+    medicoes = trafegos[len(trafegos) - 1]
+
+    for trafego in medicoes:
         if trafego['interface'] == interface:
             response = trafego
             break
@@ -403,64 +461,21 @@ def size_format(b):
     elif 1000000000000 <= b:
         return '%.1f' % float(b/1000000000000) + 'TB'
 
-# def set_info_arquivo():
+def get_paginar(total_paginas, pagina_atual):
+    cor = (255, 255, 0) # cor amarela
 
-#     tela.fill(variaveis['grafite'])
+    for n in range(1, total_paginas + 1):
+        area = (30 * n, 300, 20, 20)
+        cor = variaveis['branco']
+        if n == int(pagina_atual):
+            cor = variaveis['azul']
 
-#     titulo = font.render("** Arquivos do diretório **" , 1, variaveis['azul'])
-#     tela.blit(titulo, (15, 30))
+        pygame.draw.rect(tela, cor, area) 
 
-#     arquivos = variaveis['arquivos']
+        instrucao = font.render(str(n), True, variaveis['preto'])
+        tela.blit(instrucao, ((30 * n) + 5, 300))
 
-    
-#     titulo = font.render("Nome                       Data Criacao                        Data Modificacao                                 Tamanho" , 1, variaveis['preto'])
-#     tela.blit(titulo, (15, 55))
 
-#     espacos = 100
-#     total_a_exibir = 0
-
-#     for arquivo in arquivos:        
-
-#         if total_a_exibir <= 10:
-
-#             tamanho_aux = len(arquivo)
-
-#             tamanho_arquivo = str(math.ceil(arquivos[arquivo][0] / 1024)) + 'KB'
-                    
-#             nome_arquivo = get_nova_string(arquivo)
-#             texto_formatado = font.render(nome_arquivo , 1, variaveis['preto'])
-#             tela.blit(texto_formatado, (15, espacos))
-
-#             data_criacao = datetime.datetime.fromtimestamp(arquivos[arquivo][1]).strftime("%d-%m-%Y %H:%M:%S") #time.ctime(arquivos[arquivo][1])
-#             texto_formatado = font.render(data_criacao , 1, variaveis['preto'])
-#             tela.blit(texto_formatado, (140, espacos))
-
-            
-#             data_modificacao = datetime.datetime.fromtimestamp(arquivos[arquivo][2]).strftime("%d-%m-%Y %H:%M:%S") #time.ctime(arquivos[arquivo][2])
-#             data_modificacao_formatado = font.render(data_modificacao , 1, variaveis['preto'])
-#             tela.blit(texto_formatado, (400, espacos))
-            
-
-#             tamanho_arquivo_formatado = font.render(tamanho_arquivo, 1, variaveis['preto'])
-#             tela.blit(tamanho_arquivo_formatado, (700, espacos))
-            
-#             espacos += 25
-#             total_a_exibir += 1
-
-#     time_leitura = variaveis['execucao_leitura_arquivos']
-
-#     tempoFinal = time_leitura[0]
-#     tempoUsado = time_leitura[1]
-
-#     informacao = font.render(tempoFinal, True, variaveis['branco'])
-#     tela.blit(informacao, (15, 480))
-
-#     informacao = font.render(tempoUsado, True, variaveis['branco'])
-#     tela.blit(informacao, (15, 500))
-
-#     # instrucao navegacao
-#     instrucao = font.render('Tecle ← ou → para navegar', True, variaveis['preto'])
-#     tela.blit(instrucao, variaveis['posicionamento-instrucao'])
 
 # def set_info_processo():
 #     tela.fill(variaveis['grafite'])
@@ -611,7 +626,7 @@ def size_format(b):
 #fim exibir informações em tela
 
 while not terminou:
-        
+    # monitorando eventos   
     for event in pygame.event.get():
 
         # para a aplicacao
@@ -621,14 +636,24 @@ while not terminou:
         # monitora interação do usuario
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RIGHT:
+                variaveis['pagina'] = 1
                 variaveis['posicao_atual'] = variaveis['posicao_atual'] + 1
                 
             elif event.key == pygame.K_LEFT:
+                variaveis['pagina'] = 1
                 variaveis['posicao_atual'] = variaveis['posicao_atual'] - 1
             
             elif event.key == pygame.K_SPACE:
                 variaveis['posicao_atual'] = 6
 
+            elif event.key == pygame.K_KP_PLUS:
+                variaveis['pagina'] = variaveis['pagina'] + 1
+            
+            elif event.key == pygame.K_KP_MINUS:
+                if variaveis['pagina'] > 1:
+                    variaveis['pagina'] = variaveis['pagina'] - 1
+                else:
+                    variaveis['pagina'] = 1
 
 #carrossel           
     if count == 60:
