@@ -303,7 +303,7 @@ def set_info_rede(ips, trafegos, hosts):
     titulo = font.render("** Informações de Rede **" , 1, variaveis['azul'])
     tela.blit(titulo, (15, 30))
 
-    titulo = font.render("Interface                              IP                            Mascara                    Pct. Enviado           Pct. Recebido" , 1, variaveis['preto'])
+    titulo = font.render("Interface                              IP                        Mascara             Pct. Enviado       Pct. Recebido" , 1, variaveis['preto'])
     tela.blit(titulo, (15, 55))
 
     espacos = 100
@@ -320,16 +320,16 @@ def set_info_rede(ips, trafegos, hosts):
             pct_recebido = size_format(trafego_da_interface['pacotes_recebidos']) 
             pct_enviado = size_format(trafego_da_interface['pacotes_enviados'])
 
-            pct_enviado_formatado = '{:<25}'.format(str(pct_enviado))
-            pct_recebido_formatado = '{:<25}'.format(str(pct_recebido))
+            pct_enviado_formatado = '{:^30}'.format(str(pct_enviado))
+            pct_recebido_formatado = '{:^15}'.format(str(pct_recebido))
 
             nome_interface_formatada = get_nova_string(str(host[0]))
             
-            ip_formatada = get_nova_string(str(host[1]))
-            ip_formatada_ = '{:^20}'.format(ip_formatada)
+            ip_formatada = str(host[1])
+            ip_formatada_ = '{:<20}'.format(ip_formatada)
 
-            mascara = get_nova_string(str(host[2]))
-            mascara_formatada = '{:^20}'.format(mascara)
+            mascara = str(host[2])
+            mascara_formatada = '{:^15}'.format(mascara)
 
             texto = font.render(nome_interface_formatada + ip_formatada_ +  mascara_formatada + pct_enviado_formatado + pct_recebido_formatado, 1, variaveis['preto'])
             
@@ -395,7 +395,7 @@ def set_info_arquivo(response):
     titulo = font.render("** Arquivos do diretório **" , 1, variaveis['azul'])
     tela.blit(titulo, (15, 30))
 
-    titulo = font.render("Nome                                                     Data Criação                Data Modificação             Tamanho" , 1, variaveis['preto'])
+    titulo = font.render("Nome                                                     Data Criação            Data Modificação       Tamanho" , 1, variaveis['preto'])
     tela.blit(titulo, (15, 55))
 
     espacos = 100
@@ -501,31 +501,34 @@ def set_info_resumo(response):
     tela.blit(titulo, (15, 60))
 
     processador = response['cpu']
-    # disco = variaveis['disco'][0]
-    # memoria = variaveis['memoria'][0]
+    disco = response['disco']
+    
+    memoria_total = response['memoria_capacidade']
+    memoria_disponivel = response['memoria_disponivel']
+    memoria_usada = memoria_total - memoria_disponivel
 
     # obtem o ip do usuario
-    # host = variaveis['hosts'][0][1]
-    # if host == '127.0.0.1':
-    #     host = variaveis['hosts'][1][1]
+    host = response['ips'][0][1]
+    if host == '127.0.0.1':
+        host = response['ips'][1][1]
 
     # titulo
     texto = font.render('Processador:', True, variaveis['preto'])
     tela.blit(texto, (15, 80))
     # valor
-    # tela.blit(font.render(processador.nome, True, variaveis['preto']), (155, 80))
+    tela.blit(font.render(processador['nome'], True, variaveis['preto']), (155, 80))
 
     # titulo
     texto = font.render('Frequência:', True, variaveis['preto'])
     tela.blit(texto, (15, 100))
     # valor
-    # tela.blit(font.render(processador.frequencia, True, variaveis['preto']), (155, 100))
+    tela.blit(font.render(processador['frequencia'], True, variaveis['preto']), (155, 100))
 
     # titulo
     texto = font.render('Bits:', True, variaveis['preto'])
     tela.blit(texto, (15, 120))
     # valor
-    # tela.blit(font.render(processador.bits, True, variaveis['preto']), (155, 120))
+    tela.blit(font.render(processador['bits'], True, variaveis['preto']), (155, 120))
     
     #
     tela.blit(font.render('----------------------------------------------------------', True, variaveis['branco']), (180, 150))
@@ -537,19 +540,19 @@ def set_info_resumo(response):
     texto = font.render('Total:', True, variaveis['preto'])
     tela.blit(texto, (15, 190))
     # valor
-    # tela.blit(font.render(str(disco.total) + 'GB', True, variaveis['preto']), (155, 190))
+    tela.blit(font.render(size_format(disco['disco'][0]), True, variaveis['preto']), (155, 190))
 
     # titulo
     texto = font.render('Livre:', True, variaveis['preto'])
     tela.blit(texto, (15, 210))
     # valor
-    #tela.blit(font.render(str(disco.livre) + 'GB', True, variaveis['preto']), (155, 210))
+    tela.blit(font.render(size_format(disco['disco'][2]), True, variaveis['preto']), (155, 210))
 
     # titulo
     texto = font.render('Usado:', True, variaveis['preto'])
     tela.blit(texto, (15, 230))
     # valor
-    #tela.blit(font.render(str(disco.usado) + 'GB', True, variaveis['preto']), (155, 230))
+    tela.blit(font.render(size_format(disco['disco'][1]), True, variaveis['preto']), (155, 230))
 
     #
     tela.blit(font.render('----------------------------------------------------------', True, variaveis['branco']), (180, 260))
@@ -561,31 +564,31 @@ def set_info_resumo(response):
     texto = font.render('Total:', True, variaveis['preto'])
     tela.blit(texto, (15, 300))
     # valor
-    #tela.blit(font.render(str(memoria.capacidade) + 'GB', True, variaveis['preto']), (155, 300))
+    tela.blit(font.render(str(memoria_total) + 'GB', True, variaveis['preto']), (155, 300))
 
     # titulo
     texto = font.render('Livre:', True, variaveis['preto'])
     tela.blit(texto, (15, 320))
     # valor
-    #tela.blit(font.render(str(memoria.disponivel) + 'GB', True, variaveis['preto']), (155, 320))
+    tela.blit(font.render(str(memoria_disponivel) + 'GB', True, variaveis['preto']), (155, 320))
 
     # titulo
     texto = font.render('Usado:', True, variaveis['preto'])
     tela.blit(texto, (15, 340))
     # valor
-    #tela.blit(font.render(str((format(float(memoria.capacidade) - float(memoria.disponivel), '.2f'))) + 'GB', True, variaveis['preto']), (155, 340))
+    tela.blit(font.render(str((format(memoria_usada, '.2f'))) + 'GB', True, variaveis['preto']), (155, 340))
 
     #
     tela.blit(font.render('----------------------------------------------------------', True, variaveis['branco']), (180, 370))
 
-    # titulo = font.render("Rede" , 1, variaveis['azul'])
-    # tela.blit(titulo, (15, 390))
+    titulo = font.render("Rede" , 1, variaveis['azul'])
+    tela.blit(titulo, (15, 390))
 
-    # # titulo
-    # texto = font.render('IP:', True, variaveis['preto'])
-    # tela.blit(texto, (15, 410))
-    # # valor
-    # tela.blit(font.render(host, True, variaveis['preto']), (155, 410))
+    # titulo
+    texto = font.render('IP:', True, variaveis['preto'])
+    tela.blit(texto, (15, 410))
+    # valor
+    tela.blit(font.render(host, True, variaveis['preto']), (155, 410))
 
 
     # instrucao navegacao
@@ -633,7 +636,10 @@ def size_format(b):
 
 def get_paginar(total_paginas, pagina_atual):
     
-    count = 1
+    count_1 = 1
+    count_2 = 1
+    count_3 = 1
+    count_4 = 1
 
     for n in range(1, total_paginas + 1):
 
@@ -648,13 +654,44 @@ def get_paginar(total_paginas, pagina_atual):
 
             instrucao = font.render(str(n), True, variaveis['preto'])
             tela.blit(instrucao, ((30 * n) + 5, 300))
-        else:
-            area = (30 * count, 330, 25, 25)
+
+        elif n > 20 and n <= 40:
+            area = (30 * count_1, 330, 25, 25)
+            count_2 = 1
             pygame.draw.rect(tela, cor, area) 
 
             instrucao = font.render(str(n), True, variaveis['preto'])
-            tela.blit(instrucao, ((30 * count) + 5, 330))
-            count = count + 1
+            tela.blit(instrucao, ((30 * count_1) + 5, 330))
+            count_2 = 1
+            count_1 = count_1 + 1
+            count_2 = 1
+
+        elif n > 40 and n <=60:
+            area = (30 * count_2, 360, 25, 25)
+            pygame.draw.rect(tela, cor, area) 
+
+            instrucao = font.render(str(n), True, variaveis['preto'])
+            tela.blit(instrucao, ((30 * count_2) + 5, 360))
+            count_2 = count_2 + 1
+
+        elif n > 60 and n <=80:
+            area = (30 * count_3, 390, 25, 25)
+            pygame.draw.rect(tela, cor, area) 
+
+            instrucao = font.render(str(n), True, variaveis['preto'])
+            tela.blit(instrucao, ((30 * count_3) + 5, 390))
+            count_3 = count_3 + 1
+        
+        elif n > 80 and n <= 100:
+            area = (30 * count_4, 420, 25, 25)
+            pygame.draw.rect(tela, cor, area) 
+
+            instrucao = font.render(str(n), True, variaveis['preto'])
+            tela.blit(instrucao, ((30 * count_4) + 5, 420))
+            count_4 = count_4 + 1
+
+
+
 
 #
 #fim exibir informações em tela
