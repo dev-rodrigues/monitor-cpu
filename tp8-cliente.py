@@ -117,8 +117,11 @@ def get_envolucro_processos():
     print('RESPONSE: > ', datetime.datetime.now(), ' > ', response_processos)
     set_info_processo(response_processos)
 
-# def get_envolucro_resumo():
-#     set_info_resumo()
+def get_envolucro_resumo():
+    print('REQUEST: > ', datetime.datetime.now(), ' > ' , ' resumo')
+    response_resumo = request('resumo')
+    print('RESPONSE: > ', datetime.datetime.now(), ' > ', response_resumo)
+    set_info_resumo(response_resumo)
 
 def get_envolucro(posicao):
 
@@ -140,8 +143,8 @@ def get_envolucro(posicao):
     elif posicao == 5:    
         get_envolucro_processos()
 
-    # elif posicao == 6:
-    #     get_envolucro_resumo()
+    elif posicao == 6:
+        get_envolucro_resumo()
 
 def set_info_cpu(cpu):
     superficie_info_cpu.fill(variaveis['grafite'])
@@ -488,6 +491,107 @@ def set_info_processo(response):
     instrucao = font.render('Tecle ← ou → para navegar', True, variaveis['preto'])
     tela.blit(instrucao, variaveis['posicionamento-instrucao'])
 
+def set_info_resumo(response):
+    tela.fill(variaveis['grafite'])
+
+    titulo = font.render("** Resumo dos dados coletados **" , 1, variaveis['azul'])
+    tela.blit(titulo, (15, 30))
+
+    titulo = font.render("CPU" , 1, variaveis['azul'])
+    tela.blit(titulo, (15, 60))
+
+    processador = response['cpu']
+    # disco = variaveis['disco'][0]
+    # memoria = variaveis['memoria'][0]
+
+    # obtem o ip do usuario
+    # host = variaveis['hosts'][0][1]
+    # if host == '127.0.0.1':
+    #     host = variaveis['hosts'][1][1]
+
+    # titulo
+    texto = font.render('Processador:', True, variaveis['preto'])
+    tela.blit(texto, (15, 80))
+    # valor
+    # tela.blit(font.render(processador.nome, True, variaveis['preto']), (155, 80))
+
+    # titulo
+    texto = font.render('Frequência:', True, variaveis['preto'])
+    tela.blit(texto, (15, 100))
+    # valor
+    # tela.blit(font.render(processador.frequencia, True, variaveis['preto']), (155, 100))
+
+    # titulo
+    texto = font.render('Bits:', True, variaveis['preto'])
+    tela.blit(texto, (15, 120))
+    # valor
+    # tela.blit(font.render(processador.bits, True, variaveis['preto']), (155, 120))
+    
+    #
+    tela.blit(font.render('----------------------------------------------------------', True, variaveis['branco']), (180, 150))
+
+    titulo = font.render("Disco" , 1, variaveis['azul'])
+    tela.blit(titulo, (15, 170))
+
+    # titulo
+    texto = font.render('Total:', True, variaveis['preto'])
+    tela.blit(texto, (15, 190))
+    # valor
+    # tela.blit(font.render(str(disco.total) + 'GB', True, variaveis['preto']), (155, 190))
+
+    # titulo
+    texto = font.render('Livre:', True, variaveis['preto'])
+    tela.blit(texto, (15, 210))
+    # valor
+    #tela.blit(font.render(str(disco.livre) + 'GB', True, variaveis['preto']), (155, 210))
+
+    # titulo
+    texto = font.render('Usado:', True, variaveis['preto'])
+    tela.blit(texto, (15, 230))
+    # valor
+    #tela.blit(font.render(str(disco.usado) + 'GB', True, variaveis['preto']), (155, 230))
+
+    #
+    tela.blit(font.render('----------------------------------------------------------', True, variaveis['branco']), (180, 260))
+
+    titulo = font.render("Memória" , 1, variaveis['azul'])
+    tela.blit(titulo, (15, 280))
+
+    # titulo
+    texto = font.render('Total:', True, variaveis['preto'])
+    tela.blit(texto, (15, 300))
+    # valor
+    #tela.blit(font.render(str(memoria.capacidade) + 'GB', True, variaveis['preto']), (155, 300))
+
+    # titulo
+    texto = font.render('Livre:', True, variaveis['preto'])
+    tela.blit(texto, (15, 320))
+    # valor
+    #tela.blit(font.render(str(memoria.disponivel) + 'GB', True, variaveis['preto']), (155, 320))
+
+    # titulo
+    texto = font.render('Usado:', True, variaveis['preto'])
+    tela.blit(texto, (15, 340))
+    # valor
+    #tela.blit(font.render(str((format(float(memoria.capacidade) - float(memoria.disponivel), '.2f'))) + 'GB', True, variaveis['preto']), (155, 340))
+
+    #
+    tela.blit(font.render('----------------------------------------------------------', True, variaveis['branco']), (180, 370))
+
+    # titulo = font.render("Rede" , 1, variaveis['azul'])
+    # tela.blit(titulo, (15, 390))
+
+    # # titulo
+    # texto = font.render('IP:', True, variaveis['preto'])
+    # tela.blit(texto, (15, 410))
+    # # valor
+    # tela.blit(font.render(host, True, variaveis['preto']), (155, 410))
+
+
+    # instrucao navegacao
+    instrucao = font.render('Tecle ← ou → para navegar', True, variaveis['preto'])
+    tela.blit(instrucao, variaveis['posicionamento-instrucao'])
+
 def get_trafego_da_interface(interface, trafegos):
     response = ''
     medicoes = trafegos[len(trafegos) - 1]
@@ -551,108 +655,6 @@ def get_paginar(total_paginas, pagina_atual):
             instrucao = font.render(str(n), True, variaveis['preto'])
             tela.blit(instrucao, ((30 * count) + 5, 330))
             count = count + 1
-
-
-# def set_info_resumo():
-#     tela.fill(variaveis['grafite'])
-
-#     titulo = font.render("** Resumo dos dados coletados **" , 1, variaveis['azul'])
-#     tela.blit(titulo, (15, 30))
-
-#     titulo = font.render("CPU" , 1, variaveis['azul'])
-#     tela.blit(titulo, (15, 60))
-
-#     processador = variaveis['cpu']
-#     disco = variaveis['disco'][0]
-#     memoria = variaveis['memoria'][0]
-
-#     # obtem o ip do usuario
-#     host = variaveis['hosts'][0][1]
-#     if host == '127.0.0.1':
-#         host = variaveis['hosts'][1][1]
-
-#     # titulo
-#     texto = font.render('Processador:', True, variaveis['preto'])
-#     tela.blit(texto, (15, 80))
-#     # valor
-#     tela.blit(font.render(processador.nome, True, variaveis['preto']), (155, 80))
-
-#     # titulo
-#     texto = font.render('Frequência:', True, variaveis['preto'])
-#     tela.blit(texto, (15, 100))
-#     # valor
-#     tela.blit(font.render(processador.frequencia, True, variaveis['preto']), (155, 100))
-
-#     # titulo
-#     texto = font.render('Bits:', True, variaveis['preto'])
-#     tela.blit(texto, (15, 120))
-#     # valor
-#     tela.blit(font.render(processador.bits, True, variaveis['preto']), (155, 120))
-    
-#     #
-#     tela.blit(font.render('----------------------------------------------------------', True, variaveis['branco']), (180, 150))
-
-#     titulo = font.render("Disco" , 1, variaveis['azul'])
-#     tela.blit(titulo, (15, 170))
-
-#     # titulo
-#     texto = font.render('Total:', True, variaveis['preto'])
-#     tela.blit(texto, (15, 190))
-#     # valor
-#     tela.blit(font.render(str(disco.total) + 'GB', True, variaveis['preto']), (155, 190))
-
-#     # titulo
-#     texto = font.render('Livre:', True, variaveis['preto'])
-#     tela.blit(texto, (15, 210))
-#     # valor
-#     tela.blit(font.render(str(disco.livre) + 'GB', True, variaveis['preto']), (155, 210))
-
-#     # titulo
-#     texto = font.render('Usado:', True, variaveis['preto'])
-#     tela.blit(texto, (15, 230))
-#     # valor
-#     tela.blit(font.render(str(disco.usado) + 'GB', True, variaveis['preto']), (155, 230))
-
-#     #
-#     tela.blit(font.render('----------------------------------------------------------', True, variaveis['branco']), (180, 260))
-
-#     titulo = font.render("Memória" , 1, variaveis['azul'])
-#     tela.blit(titulo, (15, 280))
-
-#     # titulo
-#     texto = font.render('Total:', True, variaveis['preto'])
-#     tela.blit(texto, (15, 300))
-#     # valor
-#     tela.blit(font.render(str(memoria.capacidade) + 'GB', True, variaveis['preto']), (155, 300))
-
-#     # titulo
-#     texto = font.render('Livre:', True, variaveis['preto'])
-#     tela.blit(texto, (15, 320))
-#     # valor
-#     tela.blit(font.render(str(memoria.disponivel) + 'GB', True, variaveis['preto']), (155, 320))
-
-#     # titulo
-#     texto = font.render('Usado:', True, variaveis['preto'])
-#     tela.blit(texto, (15, 340))
-#     # valor
-#     tela.blit(font.render(str((format(float(memoria.capacidade) - float(memoria.disponivel), '.2f'))) + 'GB', True, variaveis['preto']), (155, 340))
-
-#     #
-#     tela.blit(font.render('----------------------------------------------------------', True, variaveis['branco']), (180, 370))
-
-#     titulo = font.render("Rede" , 1, variaveis['azul'])
-#     tela.blit(titulo, (15, 390))
-
-#     # titulo
-#     texto = font.render('IP:', True, variaveis['preto'])
-#     tela.blit(texto, (15, 410))
-#     # valor
-#     tela.blit(font.render(host, True, variaveis['preto']), (155, 410))
-
-
-#     # instrucao navegacao
-#     instrucao = font.render('Tecle ← ou → para navegar', True, variaveis['preto'])
-#     tela.blit(instrucao, variaveis['posicionamento-instrucao'])
 
 #
 #fim exibir informações em tela

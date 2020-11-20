@@ -98,6 +98,26 @@ class Trafego():
 
     def to_map(self):
         return { 'interface' : self.interface, 'enviados': self.enviados, 'recebidos' : self.recebidos, 'pacotes_enviados' : self.pacotes_enviados, 'pacotes_recebidos': self.pacotes_recebidos }
+
+class Resumo():
+    def __init__(self, total_processos, memoria_capacidade, memoria_disponivel, cpu, disco):
+        self.total_processos = total_processos
+        self.memoria_capacidade = memoria_capacidade
+        self.memoria_disponivel = memoria_disponivel
+        self.ips = []
+        self.cpu = cpu
+        self.disco = disco
+
+    def to_map(self):
+        return { 
+            'total_processos': self.total_processos,
+            'ips': self.ips,
+            'memoria_capacidade' : self.memoria_capacidade, 
+            'memoria_disponivel': self.memoria_disponivel, 
+            'cpu': self.cpu, 
+            'disco': self.disco
+        }
+
 # fim classes
 
 # inicio threads
@@ -555,7 +575,25 @@ while True:
     elif decode == 'processo':        
         processos = variaveis['processo']
         response = get_processos_pagina(pagina, processos)
-        
+    
+    elif decode == 'resumo':
+        total_processo = len(variaveis['processo'])
+
+        memoria = variaveis['memoria'][len(variaveis['memoria']) - 1]
+
+        cpu_aux = variaveis['cpu'][len(variaveis['cpu']) - 1]
+        cpu_aux = cpu_aux.to_map()
+
+        disco_aux = variaveis['disco'][len(variaveis['disco']) - 1]
+        disco_aux = disco_aux.to_map()
+
+        ips = variaveis['ips']
+
+        resumo = Resumo(total_processo, memoria['capacidade'], memoria['disponivel'], cpu_aux, disco_aux)
+        resumo.ips = ips
+
+        response = resumo.to_map()
+    
     bytes_resp = pickle.dumps(response)
     
     socket_cliente.send(bytes_resp)
