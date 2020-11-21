@@ -12,7 +12,7 @@ variaveis = {
     'posicionamento-instrucao': (290, 560),
     'tamanho-minimo-palavra': 30,
     'porta': 9999,
-    'posicao_atual': 0,
+    'posicao_atual': 5,
     'pagina': 1
 }
 
@@ -23,8 +23,6 @@ altura_tela = 600
 
 terminou = False
 count = 60
-
-
 
 tela = pygame.display.set_mode((largura_tela, altura_tela))
 pygame.display.set_caption("Projeto de bloco - Carlos Henrique")
@@ -44,7 +42,7 @@ socket_.connect((socket.gethostname(), 9999))
 
 def request(message):
     socket_.send(message.encode('ascii'))
-    received = socket_.recv(2048)
+    received = socket_.recv(4096)
     response = pickle.loads(received)
     return response
 
@@ -395,7 +393,7 @@ def set_info_arquivo(response):
     titulo = font.render("** Arquivos do diretório **" , 1, variaveis['azul'])
     tela.blit(titulo, (15, 30))
 
-    titulo = font.render("Nome                                                     Data Criação            Data Modificação       Tamanho" , 1, variaveis['preto'])
+    titulo = font.render("Nome                                               Data Criação                      Data Modificação             Tamanho" , 1, variaveis['preto'])
     tela.blit(titulo, (15, 55))
 
     espacos = 100
@@ -450,7 +448,7 @@ def set_info_processo(response):
     titulo = font.render("** Lista dos processos em execução **" , 1, variaveis['azul'])
     tela.blit(titulo, (15, 30))
 
-    titulo = font.render("PID       % Uso        Mem. Usada     Threads Usada              Tempo                        Nome" , 1, variaveis['preto'])
+    titulo = font.render("    PID        % Uso        Mem. Usada     Threads Usada            Tempo                      Nome" , 1, variaveis['preto'])
     tela.blit(titulo, (15, 55))
 
     espacos = 100
@@ -460,28 +458,29 @@ def set_info_processo(response):
 
     for processo in processos:
 
-        text_pid = '{:>0}'.format(str(processo['pid']))
+        text_pid = '{:<15}'.format(str(processo['pid']))
+        texto = font.render(text_pid, 1, variaveis['preto'])
+        tela.blit(texto, (40, espacos))
 
-        if len(str(processo['pid'])) == 1:
-            text_percentual_uso = '{:>17}'.format(str(format(processo['percentual_uso'], '.2f')))
-        else:
-            text_percentual_uso = '{:>15}'.format(str(format(processo['percentual_uso'], '.2f')))
+        text_percentual_uso = '{:<20}'.format(str(format(processo['percentual_uso'], '.2f')))
+        texto = font.render(text_percentual_uso, 1, variaveis['preto'])
+        tela.blit(texto, (110, espacos))
 
-        text_memoria_usada = '{:>20}'.format(str(format(processo['memoria_usada'], '.2f') ))
-        text_threads_processo = '{:>20}'.format(str(format(processo['threads_processo'], '.2f')))
-        text_tempo_usuario = '{:>20}'.format(processo['tempo_usuario'])
-        text_nome = '{:>30}'.format(processo['nome'])
+        text_memoria_usada = '{:<20}'.format(size_format(processo['memoria_usada']))
+        texto = font.render(text_memoria_usada, 1, variaveis['preto'])
+        tela.blit(texto, (220, espacos))
 
-        texto_formatado = text_pid + text_percentual_uso + text_memoria_usada + text_threads_processo #+ text_tempo_usuario + text_nome
+        text_threads_processo = '{:<20}'.format(str(format(processo['threads_processo'], '.2f')))
+        texto = font.render(text_threads_processo, 1, variaveis['preto'])
+        tela.blit(texto, (350, espacos))
 
-        texto = font.render(text_tempo_usuario, 1, variaveis['preto'])
-        tela.blit(texto, (410, espacos))
+        texto_tempo_exec = '{:<20}'.format(processo['tempo_usuario'])
+        texto = font.render(texto_tempo_exec, 1, variaveis['preto'])
+        tela.blit(texto, (490, espacos))
 
-        texto = font.render(texto_formatado, 1, variaveis['preto'])
-        tela.blit(texto, (15, espacos))
-
+        text_nome = '{:<30}'.format(processo['nome'])
         texto = font.render(text_nome, 1, variaveis['preto'])
-        tela.blit(texto, (530, espacos))
+        tela.blit(texto, (620, espacos))
 
         espacos += 25
     

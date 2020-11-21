@@ -206,7 +206,7 @@ class ThreadTrafegoRede(threading.Thread):
             print ("Starting thread" + self.name)
             get_trafego_host()
             print ("Sleeping..." + self.name)
-            time.sleep(10)
+            time.sleep(2)
 
 class ThreadMemoria(threading.Thread):
     def __init__(self, threadID, name, counter):
@@ -357,10 +357,6 @@ def detalhar_host(host_validos):
                 port_ = Porta(port, nm[host][proto][port]['state'])
                 host_.ports.append(port_)
 
-            #for i in range(0, 5):
-            #    port_ = Porta(i, 'open')
-            #    host_.ports.append(port_)
-
         except:
             pass
         
@@ -440,7 +436,7 @@ def get_processo():
 
             processos_coletados.append(processo_aux.to_map())
         except:
-            print('Erro ao obter informações sobre o processo de pid: ', pid)
+            print('>>> Erro ao obter informações sobre o processo de pid: ', pid)
 
     return processos_coletados
 
@@ -521,8 +517,14 @@ print("Conectado a:", str(addr))
 
 while True:
 
-    msg = socket_cliente.recv(11)
     response = 'NoNe'
+    try:
+        msg = socket_cliente.recv(11)
+    except:
+        print('>>>> Coexão perdida')
+        print("Servidor de nome:", host, " - Aguardando conexão na porta:", porta)
+        (socket_cliente,addr) = socket_servidor.accept()
+
 
     decode = ''
     pagina = 1
