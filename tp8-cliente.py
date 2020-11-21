@@ -1,5 +1,7 @@
-import pygame, math, datetime
-import socket, time, pickle
+import pygame, datetime
+import socket, pickle
+import os, threading
+import time
 
 ## controle aplicacao
 variaveis = {
@@ -9,11 +11,15 @@ variaveis = {
     'branco': (255, 255, 255),
     'cinza': (128, 128, 128),
     'grafite': (128, 128, 128),
+    'posicionamento-paginacao': (290, 530),
     'posicionamento-instrucao': (290, 560),
     'tamanho-minimo-palavra': 30,
     'porta': 9999,
-    'posicao_atual': 5,
-    'pagina': 1
+    'posicao_atual': 0,
+    'pagina': 1,
+    'tamanho_tela': (800, 600),
+    'diretorio_atual': '',
+    'cache_arquivo': []
 }
 
 # inicio configuracoes pygame
@@ -23,6 +29,8 @@ altura_tela = 600
 
 terminou = False
 count = 60
+
+variaveis['diretorio_atual'] = os.getcwd()
 
 tela = pygame.display.set_mode((largura_tela, altura_tela))
 pygame.display.set_caption("Projeto de bloco - Carlos Henrique")
@@ -36,53 +44,98 @@ superficie_info_cpu = pygame.surface.Surface((largura_tela, int(altura_tela/3)))
 #
 # fim configuracoes pygame
 
+# inicio thread
+#
+class ThreadLog(threading.Thread):
+    def __init__(self, threadID, name, counter):
+        threading.Thread.__init__(self)
+        self.threadID = threadID
+        self.name = name
+        self.counter = counter        
+
+    def run(self):
+        print('ThreadLog >> iniciando escrita do log') 
+        while True:
+            if len(variaveis['cache_arquivo'])> 1:
+                logs = variaveis['cache_arquivo']
+                log_aux = logs[len(logs) - 1]
+                set_log(log_aux)
+                del(logs[len(logs) - 1])
+
+t = ThreadLog(1, 'ThreadLog', 2)
+t.start()
+
+#
+# fim thread
+
 # inicio socket
+#
 socket_ = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 socket_.connect((socket.gethostname(), 9999))
 
 def request(message):
     socket_.send(message.encode('ascii'))
-    received = socket_.recv(4096)
+    received = socket_.recv(90000)
     response = pickle.loads(received)
     return response
-
+#
 # fim socket
 
 # inicio exibir informações em tela
 #
 def get_envolucro_cpu():
-    print('REQUEST: > ', datetime.datetime.now(), ' > ',' cpu')
+    log_ = 'REQUEST: > ' + str(datetime.datetime.now()) + ' > cpu'
+    variaveis['cache_arquivo'].append(log_)
     response_cpu = request('cpu')
-    print('RESPONSE: > ', datetime.datetime.now(), ' > ',response_cpu)
+    log_ = 'RESPONSE: > ' + str(datetime.datetime.now()) + ' > ' + str(response_cpu)
+    variaveis['cache_arquivo'].append(log_)
+
     set_info_cpu(response_cpu)
     set_grafico_cpu(superficie_info_cpu, response_cpu)
 
 def get_envolucro_memoria():
-    print('REQUEST: > ', datetime.datetime.now(), ' > ' , ' memoria')
+    log_ = 'REQUEST: > ' + str(datetime.datetime.now()) + ' > memoria'
+    variaveis['cache_arquivo'].append(log_)
+
     response_memoria = request('memoria')
-    print('RESPONSE: > ', datetime.datetime.now(), ' > ', response_memoria)
+    log_ = 'RESPONSE: > ' + str(datetime.datetime.now()) + ' > ' + str(response_memoria)
+    variaveis['cache_arquivo'].append(log_)
+
     set_info_memoria(response_memoria)
     set_grafico_memoria(response_memoria)
 
 def get_envolucro_disco():
-    print('REQUEST: > ', datetime.datetime.now(), ' > ' , ' disco')
+    log_ = 'REQUEST: > ' + str(datetime.datetime.now()) + ' > disco'
+    variaveis['cache_arquivo'].append(log_)
+
     response_disco = request('disco')
-    print('RESPONSE: > ', datetime.datetime.now(), ' > ', response_disco)
+    log_ = 'RESPONSE: > ' + str(datetime.datetime.now()) + ' > ' + str(response_disco)
+    variaveis['cache_arquivo'].append(log_)
+
     set_info_disco(response_disco)
     set_grafico_disco(response_disco)
 
 def get_envolucro_rede():
-    print('REQUEST: > ', datetime.datetime.now(), ' > ' , ' ips')
+    log_ = 'REQUEST: > ' + str(datetime.datetime.now()) + ' > ips'
+    variaveis['cache_arquivo'].append(log_)
+
     response_ips = request('ips')
-    print('RESPONSE: > ', datetime.datetime.now(), ' > ', response_ips)
+    log_ = 'RESPONSE: > ' + str(datetime.datetime.now()) + ' > ' + str(response_ips)
+    variaveis['cache_arquivo'].append(log_)
 
-    print('REQUEST: > ', datetime.datetime.now(), ' > ' , ' trafego')
+    log_ = 'REQUEST: > ' + str(datetime.datetime.now()) + ' > trafego'
+    variaveis['cache_arquivo'].append(log_)
+
     response_trafego = request('trafego')
-    print('RESPONSE: > ', datetime.datetime.now(), ' > ', response_trafego)
+    log_ = 'RESPONSE: > ' + str(datetime.datetime.now()) + ' > ' + str(response_trafego)
+    variaveis['cache_arquivo'].append(log_)
 
-    print('REQUEST: > ', datetime.datetime.now(), ' > ' , ' rede')
+    log_ = 'REQUEST: > ', str(datetime.datetime.now()), ' > ' , ' rede'
+    variaveis['cache_arquivo'].append(log_)
+
     response_host = request('rede')
-    print('RESPONSE: > ', datetime.datetime.now(), ' > ', response_host)
+    log_ = 'RESPONSE: > ' + str(datetime.datetime.now()) + ' > ' + str(response_host)
+    variaveis['cache_arquivo'].append(log_)
 
     set_info_rede(response_ips, response_trafego, response_host)
     set_info_hosts_rede(response_host)
@@ -94,11 +147,15 @@ def get_envolucro_arquivo():
     if response_cache_arquivo != '' and int(variaveis['pagina']) > int(response_cache_arquivo[1]['total_paginas']):
         variaveis['pagina'] = int(response_cache_arquivo[1]['total_paginas'])
 
-    print('REQUEST: > ', datetime.datetime.now(), ' > ' , ' arquivos/' + str(variaveis['pagina']))
+    log_ = 'REQUEST: > ' + str(datetime.datetime.now()) + ' > arquivos/' + str(variaveis['pagina'])
+    variaveis['cache_arquivo'].append(log_)
+
     response_arquivos = request('arquivos/' + str(variaveis['pagina']))
     response_cache_arquivo = response_arquivos
 
-    print('RESPONSE: > ', datetime.datetime.now(), ' > ', response_arquivos)
+    log_ = 'RESPONSE: > ' + str(datetime.datetime.now()) + ' > ' + str(response_arquivos)
+    variaveis['cache_arquivo'].append(log_)
+
     set_info_arquivo(response_arquivos)
 
 response_cache_processo = ''
@@ -108,17 +165,25 @@ def get_envolucro_processos():
     if response_cache_processo != '' and int(variaveis['pagina']) > int(response_cache_processo['total_paginas']):
         variaveis['pagina'] = int(response_cache_processo['total_paginas'])
 
-    print('REQUEST: > ', datetime.datetime.now(), ' > ' , ' processo/' + str(variaveis['pagina']))
+    log_ = 'REQUEST: > ' + str(datetime.datetime.now()) + ' > processo/' + str(variaveis['pagina'])
+    variaveis['cache_arquivo'].append(log_)
+
     response_processos = request('processo/' + str(variaveis['pagina']))
     response_cache_processo = response_processos
 
-    print('RESPONSE: > ', datetime.datetime.now(), ' > ', response_processos)
+    log_ = 'RESPONSE: > ' + str(datetime.datetime.now()) + ' > ' + str(response_processos)
+    variaveis['cache_arquivo'].append(log_)
+
     set_info_processo(response_processos)
 
 def get_envolucro_resumo():
-    print('REQUEST: > ', datetime.datetime.now(), ' > ' , ' resumo')
+    log_ ='REQUEST: > ' + str(datetime.datetime.now()) + ' > resumo'
+    variaveis['cache_arquivo'].append(log_)
+
     response_resumo = request('resumo')
-    print('RESPONSE: > ', datetime.datetime.now(), ' > ', response_resumo)
+    log_ ='RESPONSE: > ' + str(datetime.datetime.now()) + ' > ' + str(response_resumo)
+    variaveis['cache_arquivo'].append(log_)
+
     set_info_resumo(response_resumo)
 
 def get_envolucro(posicao):
@@ -639,6 +704,11 @@ def get_paginar(total_paginas, pagina_atual):
     count_2 = 1
     count_3 = 1
     count_4 = 1
+    
+    # instrucao paginacao
+    if int(total_paginas) > 1:
+        instrucao = font.render('Tecle + ou - para paginar', True, variaveis['azul'])
+        tela.blit(instrucao, variaveis['posicionamento-paginacao'])
 
     for n in range(1, total_paginas + 1):
 
@@ -689,8 +759,13 @@ def get_paginar(total_paginas, pagina_atual):
             tela.blit(instrucao, ((30 * count_4) + 5, 420))
             count_4 = count_4 + 1
 
-
-
+def set_log(message):
+    try:
+        file = open(variaveis['diretorio_atual'] + '\\log-request.txt', 'a')
+        file.write(str(message) + '\n')
+        file.close()
+    except:
+        print('ERROR >>> SEM PERMISSÃO PARA ABRIR ARQUIVO')
 
 #
 #fim exibir informações em tela
