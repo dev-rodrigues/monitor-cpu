@@ -51,9 +51,15 @@ class Arquivo:
         self.tamanho = tamanho
         self.data_criacao = data_criacao
         self.data_modificacao = data_modificacao
-
+       
     def to_map(self):
-        return { 'nome': self.nome, 'tamanho': self.tamanho, 'data_criacao': self.data_criacao, 'data_modificacao': self.data_modificacao }
+        return { 
+            'nome': self.nome
+        ,   'tamanho': self.tamanho
+        ,   'data_criacao': self.data_criacao
+        ,   'data_modificacao': self.data_modificacao 
+        #,   'diretorio': self.diretorio
+    }
 
 class CPU():
     def __init__(self, nome, arquitetura, bits, frequencia, nucleos, l_cpu_percent, capacidade, num_cpu):
@@ -117,7 +123,6 @@ class Resumo():
             'cpu': self.cpu, 
             'disco': self.disco
         }
-
 # fim classes
 
 # inicio threads
@@ -269,6 +274,7 @@ def get_info_cpu():
 def get_arquivos():
     """ RESPONSAVEL POR OBTER OS ARQUIVOS """
     arquivos = os.listdir()
+    diretorio = os.getcwd()
 
     arquivo_response = []
     for arquivo in arquivos:
@@ -286,7 +292,6 @@ def get_shed_sheduler_arquivos():
     """ RESPONSAVEL POR OBTER TEMPO DA OBTENCAO DE ARQUIVOS """
     inicio = time.time()
     inicioClock = time.process_time()
-
     sched_ = sched.scheduler(time.time, time.sleep)
 
     sched_.enter(3, 1, get_arquivos())
@@ -556,6 +561,9 @@ while True:
         arquivos_aux = variaveis['arquivos'][len(variaveis['arquivos']) - 1]
         result = get_arquivos_paginado(pagina, arquivos_aux)
 
+        diretorio = os.getcwd()
+        
+        response.append(diretorio)
         response.append(sched_aux)
         response.append(result)
     

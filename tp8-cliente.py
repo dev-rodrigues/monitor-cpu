@@ -1,7 +1,6 @@
 import pygame, datetime
 import socket, pickle
 import os, threading
-import time
 
 ## controle aplicacao
 variaveis = {
@@ -41,6 +40,7 @@ clock = pygame.time.Clock()
 font = pygame.font.SysFont("arial", 20)
 
 superficie_info_cpu = pygame.surface.Surface((largura_tela, int(altura_tela/3)))
+
 #
 # fim configuracoes pygame
 
@@ -144,7 +144,7 @@ response_cache_arquivo = ''
 def get_envolucro_arquivo():
     global response_cache_arquivo
 
-    if response_cache_arquivo != '' and int(variaveis['pagina']) > int(response_cache_arquivo[1]['total_paginas']):
+    if response_cache_arquivo != '' and int(variaveis['pagina']) > int(response_cache_arquivo[2]['total_paginas']):
         variaveis['pagina'] = int(response_cache_arquivo[1]['total_paginas'])
 
     log_ = 'REQUEST: > ' + str(datetime.datetime.now()) + ' > arquivos/' + str(variaveis['pagina'])
@@ -197,7 +197,7 @@ def get_envolucro(posicao):
     elif posicao == 2:        
         get_envolucro_disco()
 
-    elif posicao == 3:
+    elif posicao == 3:        
         get_envolucro_rede()
 
     elif posicao == 4:
@@ -282,7 +282,7 @@ def set_info_memoria(memoria):
     tela.fill(variaveis['grafite'])
 
     titulo = font.render("** Informações de Memória **" , 1, variaveis['azul'])
-    tela.blit(titulo, (15, 30))
+    tela.blit(titulo, (15, 10))
 
     # titulo
     texto = font.render('Capacidade', True, variaveis['preto'])
@@ -321,7 +321,8 @@ def set_info_disco(memoria):
     tela.fill(variaveis['grafite'])
 
     titulo = font.render("** Informações do Disco **" , 1, variaveis['azul'])
-    tela.blit(titulo, (15, 30))
+    tela.blit(titulo, (15, 10))
+    
 
     # titulo
     texto = font.render('Capacidade', True, variaveis['preto'])
@@ -364,10 +365,11 @@ def set_info_rede(ips, trafegos, hosts):
     tela.fill(variaveis['grafite'])
 
     titulo = font.render("** Informações de Rede **" , 1, variaveis['azul'])
-    tela.blit(titulo, (15, 30))
-
+    tela.blit(titulo, (15, 10))
+    
     titulo = font.render("Interface                              IP                        Mascara             Pct. Enviado       Pct. Recebido" , 1, variaveis['preto'])
-    tela.blit(titulo, (15, 55))
+    tela.blit(titulo, (15, 75))
+
 
     espacos = 100
 
@@ -456,16 +458,19 @@ def set_info_arquivo(response):
     tela.fill(variaveis['grafite'])
 
     titulo = font.render("** Arquivos do diretório **" , 1, variaveis['azul'])
-    tela.blit(titulo, (15, 30))
+    tela.blit(titulo, (15, 10))
+
+    diretorio = font.render("> " + response[0], 1, variaveis['preto'])
+    tela.blit(diretorio, (15, 45))
 
     titulo = font.render("Nome                                               Data Criação                      Data Modificação             Tamanho" , 1, variaveis['preto'])
-    tela.blit(titulo, (15, 55))
+    tela.blit(titulo, (15, 75))
 
     espacos = 100
     
-    tempo_execucao = response[0]
+    tempo_execucao = response[1]
 
-    arquivos = response[1]
+    arquivos = response[2]
     total_paginas = arquivos['total_paginas']
     pagina_atual = arquivos['pagina_atual']
 
@@ -511,7 +516,7 @@ def set_info_processo(response):
     tela.fill(variaveis['grafite'])
 
     titulo = font.render("** Lista dos processos em execução **" , 1, variaveis['azul'])
-    tela.blit(titulo, (15, 30))
+    tela.blit(titulo, (15, 10))
 
     titulo = font.render("    PID        % Uso        Mem. Usada     Threads Usada            Tempo                      Nome" , 1, variaveis['preto'])
     tela.blit(titulo, (15, 55))
@@ -559,7 +564,7 @@ def set_info_resumo(response):
     tela.fill(variaveis['grafite'])
 
     titulo = font.render("** Resumo dos dados coletados **" , 1, variaveis['azul'])
-    tela.blit(titulo, (15, 30))
+    tela.blit(titulo, (15, 10))
 
     titulo = font.render("CPU" , 1, variaveis['azul'])
     tela.blit(titulo, (15, 60))
