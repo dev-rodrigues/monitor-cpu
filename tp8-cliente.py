@@ -1,6 +1,7 @@
 import pygame, datetime
 import socket, pickle
 import os, threading
+import time
 
 ## controle aplicacao
 variaveis = {
@@ -71,13 +72,24 @@ t.start()
 # inicio socket
 #
 socket_ = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-socket_.connect((socket.gethostname(), 9999))
+                 
+
+try:
+    socket_.connect((socket.gethostname(), 9999))
+except:
+    print('ERRO AO CONECTAR COM O SERVIDOR')
+    os._exit(1)
 
 def request(message):
-    socket_.send(message.encode('ascii'))
-    received = socket_.recv(90000)
-    response = pickle.loads(received)
-    return response
+    try:
+        socket_.send(message.encode('ascii'))
+        received = socket_.recv(90000)
+        response = pickle.loads(received)
+        return response
+    except:
+        print('ERRO AO CONECTAR COM O SERVIDOR')
+        os._exit(1)
+
 #
 # fim socket
 
@@ -367,7 +379,7 @@ def set_info_rede(ips, trafegos, hosts):
     titulo = font.render("** Informações de Rede **" , 1, variaveis['azul'])
     tela.blit(titulo, (15, 10))
     
-    titulo = font.render("Interface                              IP                        Mascara             Pct. Enviado       Pct. Recebido" , 1, variaveis['preto'])
+    titulo = font.render("Interface                              IP                        Máscara             Pct. Enviado       Pct. Recebido" , 1, variaveis['preto'])
     tela.blit(titulo, (15, 75))
 
 
