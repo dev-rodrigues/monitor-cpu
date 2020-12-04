@@ -1,0 +1,349 @@
+RESPONSE: > 2020-12-04 13:55:47.037061 > {'nome': 'AMD Ryzen 7 3800X 8-Core Processor', 'arquitetura': 'X86_64', 'bits': '64', 'frequencia': '4.2500 GHz', 'nucleos': '16', 'l_cpu_percent': [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], 'capacidade': 18.3, 'num_cpu': 16}
+REQUEST: > 2020-12-04 13:55:48.333426 > cpu
+REQUEST: > 2020-12-04 13:55:48.333426 > cpu
+REQUEST: > 2020-12-04 13:55:49.677425 > cpu
+RESPONSE: > 2020-12-04 13:55:49.684426 > {'nome': 'AMD Ryzen 7 3800X 8-Core Processor', 'arquitetura': 'X86_64', 'bits': '64', 'frequencia': '4.2500 GHz', 'nucleos': '16', 'l_cpu_percent': [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], 'capacidade': 18.3, 'num_cpu': 16}
+REQUEST: > 2020-12-04 13:55:51.022425 > cpu
+REQUEST: > 2020-12-04 13:55:51.022425 > cpu
+REQUEST: > 2020-12-04 13:55:52.369425 > cpu
+RESPONSE: > 2020-12-04 13:55:52.387425 > {'nome': 'AMD Ryzen 7 3800X 8-Core Processor', 'arquitetura': 'X86_64', 'bits': '64', 'frequencia': '4.2500 GHz', 'nucleos': '16', 'l_cpu_percent': [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], 'capacidade': 18.3, 'num_cpu': 16}
+REQUEST: > 2020-12-04 13:55:53.699978 > cpu
+RESPONSE: > 2020-12-04 13:55:53.712979 > {'nome': 'AMD Ryzen 7 3800X 8-Core Processor', 'arquitetura': 'X86_64', 'bits': '64', 'frequencia': '4.2500 GHz', 'nucleos': '16', 'l_cpu_percent': [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], 'capacidade': 18.3, 'num_cpu': 16}
+REQUEST: > 2020-12-04 13:55:55.036981 > cpu
+REQUEST: > 2020-12-04 13:55:55.036981 > cpu
+REQUEST: > 2020-12-04 13:55:56.373978 > cpu
+RESPONSE: > 2020-12-04 13:55:56.385978 > {'nome': 'AMD Ryzen 7 3800X 8-Core Processor', 'arquitetura': 'X86_64', 'bits': '64', 'frequencia': '4.2500 GHz', 'nucleos': '16', 'l_cpu_percent': [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], 'capacidade': 18.3, 'num_cpu': 16}
+REQUEST: > 2020-12-04 13:55:57.707594 > cpu
+REQUEST: > 2020-12-04 13:55:57.707594 > cpu
+REQUEST: > 2020-12-04 13:55:59.025591 > cpu
+REQUEST: > 2020-12-04 13:55:59.025591 > cpu
+REQUEST: > 2020-12-04 13:56:00.348789 > cpu
+RESPONSE: > 2020-12-04 13:56:00.374788 > {'nome': 'AMD Ryzen 7 3800X 8-Core Processor', 'arquitetura': 'X86_64', 'bits': '64', 'frequencia': '4.2500 GHz', 'nucleos': '16', 'l_cpu_percent': [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], 'capacidade': 18.3, 'num_cpu': 16}
+REQUEST: > 2020-12-04 13:56:01.665788 > cpu
+REQUEST: > 2020-12-04 13:56:01.665788 > cpu
+REQUEST: > 2020-12-04 13:56:02.977791 > cpu
+REQUEST: > 2020-12-04 13:56:02.977791 > cpu
+REQUEST: > 2020-12-04 13:56:04.309790 > cpu
+RESPONSE: > 2020-12-04 13:56:04.327788 > {'nome': 'AMD Ryzen 7 3800X 8-Core Processor', 'arquitetura': 'X86_64', 'bits': '64', 'frequencia': '4.2500 GHz', 'nucleos': '16', 'l_cpu_percent': [16.5, 3.0, 14.7, 2.7, 33.6, 1.9, 11.2, 66.4, 10.9, 2.7, 13.1, 2.2, 9.3, 1.9, 4.5, 4.3], 'capacidade': 9.1, 'num_cpu': 16}
+REQUEST: > 2020-12-04 13:56:05.637788 > cpu
+REQUEST: > 2020-12-04 13:56:05.637788 > cpu
+REQUEST: > 2020-12-04 13:56:06.978332 > cpu
+RESPONSE: > 2020-12-04 13:56:07.001332 > {'nome': 'AMD Ryzen 7 3800X 8-Core Processor', 'arquitetura': 'X86_64', 'bits': '64', 'frequencia': '4.2500 GHz', 'nucleos': '16', 'l_cpu_percent': [16.5, 3.0, 14.7, 2.7, 33.6, 1.9, 11.2, 66.4, 10.9, 2.7, 13.1, 2.2, 9.3, 1.9, 4.5, 4.3], 'capacidade': 9.1, 'num_cpu': 16}
+REQUEST: > 2020-12-04 13:56:08.299333 > cpu
+RESPONSE: > 2020-12-04 13:56:08.306332 > {'nome': 'AMD Ryzen 7 3800X 8-Core Processor', 'arquitetura': 'X86_64', 'bits': '64', 'frequencia': '4.2500 GHz', 'nucleos': '16', 'l_cpu_percent': [16.5, 3.0, 14.7, 2.7, 33.6, 1.9, 11.2, 66.4, 10.9, 2.7, 13.1, 2.2, 9.3, 1.9, 4.5, 4.3], 'capacidade': 9.1, 'num_cpu': 16}
+REQUEST: > 2020-12-04 13:56:09.601332 > cpu
+REQUEST: > 2020-12-04 13:56:09.601332 > cpu
+REQUEST: > 2020-12-04 13:56:10.924894 > cpu
+RESPONSE: > 2020-12-04 13:56:10.938894 > {'nome': 'AMD Ryzen 7 3800X 8-Core Processor', 'arquitetura': 'X86_64', 'bits': '64', 'frequencia': '4.2500 GHz', 'nucleos': '16', 'l_cpu_percent': [16.5, 3.0, 14.7, 2.7, 33.6, 1.9, 11.2, 66.4, 10.9, 2.7, 13.1, 2.2, 9.3, 1.9, 4.5, 4.3], 'capacidade': 9.1, 'num_cpu': 16}
+REQUEST: > 2020-12-04 13:56:12.245895 > cpu
+REQUEST: > 2020-12-04 13:56:12.245895 > cpu
+REQUEST: > 2020-12-04 13:56:13.562894 > cpu
+REQUEST: > 2020-12-04 13:56:13.562894 > cpu
+REQUEST: > 2020-12-04 13:56:14.871895 > cpu
+RESPONSE: > 2020-12-04 13:56:14.892893 > {'nome': 'AMD Ryzen 7 3800X 8-Core Processor', 'arquitetura': 'X86_64', 'bits': '64', 'frequencia': '4.2500 GHz', 'nucleos': '16', 'l_cpu_percent': [16.5, 3.0, 14.7, 2.7, 33.6, 1.9, 11.2, 66.4, 10.9, 2.7, 13.1, 2.2, 9.3, 1.9, 4.5, 4.3], 'capacidade': 9.1, 'num_cpu': 16}
+REQUEST: > 2020-12-04 13:56:16.185656 > cpu
+REQUEST: > 2020-12-04 13:56:16.185656 > cpu
+REQUEST: > 2020-12-04 13:56:17.512654 > cpu
+REQUEST: > 2020-12-04 13:56:17.512654 > cpu
+REQUEST: > 2020-12-04 13:56:18.828657 > cpu
+RESPONSE: > 2020-12-04 13:56:18.854656 > {'nome': 'AMD Ryzen 7 3800X 8-Core Processor', 'arquitetura': 'X86_64', 'bits': '64', 'frequencia': '4.2500 GHz', 'nucleos': '16', 'l_cpu_percent': [16.5, 3.0, 14.7, 2.7, 33.6, 1.9, 11.2, 66.4, 10.9, 2.7, 13.1, 2.2, 9.3, 1.9, 4.5, 4.3], 'capacidade': 9.1, 'num_cpu': 16}
+REQUEST: > 2020-12-04 13:56:20.160656 > cpu
+REQUEST: > 2020-12-04 13:56:20.160656 > cpu
+REQUEST: > 2020-12-04 13:56:21.474655 > cpu
+REQUEST: > 2020-12-04 13:56:21.474655 > cpu
+REQUEST: > 2020-12-04 13:56:22.786299 > cpu
+RESPONSE: > 2020-12-04 13:56:22.802299 > {'nome': 'AMD Ryzen 7 3800X 8-Core Processor', 'arquitetura': 'X86_64', 'bits': '64', 'frequencia': '4.2500 GHz', 'nucleos': '16', 'l_cpu_percent': [16.5, 3.0, 14.7, 2.7, 33.6, 1.9, 11.2, 66.4, 10.9, 2.7, 13.1, 2.2, 9.3, 1.9, 4.5, 4.3], 'capacidade': 9.1, 'num_cpu': 16}
+REQUEST: > 2020-12-04 13:56:24.121302 > cpu
+REQUEST: > 2020-12-04 13:56:24.121302 > cpu
+REQUEST: > 2020-12-04 13:56:25.445299 > cpu
+RESPONSE: > 2020-12-04 13:56:25.457299 > {'nome': 'AMD Ryzen 7 3800X 8-Core Processor', 'arquitetura': 'X86_64', 'bits': '64', 'frequencia': '4.2500 GHz', 'nucleos': '16', 'l_cpu_percent': [16.5, 3.0, 14.7, 2.7, 33.6, 1.9, 11.2, 66.4, 10.9, 2.7, 13.1, 2.2, 9.3, 1.9, 4.5, 4.3], 'capacidade': 9.1, 'num_cpu': 16}
+REQUEST: > 2020-12-04 13:56:26.765299 > cpu
+RESPONSE: > 2020-12-04 13:56:26.781300 > {'nome': 'AMD Ryzen 7 3800X 8-Core Processor', 'arquitetura': 'X86_64', 'bits': '64', 'frequencia': '4.2500 GHz', 'nucleos': '16', 'l_cpu_percent': [16.5, 3.0, 14.7, 2.7, 33.6, 1.9, 11.2, 66.4, 10.9, 2.7, 13.1, 2.2, 9.3, 1.9, 4.5, 4.3], 'capacidade': 9.1, 'num_cpu': 16}
+REQUEST: > 2020-12-04 13:56:28.069300 > cpu
+REQUEST: > 2020-12-04 13:56:28.069300 > cpu
+REQUEST: > 2020-12-04 13:56:29.381305 > cpu
+RESPONSE: > 2020-12-04 13:56:29.403302 > {'nome': 'AMD Ryzen 7 3800X 8-Core Processor', 'arquitetura': 'X86_64', 'bits': '64', 'frequencia': '4.2500 GHz', 'nucleos': '16', 'l_cpu_percent': [16.5, 3.0, 14.7, 2.7, 33.6, 1.9, 11.2, 66.4, 10.9, 2.7, 13.1, 2.2, 9.3, 1.9, 4.5, 4.3], 'capacidade': 9.1, 'num_cpu': 16}
+REQUEST: > 2020-12-04 13:56:30.710839 > cpu
+REQUEST: > 2020-12-04 13:56:30.710839 > cpu
+REQUEST: > 2020-12-04 13:56:32.036845 > cpu
+REQUEST: > 2020-12-04 13:56:32.036845 > cpu
+REQUEST: > 2020-12-04 13:56:33.371428 > cpu
+RESPONSE: > 2020-12-04 13:56:33.393429 > {'nome': 'AMD Ryzen 7 3800X 8-Core Processor', 'arquitetura': 'X86_64', 'bits': '64', 'frequencia': '4.2500 GHz', 'nucleos': '16', 'l_cpu_percent': [16.5, 3.0, 14.7, 2.7, 33.6, 1.9, 11.2, 66.4, 10.9, 2.7, 13.1, 2.2, 9.3, 1.9, 4.5, 4.3], 'capacidade': 9.1, 'num_cpu': 16}
+REQUEST: > 2020-12-04 13:56:34.694430 > cpu
+REQUEST: > 2020-12-04 13:56:34.694430 > cpu
+REQUEST: > 2020-12-04 13:56:35.998428 > cpu
+REQUEST: > 2020-12-04 13:56:35.998428 > cpu
+REQUEST: > 2020-12-04 13:56:37.330428 > cpu
+RESPONSE: > 2020-12-04 13:56:37.354427 > {'nome': 'AMD Ryzen 7 3800X 8-Core Processor', 'arquitetura': 'X86_64', 'bits': '64', 'frequencia': '4.2500 GHz', 'nucleos': '16', 'l_cpu_percent': [16.5, 3.0, 14.7, 2.7, 33.6, 1.9, 11.2, 66.4, 10.9, 2.7, 13.1, 2.2, 9.3, 1.9, 4.5, 4.3], 'capacidade': 9.1, 'num_cpu': 16}
+REQUEST: > 2020-12-04 13:56:38.663028 > cpu
+REQUEST: > 2020-12-04 13:56:38.663028 > cpu
+REQUEST: > 2020-12-04 13:56:39.992028 > cpu
+RESPONSE: > 2020-12-04 13:56:40.005028 > {'nome': 'AMD Ryzen 7 3800X 8-Core Processor', 'arquitetura': 'X86_64', 'bits': '64', 'frequencia': '4.2500 GHz', 'nucleos': '16', 'l_cpu_percent': [16.5, 3.0, 14.7, 2.7, 33.6, 1.9, 11.2, 66.4, 10.9, 2.7, 13.1, 2.2, 9.3, 1.9, 4.5, 4.3], 'capacidade': 9.1, 'num_cpu': 16}
+REQUEST: > 2020-12-04 13:56:41.308029 > cpu
+REQUEST: > 2020-12-04 13:56:41.308029 > cpu
+REQUEST: > 2020-12-04 13:56:42.619027 > cpu
+REQUEST: > 2020-12-04 13:56:42.619027 > cpu
+REQUEST: > 2020-12-04 13:56:43.945586 > cpu
+RESPONSE: > 2020-12-04 13:56:43.963586 > {'nome': 'AMD Ryzen 7 3800X 8-Core Processor', 'arquitetura': 'X86_64', 'bits': '64', 'frequencia': '4.2500 GHz', 'nucleos': '16', 'l_cpu_percent': [16.5, 3.0, 14.7, 2.7, 33.6, 1.9, 11.2, 66.4, 10.9, 2.7, 13.1, 2.2, 9.3, 1.9, 4.5, 4.3], 'capacidade': 9.1, 'num_cpu': 16}
+REQUEST: > 2020-12-04 13:56:45.288585 > cpu
+RESPONSE: > 2020-12-04 13:56:45.297585 > {'nome': 'AMD Ryzen 7 3800X 8-Core Processor', 'arquitetura': 'X86_64', 'bits': '64', 'frequencia': '4.2500 GHz', 'nucleos': '16', 'l_cpu_percent': [19.0, 1.9, 14.7, 2.9, 28.9, 0.8, 4.5, 86.4, 10.2, 1.5, 15.1, 0.4, 9.1, 1.6, 7.0, 3.0], 'capacidade': 15.3, 'num_cpu': 16}
+REQUEST: > 2020-12-04 13:56:46.617584 > cpu
+REQUEST: > 2020-12-04 13:56:46.617584 > cpu
+REQUEST: > 2020-12-04 13:56:47.960585 > cpu
+RESPONSE: > 2020-12-04 13:56:47.983585 > {'nome': 'AMD Ryzen 7 3800X 8-Core Processor', 'arquitetura': 'X86_64', 'bits': '64', 'frequencia': '4.2500 GHz', 'nucleos': '16', 'l_cpu_percent': [19.0, 1.9, 14.7, 2.9, 28.9, 0.8, 4.5, 86.4, 10.2, 1.5, 15.1, 0.4, 9.1, 1.6, 7.0, 3.0], 'capacidade': 15.3, 'num_cpu': 16}
+REQUEST: > 2020-12-04 13:56:49.305121 > cpu
+REQUEST: > 2020-12-04 13:56:49.305121 > cpu
+REQUEST: > 2020-12-04 13:56:50.636121 > cpu
+REQUEST: > 2020-12-04 13:56:50.636121 > cpu
+REQUEST: > 2020-12-04 13:56:51.985121 > cpu
+RESPONSE: > 2020-12-04 13:56:52.012121 > {'nome': 'AMD Ryzen 7 3800X 8-Core Processor', 'arquitetura': 'X86_64', 'bits': '64', 'frequencia': '4.2500 GHz', 'nucleos': '16', 'l_cpu_percent': [19.0, 1.9, 14.7, 2.9, 28.9, 0.8, 4.5, 86.4, 10.2, 1.5, 15.1, 0.4, 9.1, 1.6, 7.0, 3.0], 'capacidade': 15.3, 'num_cpu': 16}
+REQUEST: > 2020-12-04 13:56:53.331159 > cpu
+REQUEST: > 2020-12-04 13:56:53.331159 > cpu
+REQUEST: > 2020-12-04 13:56:54.663750 > cpu
+RESPONSE: > 2020-12-04 13:56:54.683752 > {'nome': 'AMD Ryzen 7 3800X 8-Core Processor', 'arquitetura': 'X86_64', 'bits': '64', 'frequencia': '4.2500 GHz', 'nucleos': '16', 'l_cpu_percent': [19.0, 1.9, 14.7, 2.9, 28.9, 0.8, 4.5, 86.4, 10.2, 1.5, 15.1, 0.4, 9.1, 1.6, 7.0, 3.0], 'capacidade': 15.3, 'num_cpu': 16}
+REQUEST: > 2020-12-04 13:56:55.981749 > cpu
+RESPONSE: > 2020-12-04 13:56:55.994751 > {'nome': 'AMD Ryzen 7 3800X 8-Core Processor', 'arquitetura': 'X86_64', 'bits': '64', 'frequencia': '4.2500 GHz', 'nucleos': '16', 'l_cpu_percent': [19.0, 1.9, 14.7, 2.9, 28.9, 0.8, 4.5, 86.4, 10.2, 1.5, 15.1, 0.4, 9.1, 1.6, 7.0, 3.0], 'capacidade': 15.3, 'num_cpu': 16}
+REQUEST: > 2020-12-04 13:56:57.314753 > cpu
+REQUEST: > 2020-12-04 13:56:57.314753 > cpu
+REQUEST: > 2020-12-04 13:56:58.650286 > cpu
+RESPONSE: > 2020-12-04 13:56:58.667285 > {'nome': 'AMD Ryzen 7 3800X 8-Core Processor', 'arquitetura': 'X86_64', 'bits': '64', 'frequencia': '4.2500 GHz', 'nucleos': '16', 'l_cpu_percent': [19.0, 1.9, 14.7, 2.9, 28.9, 0.8, 4.5, 86.4, 10.2, 1.5, 15.1, 0.4, 9.1, 1.6, 7.0, 3.0], 'capacidade': 15.3, 'num_cpu': 16}
+REQUEST: > 2020-12-04 13:56:59.966286 > cpu
+RESPONSE: > 2020-12-04 13:56:59.977285 > {'nome': 'AMD Ryzen 7 3800X 8-Core Processor', 'arquitetura': 'X86_64', 'bits': '64', 'frequencia': '4.2500 GHz', 'nucleos': '16', 'l_cpu_percent': [19.0, 1.9, 14.7, 2.9, 28.9, 0.8, 4.5, 86.4, 10.2, 1.5, 15.1, 0.4, 9.1, 1.6, 7.0, 3.0], 'capacidade': 15.3, 'num_cpu': 16}
+REQUEST: > 2020-12-04 13:57:01.297286 > cpu
+REQUEST: > 2020-12-04 13:57:01.297286 > cpu
+REQUEST: > 2020-12-04 13:57:02.635286 > cpu
+RESPONSE: > 2020-12-04 13:57:02.644286 > {'nome': 'AMD Ryzen 7 3800X 8-Core Processor', 'arquitetura': 'X86_64', 'bits': '64', 'frequencia': '4.2500 GHz', 'nucleos': '16', 'l_cpu_percent': [19.0, 1.9, 14.7, 2.9, 28.9, 0.8, 4.5, 86.4, 10.2, 1.5, 15.1, 0.4, 9.1, 1.6, 7.0, 3.0], 'capacidade': 15.3, 'num_cpu': 16}
+REQUEST: > 2020-12-04 13:57:03.954844 > cpu
+REQUEST: > 2020-12-04 13:57:03.954844 > cpu
+REQUEST: > 2020-12-04 13:57:05.254843 > cpu
+REQUEST: > 2020-12-04 13:57:05.254843 > cpu
+REQUEST: > 2020-12-04 13:57:06.574841 > cpu
+RESPONSE: > 2020-12-04 13:57:06.597842 > {'nome': 'AMD Ryzen 7 3800X 8-Core Processor', 'arquitetura': 'X86_64', 'bits': '64', 'frequencia': '4.2500 GHz', 'nucleos': '16', 'l_cpu_percent': [17.9, 2.3, 15.0, 4.2, 32.2, 2.2, 4.8, 88.9, 11.0, 2.9, 11.6, 1.6, 9.4, 2.4, 6.8, 3.2], 'capacidade': 16.9, 'num_cpu': 16}
+REQUEST: > 2020-12-04 13:57:07.898358 > cpu
+REQUEST: > 2020-12-04 13:57:07.898358 > cpu
+REQUEST: > 2020-12-04 13:57:09.209359 > cpu
+REQUEST: > 2020-12-04 13:57:09.209359 > cpu
+REQUEST: > 2020-12-04 13:57:10.530359 > cpu
+RESPONSE: > 2020-12-04 13:57:10.544359 > {'nome': 'AMD Ryzen 7 3800X 8-Core Processor', 'arquitetura': 'X86_64', 'bits': '64', 'frequencia': '4.2500 GHz', 'nucleos': '16', 'l_cpu_percent': [19.0, 1.9, 14.7, 2.9, 28.9, 0.8, 4.5, 86.4, 10.2, 1.5, 15.1, 0.4, 9.1, 1.6, 7.0, 3.0], 'capacidade': 15.3, 'num_cpu': 16}
+REQUEST: > 2020-12-04 13:57:11.874357 > cpu
+REQUEST: > 2020-12-04 13:57:11.874357 > cpu
+REQUEST: > 2020-12-04 13:57:13.205903 > cpu
+REQUEST: > 2020-12-04 13:57:13.205903 > cpu
+REQUEST: > 2020-12-04 13:57:14.523903 > cpu
+RESPONSE: > 2020-12-04 13:57:14.547901 > {'nome': 'AMD Ryzen 7 3800X 8-Core Processor', 'arquitetura': 'X86_64', 'bits': '64', 'frequencia': '4.2500 GHz', 'nucleos': '16', 'l_cpu_percent': [19.0, 1.9, 14.7, 2.9, 28.9, 0.8, 4.5, 86.4, 10.2, 1.5, 15.1, 0.4, 9.1, 1.6, 7.0, 3.0], 'capacidade': 15.3, 'num_cpu': 16}
+REQUEST: > 2020-12-04 13:57:15.852901 > cpu
+REQUEST: > 2020-12-04 13:57:15.852901 > cpu
+REQUEST: > 2020-12-04 13:57:17.165901 > cpu
+RESPONSE: > 2020-12-04 13:57:17.181902 > {'nome': 'AMD Ryzen 7 3800X 8-Core Processor', 'arquitetura': 'X86_64', 'bits': '64', 'frequencia': '4.2500 GHz', 'nucleos': '16', 'l_cpu_percent': [19.0, 1.9, 14.7, 2.9, 28.9, 0.8, 4.5, 86.4, 10.2, 1.5, 15.1, 0.4, 9.1, 1.6, 7.0, 3.0], 'capacidade': 15.3, 'num_cpu': 16}
+REQUEST: > 2020-12-04 13:57:18.475518 > cpu
+RESPONSE: > 2020-12-04 13:57:18.494518 > {'nome': 'AMD Ryzen 7 3800X 8-Core Processor', 'arquitetura': 'X86_64', 'bits': '64', 'frequencia': '4.2500 GHz', 'nucleos': '16', 'l_cpu_percent': [19.0, 1.9, 14.7, 2.9, 28.9, 0.8, 4.5, 86.4, 10.2, 1.5, 15.1, 0.4, 9.1, 1.6, 7.0, 3.0], 'capacidade': 15.3, 'num_cpu': 16}
+REQUEST: > 2020-12-04 13:57:19.786520 > cpu
+REQUEST: > 2020-12-04 13:57:19.786520 > cpu
+REQUEST: > 2020-12-04 13:57:21.098519 > cpu
+RESPONSE: > 2020-12-04 13:57:21.116519 > {'nome': 'AMD Ryzen 7 3800X 8-Core Processor', 'arquitetura': 'X86_64', 'bits': '64', 'frequencia': '4.2500 GHz', 'nucleos': '16', 'l_cpu_percent': [19.0, 1.9, 14.7, 2.9, 28.9, 0.8, 4.5, 86.4, 10.2, 1.5, 15.1, 0.4, 9.1, 1.6, 7.0, 3.0], 'capacidade': 15.3, 'num_cpu': 16}
+REQUEST: > 2020-12-04 13:57:22.413518 > cpu
+REQUEST: > 2020-12-04 13:57:22.413518 > cpu
+REQUEST: > 2020-12-04 13:57:23.724586 > cpu
+REQUEST: > 2020-12-04 13:57:23.724586 > cpu
+REQUEST: > 2020-12-04 13:57:25.059192 > cpu
+RESPONSE: > 2020-12-04 13:57:25.074193 > {'nome': 'AMD Ryzen 7 3800X 8-Core Processor', 'arquitetura': 'X86_64', 'bits': '64', 'frequencia': '4.2500 GHz', 'nucleos': '16', 'l_cpu_percent': [19.0, 1.9, 14.7, 2.9, 28.9, 0.8, 4.5, 86.4, 10.2, 1.5, 15.1, 0.4, 9.1, 1.6, 7.0, 3.0], 'capacidade': 15.3, 'num_cpu': 16}
+REQUEST: > 2020-12-04 13:57:26.367193 > cpu
+REQUEST: > 2020-12-04 13:57:26.367193 > cpu
+REQUEST: > 2020-12-04 13:57:27.696191 > cpu
+REQUEST: > 2020-12-04 13:57:27.696191 > cpu
+REQUEST: > 2020-12-04 13:57:29.028389 > cpu
+RESPONSE: > 2020-12-04 13:57:29.048389 > {'nome': 'AMD Ryzen 7 3800X 8-Core Processor', 'arquitetura': 'X86_64', 'bits': '64', 'frequencia': '4.2500 GHz', 'nucleos': '16', 'l_cpu_percent': [21.3, 1.9, 19.1, 2.9, 35.7, 1.5, 4.1, 88.3, 13.1, 2.7, 21.3, 1.7, 10.7, 3.8, 8.8, 3.8], 'capacidade': 13.7, 'num_cpu': 16}
+REQUEST: > 2020-12-04 13:57:30.347388 > cpu
+REQUEST: > 2020-12-04 13:57:30.347388 > cpu
+REQUEST: > 2020-12-04 13:57:31.649493 > cpu
+RESPONSE: > 2020-12-04 13:57:31.661492 > {'nome': 'AMD Ryzen 7 3800X 8-Core Processor', 'arquitetura': 'X86_64', 'bits': '64', 'frequencia': '4.2500 GHz', 'nucleos': '16', 'l_cpu_percent': [21.3, 1.9, 19.1, 2.9, 35.7, 1.5, 4.1, 88.3, 13.1, 2.7, 21.3, 1.7, 10.7, 3.8, 8.8, 3.8], 'capacidade': 13.7, 'num_cpu': 16}
+REQUEST: > 2020-12-04 13:57:32.964679 > cpu
+RESPONSE: > 2020-12-04 13:57:32.990680 > {'nome': 'AMD Ryzen 7 3800X 8-Core Processor', 'arquitetura': 'X86_64', 'bits': '64', 'frequencia': '4.2500 GHz', 'nucleos': '16', 'l_cpu_percent': [21.3, 1.9, 19.1, 2.9, 35.7, 1.5, 4.1, 88.3, 13.1, 2.7, 21.3, 1.7, 10.7, 3.8, 8.8, 3.8], 'capacidade': 13.7, 'num_cpu': 16}
+REQUEST: > 2020-12-04 13:57:34.294123 > cpu
+REQUEST: > 2020-12-04 13:57:34.294123 > cpu
+REQUEST: > 2020-12-04 13:57:35.623123 > cpu
+RESPONSE: > 2020-12-04 13:57:35.629124 > {'nome': 'AMD Ryzen 7 3800X 8-Core Processor', 'arquitetura': 'X86_64', 'bits': '64', 'frequencia': '4.2500 GHz', 'nucleos': '16', 'l_cpu_percent': [21.3, 1.9, 19.1, 2.9, 35.7, 1.5, 4.1, 88.3, 13.1, 2.7, 21.3, 1.7, 10.7, 3.8, 8.8, 3.8], 'capacidade': 13.7, 'num_cpu': 16}
+REQUEST: > 2020-12-04 13:57:36.948511 > cpu
+RESPONSE: > 2020-12-04 13:57:36.960510 > {'nome': 'AMD Ryzen 7 3800X 8-Core Processor', 'arquitetura': 'X86_64', 'bits': '64', 'frequencia': '4.2500 GHz', 'nucleos': '16', 'l_cpu_percent': [21.3, 1.9, 19.1, 2.9, 35.7, 1.5, 4.1, 88.3, 13.1, 2.7, 21.3, 1.7, 10.7, 3.8, 8.8, 3.8], 'capacidade': 13.7, 'num_cpu': 16}
+REQUEST: > 2020-12-04 13:57:40.995313 > cpu
+REQUEST: > 2020-12-04 13:57:40.995313 > cpu
+REQUEST: > 2020-12-04 13:57:42.335427 > cpu
+REQUEST: > 2020-12-04 13:57:42.335427 > cpu
+REQUEST: > 2020-12-04 13:57:43.663426 > cpu
+RESPONSE: > 2020-12-04 13:57:43.675427 > {'nome': 'AMD Ryzen 7 3800X 8-Core Processor', 'arquitetura': 'X86_64', 'bits': '64', 'frequencia': '4.2500 GHz', 'nucleos': '16', 'l_cpu_percent': [21.3, 1.9, 19.1, 2.9, 35.7, 1.5, 4.1, 88.3, 13.1, 2.7, 21.3, 1.7, 10.7, 3.8, 8.8, 3.8], 'capacidade': 13.7, 'num_cpu': 16}
+REQUEST: > 2020-12-04 13:57:44.979428 > memoria
+RESPONSE: > 2020-12-04 13:57:45.534428 > {'memoria': svmem(total=34307923968, available=25848283136, percent=24.7, used=8459640832, free=25848283136), 'capacidade': 31.95, 'disponivel': 24.07}
+REQUEST: > 2020-12-04 13:57:46.836427 > memoria
+RESPONSE: > 2020-12-04 13:57:46.851427 > {'memoria': svmem(total=34307923968, available=25841627136, percent=24.7, used=8466296832, free=25841627136), 'capacidade': 31.95, 'disponivel': 24.07}
+REQUEST: > 2020-12-04 13:57:48.179426 > memoria
+REQUEST: > 2020-12-04 13:57:48.179426 > memoria
+REQUEST: > 2020-12-04 13:57:49.531818 > memoria
+REQUEST: > 2020-12-04 13:57:49.531818 > memoria
+REQUEST: > 2020-12-04 13:57:50.859817 > memoria
+RESPONSE: > 2020-12-04 13:57:50.866817 > {'memoria': svmem(total=34307923968, available=25762787328, percent=24.9, used=8545136640, free=25762787328), 'capacidade': 31.95, 'disponivel': 23.99}
+REQUEST: > 2020-12-04 13:57:52.226839 > memoria
+REQUEST: > 2020-12-04 13:57:52.226839 > memoria
+REQUEST: > 2020-12-04 13:57:53.559366 > memoria
+RESPONSE: > 2020-12-04 13:57:53.575368 > {'memoria': svmem(total=34307923968, available=25778036736, percent=24.9, used=8529887232, free=25778036736), 'capacidade': 31.95, 'disponivel': 24.01}
+REQUEST: > 2020-12-04 13:57:54.866367 > memoria
+REQUEST: > 2020-12-04 13:57:54.866367 > memoria
+REQUEST: > 2020-12-04 13:57:56.177373 > memoria
+REQUEST: > 2020-12-04 13:57:56.177373 > memoria
+REQUEST: > 2020-12-04 13:57:57.518376 > memoria
+RESPONSE: > 2020-12-04 13:57:57.525378 > {'memoria': svmem(total=34307923968, available=25778036736, percent=24.9, used=8529887232, free=25778036736), 'capacidade': 31.95, 'disponivel': 24.01}
+REQUEST: > 2020-12-04 13:57:58.863375 > memoria
+REQUEST: > 2020-12-04 13:57:58.863375 > memoria
+REQUEST: > 2020-12-04 13:58:00.177384 > memoria
+REQUEST: > 2020-12-04 13:58:00.177384 > memoria
+REQUEST: > 2020-12-04 13:58:01.516727 > memoria
+RESPONSE: > 2020-12-04 13:58:01.541726 > {'memoria': svmem(total=34307923968, available=25786138624, percent=24.8, used=8521785344, free=25786138624), 'capacidade': 31.95, 'disponivel': 24.02}
+REQUEST: > 2020-12-04 13:58:02.871922 > memoria
+REQUEST: > 2020-12-04 13:58:02.871922 > memoria
+REQUEST: > 2020-12-04 13:58:04.225920 > memoria
+RESPONSE: > 2020-12-04 13:58:04.249920 > {'memoria': svmem(total=34307923968, available=25791315968, percent=24.8, used=8516608000, free=25791315968), 'capacidade': 31.95, 'disponivel': 24.02}
+REQUEST: > 2020-12-04 13:58:05.570921 > memoria
+RESPONSE: > 2020-12-04 13:58:05.583920 > {'memoria': svmem(total=34307923968, available=25797476352, percent=24.8, used=8510447616, free=25797476352), 'capacidade': 31.95, 'disponivel': 24.03}
+REQUEST: > 2020-12-04 13:58:06.901929 > memoria
+REQUEST: > 2020-12-04 13:58:06.901929 > memoria
+REQUEST: > 2020-12-04 13:58:08.223927 > memoria
+RESPONSE: > 2020-12-04 13:58:08.236926 > {'memoria': svmem(total=34307923968, available=25794392064, percent=24.8, used=8513531904, free=25794392064), 'capacidade': 31.95, 'disponivel': 24.02}
+REQUEST: > 2020-12-04 13:58:09.555927 > memoria
+REQUEST: > 2020-12-04 13:58:09.555927 > memoria
+REQUEST: > 2020-12-04 13:58:10.883500 > memoria
+REQUEST: > 2020-12-04 13:58:10.883500 > memoria
+REQUEST: > 2020-12-04 13:58:12.199500 > memoria
+RESPONSE: > 2020-12-04 13:58:12.217501 > {'memoria': svmem(total=34307923968, available=25779875840, percent=24.9, used=8528048128, free=25779875840), 'capacidade': 31.95, 'disponivel': 24.01}
+REQUEST: > 2020-12-04 13:58:13.544499 > memoria
+REQUEST: > 2020-12-04 13:58:13.544499 > memoria
+REQUEST: > 2020-12-04 13:58:14.852500 > memoria
+REQUEST: > 2020-12-04 13:58:14.852500 > memoria
+REQUEST: > 2020-12-04 13:58:16.171066 > memoria
+RESPONSE: > 2020-12-04 13:58:16.197066 > {'memoria': svmem(total=34307923968, available=25793900544, percent=24.8, used=8514023424, free=25793900544), 'capacidade': 31.95, 'disponivel': 24.02}
+REQUEST: > 2020-12-04 13:58:17.513066 > memoria
+REQUEST: > 2020-12-04 13:58:17.513066 > memoria
+REQUEST: > 2020-12-04 13:58:18.827065 > memoria
+RESPONSE: > 2020-12-04 13:58:18.842067 > {'memoria': svmem(total=34307923968, available=25792114688, percent=24.8, used=8515809280, free=25792114688), 'capacidade': 31.95, 'disponivel': 24.02}
+REQUEST: > 2020-12-04 13:58:20.138068 > memoria
+RESPONSE: > 2020-12-04 13:58:20.153067 > {'memoria': svmem(total=34307923968, available=25808326656, percent=24.8, used=8499597312, free=25808326656), 'capacidade': 31.95, 'disponivel': 24.04}
+REQUEST: > 2020-12-04 13:58:21.450181 > memoria
+REQUEST: > 2020-12-04 13:58:21.450181 > memoria
+REQUEST: > 2020-12-04 13:58:22.778720 > memoria
+RESPONSE: > 2020-12-04 13:58:22.798721 > {'memoria': svmem(total=34307923968, available=25805271040, percent=24.8, used=8502652928, free=25805271040), 'capacidade': 31.95, 'disponivel': 24.03}
+REQUEST: > 2020-12-04 13:58:24.109257 > memoria
+RESPONSE: > 2020-12-04 13:58:24.126259 > {'memoria': svmem(total=34307923968, available=25805271040, percent=24.8, used=8502652928, free=25805271040), 'capacidade': 31.95, 'disponivel': 24.03}
+REQUEST: > 2020-12-04 13:58:25.421256 > memoria
+REQUEST: > 2020-12-04 13:58:25.421256 > memoria
+REQUEST: > 2020-12-04 13:58:26.746334 > memoria
+RESPONSE: > 2020-12-04 13:58:26.761334 > {'memoria': svmem(total=34307923968, available=25813204992, percent=24.8, used=8494718976, free=25813204992), 'capacidade': 31.95, 'disponivel': 24.04}
+REQUEST: > 2020-12-04 13:58:28.090336 > memoria
+REQUEST: > 2020-12-04 13:58:28.090336 > memoria
+REQUEST: > 2020-12-04 13:58:29.401335 > memoria
+REQUEST: > 2020-12-04 13:58:29.401335 > memoria
+REQUEST: > 2020-12-04 13:58:30.771334 > memoria
+RESPONSE: > 2020-12-04 13:58:30.784335 > {'memoria': svmem(total=34307923968, available=25810726912, percent=24.8, used=8497197056, free=25810726912), 'capacidade': 31.95, 'disponivel': 24.04}
+REQUEST: > 2020-12-04 13:58:32.106974 > memoria
+REQUEST: > 2020-12-04 13:58:32.106974 > memoria
+REQUEST: > 2020-12-04 13:58:33.438161 > memoria
+REQUEST: > 2020-12-04 13:58:33.438161 > memoria
+REQUEST: > 2020-12-04 13:58:34.749859 > memoria
+RESPONSE: > 2020-12-04 13:58:34.764859 > {'memoria': svmem(total=34307923968, available=25800564736, percent=24.8, used=8507359232, free=25800564736), 'capacidade': 31.95, 'disponivel': 24.03}
+REQUEST: > 2020-12-04 13:58:36.106500 > memoria
+REQUEST: > 2020-12-04 13:58:36.106500 > memoria
+REQUEST: > 2020-12-04 13:58:37.443650 > memoria
+RESPONSE: > 2020-12-04 13:58:37.453649 > {'memoria': svmem(total=34307923968, available=25798696960, percent=24.8, used=8509227008, free=25798696960), 'capacidade': 31.95, 'disponivel': 24.03}
+REQUEST: > 2020-12-04 13:58:38.783744 > memoria
+RESPONSE: > 2020-12-04 13:58:38.808742 > {'memoria': svmem(total=34307923968, available=25798606848, percent=24.8, used=8509317120, free=25798606848), 'capacidade': 31.95, 'disponivel': 24.03}
+REQUEST: > 2020-12-04 13:58:40.145963 > memoria
+REQUEST: > 2020-12-04 13:58:40.145963 > memoria
+REQUEST: > 2020-12-04 13:58:41.490109 > memoria
+RESPONSE: > 2020-12-04 13:58:41.505109 > {'memoria': svmem(total=34307923968, available=25801961472, percent=24.8, used=8505962496, free=25801961472), 'capacidade': 31.95, 'disponivel': 24.03}
+REQUEST: > 2020-12-04 13:58:42.832262 > memoria
+REQUEST: > 2020-12-04 13:58:42.832262 > memoria
+REQUEST: > 2020-12-04 13:58:44.178347 > memoria
+REQUEST: > 2020-12-04 13:58:44.178347 > memoria
+REQUEST: > 2020-12-04 13:58:45.491503 > memoria
+RESPONSE: > 2020-12-04 13:58:45.504503 > {'memoria': svmem(total=34307923968, available=25802219520, percent=24.8, used=8505704448, free=25802219520), 'capacidade': 31.95, 'disponivel': 24.03}
+REQUEST: > 2020-12-04 13:58:46.829712 > memoria
+REQUEST: > 2020-12-04 13:58:46.829712 > memoria
+REQUEST: > 2020-12-04 13:58:48.163314 > memoria
+REQUEST: > 2020-12-04 13:58:48.163314 > memoria
+REQUEST: > 2020-12-04 13:58:49.485601 > memoria
+RESPONSE: > 2020-12-04 13:58:49.499601 > {'memoria': svmem(total=34307923968, available=25723928576, percent=25.0, used=8583995392, free=25723928576), 'capacidade': 31.95, 'disponivel': 23.96}
+REQUEST: > 2020-12-04 13:58:50.813602 > memoria
+REQUEST: > 2020-12-04 13:58:50.813602 > memoria
+REQUEST: > 2020-12-04 13:58:52.163600 > memoria
+REQUEST: > 2020-12-04 13:58:52.163600 > memoria
+REQUEST: > 2020-12-04 13:58:53.506379 > memoria
+RESPONSE: > 2020-12-04 13:58:53.532383 > {'memoria': svmem(total=34307923968, available=25655721984, percent=25.2, used=8652201984, free=25655721984), 'capacidade': 31.95, 'disponivel': 23.89}
+REQUEST: > 2020-12-04 13:58:54.871628 > memoria
+REQUEST: > 2020-12-04 13:58:54.871628 > memoria
+REQUEST: > 2020-12-04 13:58:56.214628 > memoria
+REQUEST: > 2020-12-04 13:58:56.214628 > memoria
+REQUEST: > 2020-12-04 13:58:57.549629 > memoria
+RESPONSE: > 2020-12-04 13:58:57.572629 > {'memoria': svmem(total=34307923968, available=25625284608, percent=25.3, used=8682639360, free=25625284608), 'capacidade': 31.95, 'disponivel': 23.87}
+REQUEST: > 2020-12-04 13:58:58.880630 > memoria
+REQUEST: > 2020-12-04 13:58:58.880630 > memoria
+REQUEST: > 2020-12-04 13:59:00.221628 > memoria
+REQUEST: > 2020-12-04 13:59:00.221628 > memoria
+REQUEST: > 2020-12-04 13:59:01.576628 > memoria
+RESPONSE: > 2020-12-04 13:59:01.592629 > {'memoria': svmem(total=34307923968, available=25629560832, percent=25.3, used=8678363136, free=25629560832), 'capacidade': 31.95, 'disponivel': 23.87}
+REQUEST: > 2020-12-04 13:59:02.917466 > memoria
+REQUEST: > 2020-12-04 13:59:02.917466 > memoria
+REQUEST: > 2020-12-04 13:59:04.241673 > memoria
+RESPONSE: > 2020-12-04 13:59:04.260672 > {'memoria': svmem(total=34307923968, available=25634426880, percent=25.3, used=8673497088, free=25634426880), 'capacidade': 31.95, 'disponivel': 23.87}
+REQUEST: > 2020-12-04 13:59:05.567918 > memoria
+RESPONSE: > 2020-12-04 13:59:05.578918 > {'memoria': svmem(total=34307923968, available=25633452032, percent=25.3, used=8674471936, free=25633452032), 'capacidade': 31.95, 'disponivel': 23.87}
+REQUEST: > 2020-12-04 13:59:06.890992 > memoria
+REQUEST: > 2020-12-04 13:59:06.890992 > memoria
+REQUEST: > 2020-12-04 13:59:08.211961 > memoria
+RESPONSE: > 2020-12-04 13:59:08.222961 > {'memoria': svmem(total=34307923968, available=25661743104, percent=25.2, used=8646180864, free=25661743104), 'capacidade': 31.95, 'disponivel': 23.9}
+REQUEST: > 2020-12-04 13:59:09.561282 > memoria
+RESPONSE: > 2020-12-04 13:59:09.571283 > {'memoria': svmem(total=34307923968, available=25657241600, percent=25.2, used=8650682368, free=25657241600), 'capacidade': 31.95, 'disponivel': 23.9}
+REQUEST: > 2020-12-04 13:59:10.890982 > memoria
+REQUEST: > 2020-12-04 13:59:10.890982 > memoria
+REQUEST: > 2020-12-04 13:59:12.226507 > memoria
+RESPONSE: > 2020-12-04 13:59:12.242506 > {'memoria': svmem(total=34307923968, available=25662869504, percent=25.2, used=8645054464, free=25662869504), 'capacidade': 31.95, 'disponivel': 23.9}
+REQUEST: > 2020-12-04 13:59:13.558508 > memoria
+RESPONSE: > 2020-12-04 13:59:13.575505 > {'memoria': svmem(total=34307923968, available=25657184256, percent=25.2, used=8650739712, free=25657184256), 'capacidade': 31.95, 'disponivel': 23.9}
+REQUEST: > 2020-12-04 13:59:14.927506 > memoria
+REQUEST: > 2020-12-04 13:59:14.927506 > memoria
+REQUEST: > 2020-12-04 13:59:16.257992 > memoria
+RESPONSE: > 2020-12-04 13:59:16.275994 > {'memoria': svmem(total=34307923968, available=25665314816, percent=25.2, used=8642609152, free=25665314816), 'capacidade': 31.95, 'disponivel': 23.9}
+REQUEST: > 2020-12-04 13:59:17.587991 > memoria
+REQUEST: > 2020-12-04 13:59:17.587991 > memoria
+REQUEST: > 2020-12-04 13:59:18.899991 > memoria
+REQUEST: > 2020-12-04 13:59:18.899991 > memoria
+REQUEST: > 2020-12-04 13:59:20.244999 > memoria
+RESPONSE: > 2020-12-04 13:59:20.260998 > {'memoria': svmem(total=34307923968, available=25912045568, percent=24.5, used=8395878400, free=25912045568), 'capacidade': 31.95, 'disponivel': 24.13}
+REQUEST: > 2020-12-04 13:59:21.560998 > memoria
+REQUEST: > 2020-12-04 13:59:21.560998 > memoria
+REQUEST: > 2020-12-04 13:59:22.909181 > memoria
+REQUEST: > 2020-12-04 13:59:22.909181 > memoria
+REQUEST: > 2020-12-04 13:59:24.223181 > memoria
+RESPONSE: > 2020-12-04 13:59:24.242181 > {'memoria': svmem(total=34307923968, available=26128879616, percent=23.8, used=8179044352, free=26128879616), 'capacidade': 31.95, 'disponivel': 24.33}
+REQUEST: > 2020-12-04 13:59:25.555095 > memoria
+REQUEST: > 2020-12-04 13:59:25.555095 > memoria
+REQUEST: > 2020-12-04 13:59:26.898341 > memoria
+REQUEST: > 2020-12-04 13:59:26.898341 > memoria
+REQUEST: > 2020-12-04 13:59:28.253368 > memoria
+RESPONSE: > 2020-12-04 13:59:28.277368 > {'memoria': svmem(total=34307923968, available=26215268352, percent=23.6, used=8092655616, free=26215268352), 'capacidade': 31.95, 'disponivel': 24.41}
+REQUEST: > 2020-12-04 13:59:29.594552 > memoria
+REQUEST: > 2020-12-04 13:59:29.594552 > memoria
+REQUEST: > 2020-12-04 13:59:30.924675 > memoria
+RESPONSE: > 2020-12-04 13:59:30.947674 > {'memoria': svmem(total=34307923968, available=26221240320, percent=23.6, used=8086683648, free=26221240320), 'capacidade': 31.95, 'disponivel': 24.42}
+REQUEST: > 2020-12-04 13:59:32.268849 > memoria
+REQUEST: > 2020-12-04 13:59:32.268849 > memoria
+REQUEST: > 2020-12-04 13:59:33.622006 > memoria
+REQUEST: > 2020-12-04 13:59:33.622006 > memoria
+REQUEST: > 2020-12-04 13:59:34.954026 > memoria
+RESPONSE: > 2020-12-04 13:59:35.002077 > {'memoria': svmem(total=34307923968, available=26220199936, percent=23.6, used=8087724032, free=26220199936), 'capacidade': 31.95, 'disponivel': 24.42}
+REQUEST: > 2020-12-04 13:59:36.321310 > memoria
+REQUEST: > 2020-12-04 13:59:36.321310 > memoria
+REQUEST: > 2020-12-04 13:59:37.658443 > memoria
+REQUEST: > 2020-12-04 13:59:37.658443 > memoria
+REQUEST: > 2020-12-04 13:59:38.978609 > memoria
+RESPONSE: > 2020-12-04 13:59:38.984609 > {'memoria': svmem(total=34307923968, available=26224361472, percent=23.6, used=8083562496, free=26224361472), 'capacidade': 31.95, 'disponivel': 24.42}
+REQUEST: > 2020-12-04 13:59:40.316657 > memoria
+REQUEST: > 2020-12-04 13:59:40.316657 > memoria
+REQUEST: > 2020-12-04 13:59:41.639658 > memoria
+RESPONSE: > 2020-12-04 13:59:41.657657 > {'memoria': svmem(total=34307923968, available=26138415104, percent=23.8, used=8169508864, free=26138415104), 'capacidade': 31.95, 'disponivel': 24.34}

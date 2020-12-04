@@ -58,7 +58,6 @@ class Arquivo:
         ,   'tamanho': self.tamanho
         ,   'data_criacao': self.data_criacao
         ,   'data_modificacao': self.data_modificacao 
-        #,   'diretorio': self.diretorio
     }
 
 class CPU():
