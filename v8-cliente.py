@@ -1,7 +1,6 @@
 import pygame, datetime
 import socket, pickle
 import os, threading
-import time
 
 ## controle aplicacao
 variaveis = {
